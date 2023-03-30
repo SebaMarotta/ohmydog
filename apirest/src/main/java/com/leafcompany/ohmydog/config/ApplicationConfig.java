@@ -1,6 +1,6 @@
 package com.leafcompany.ohmydog.config;
 
-import com.leafcompany.ohmydog.models.dao.UserRepository;
+import com.leafcompany.ohmydog.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

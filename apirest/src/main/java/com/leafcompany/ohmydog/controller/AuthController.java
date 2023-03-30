@@ -1,4 +1,4 @@
-package com.leafcompany.ohmydog.models.controller;
+package com.leafcompany.ohmydog.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

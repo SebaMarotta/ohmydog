@@ -1,4 +1,4 @@
-package com.leafcompany.ohmydog.models.entity;
+package com.leafcompany.ohmydog.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

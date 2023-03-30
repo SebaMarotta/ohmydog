@@ -1,9 +1,9 @@
 package com.leafcompany.ohmydog.auth;
 
 import com.leafcompany.ohmydog.config.JwtService;
-import com.leafcompany.ohmydog.models.dao.UserRepository;
-import com.leafcompany.ohmydog.models.entity.Role;
-import com.leafcompany.ohmydog.models.entity.User;
+import com.leafcompany.ohmydog.dao.UserRepository;
+import com.leafcompany.ohmydog.entity.Role;
+import com.leafcompany.ohmydog.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

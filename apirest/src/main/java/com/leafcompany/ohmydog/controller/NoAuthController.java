@@ -1,4 +1,4 @@
-package com.leafcompany.ohmydog.models.controller;
+package com.leafcompany.ohmydog.controller;
 
 import com.leafcompany.ohmydog.auth.AuthenticationRequest;
 import com.leafcompany.ohmydog.auth.AuthenticationResponse;
