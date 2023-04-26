@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/mira/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import "primeflex/primeflex.css";
+
+
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.veterinariaOrange{
+  color: #F1965B;
+  background-color: #F1965B;
+}
+.veterinariaBlue{
+  color: #62ADC1
+}
+
+.blanco{
+  color: #fff;
+}
+
+button.p-button-veterinariaOrange{
+  background: #F1965B !important;
+  border: 2px solid #F1965B !important;
+  color: #ffffff;
+
+}
+
+button.p-button-veterinariaOrange:enabled:hover{
+  background-color: #62ADC1 !important;
+  border-color: #62ADC1 !important;
+  color: #ffffff;
+}
+
+button.p-outlined-button-veterinariaOrange{
+  border: 2px solid #F1965B !important;
+  color: #ffffff;
+
+
+}
+button.p-outlined-button-veterinariaOrange:enabled:hover{
+  background-color: #62ADC1 !important;
+  border-color: #62ADC1 !important;
+  color: #ffffff;
+}
+
+.toolbarTransparent{
+  background: url('https://images.unsplash.com/photo-1497091071254-cc9b2ba7c48a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80') no-repeat center;
+  background-size: cover;
+  color: #fff;
+}

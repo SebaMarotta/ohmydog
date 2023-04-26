@@ -1,9 +1,9 @@
 package com.leafcompany.ohmydog.controller;
 
-import com.leafcompany.ohmydog.auth.AuthenticationRequest;
-import com.leafcompany.ohmydog.auth.AuthenticationResponse;
-import com.leafcompany.ohmydog.auth.AuthenticationService;
-import com.leafcompany.ohmydog.auth.RegisterRequest;
+import com.leafcompany.ohmydog.RequestResponse.AuthenticationRequest;
+import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
+import com.leafcompany.ohmydog.service.AuthenticationService;
+import com.leafcompany.ohmydog.RequestResponse.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +24,5 @@ public class NoAuthController {
             @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(service.authenticate(request));
-    }
-    @GetMapping
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hola desde un lugar publico");
     }
 }
