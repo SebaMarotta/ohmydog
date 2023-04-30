@@ -20,7 +20,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 public class MascotaService {
@@ -28,8 +28,9 @@ public class MascotaService {
     @Autowired
     private MascotaRepository mascotaRepository;
 
-    @Transactional
-    public void crearMascota(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
+    @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
+                   // luego desde el controlador devuelva el perro creado
+    public Mascota crearMascota(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
             String observaciones, MultipartFile imagen) throws MiException, IOException, java.io.IOException {
         this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen);
 
@@ -57,12 +58,78 @@ public class MascotaService {
 
         mascotaRepository.save(perro);
 
+        return perro;
     }
 
-    public Mascota findByName(String nombre){
-        List<Mascota> resultado = new ArrayList<Mascota>();
-        resultado = mascotaRepository.findByName(nombre);
-        return resultado.get(0);
+    @Transactional
+    public void modificarMascota(long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
+            String observaciones, MultipartFile imagen) throws MiException, IOException, java.io.IOException{
+
+        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen);
+        Optional<Mascota> respuesta = mascotaRepository.findById(id);
+
+        if (respuesta.isPresent()) {
+            Mascota perro = respuesta.get();
+
+            perro.setNombre(nombre);
+            perro.setRaza(raza);
+            perro.setColor(color);
+            perro.setSexo(sexo);
+            perro.setFechaDeNacimiento(fechaNac);
+            perro.setObservaciones(observaciones);
+            try {
+                if (imagen == null || imagen.isEmpty()) {
+                    // Asignar imagen por defecto si no se proporciona ninguna imagen
+                    File imagenPorDefecto = new File("../../resources/static/img/perroDefault.png");
+                    byte[] imagenBytes = Files.readAllBytes(imagenPorDefecto.toPath());
+                    perro.setImagen(imagenBytes);
+                } else {
+                    perro.setImagen(imagen.getBytes());
+                }
+            } catch (IOException ex) {
+                throw ex;
+            }
+
+            mascotaRepository.save(perro);
+        }
+
+    }
+
+    @Transactional
+    public void eliminarMascota(Long id) throws MiException{
+        if (id == null){
+            throw new MiException("El ID ingresado no puede ser nulo");
+        }
+        Optional<Mascota> respuesta =  mascotaRepository.findById(id);
+        if(respuesta.isPresent()){
+            Mascota perro = respuesta.get();
+            mascotaRepository.delete(perro);
+        }
+    }
+
+
+    // METODOS PARA CONSULTAS Y BUSQUEDAS 
+    public Optional<Mascota> findById(long id) {
+        return mascotaRepository.findById(id);
+    }
+
+    public List<Mascota> findByName(String nombre) {
+        List<Mascota> resultado = mascotaRepository.findByName(nombre);
+        return (!resultado.isEmpty()) ? resultado : null;
+    }
+
+    public List<Mascota> findByType(String raza) {
+        List<Mascota> resultado = mascotaRepository.findByType(raza);
+        return (!resultado.isEmpty()) ? resultado : null;
+    }
+
+    public List<Mascota> findByGender(Sexo sexo) {
+        List<Mascota> resultado = mascotaRepository.findByGender(sexo.toString());
+        return (!resultado.isEmpty()) ? resultado : null;
+    }
+
+    public List<Mascota> findAll() {
+        return mascotaRepository.findAll();
     }
 
     private void validarDatos(String nombre, String raza, String color, Sexo sexo, Date fechaNac,

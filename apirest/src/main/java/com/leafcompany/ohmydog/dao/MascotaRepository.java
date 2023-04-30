@@ -22,6 +22,8 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long>  {
 
 
     @Query("SELECT m FROM Mascota m WHERE m.sexo = :sexo")
-    public List<Mascota> findByGender(@Param("sexo") Sexo sexo);
+    public List<Mascota> findByGender(@Param("sexo") String sexo);
+
+    
 
 }
