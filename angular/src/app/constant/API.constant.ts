@@ -1,4 +1,4 @@
-export const API_RM = {
+export const API_MASCOTAS = {
     URL: "http://localhost:4200",
     
     REGISTRO_MASCOTA: function() {

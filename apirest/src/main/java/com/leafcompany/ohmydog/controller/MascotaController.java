@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -72,6 +73,62 @@ public class MascotaController {
         // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
         // estado HTTP 201 (creado)
         return ResponseEntity.status(HttpStatus.CREATED).body(perro);
+    }
+
+    @GetMapping("/modificar/{id}")
+    public ResponseEntity<Optional<Mascota>> modificarPerro(@PathVariable Long id) {
+        Optional<Mascota> perro = mascotaService.findById(id);
+        if (perro.isPresent()) {
+            return ResponseEntity.ok(perro);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/modificar/{id}")
+    public ResponseEntity<Optional<Mascota>> modificar(@PathVariable long id, @RequestParam("nombre") String nombre,
+            @RequestParam("raza") String raza,
+            @RequestParam("color") String color,
+            @RequestParam("sexo") Sexo sexo,
+            @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+            @RequestParam(value = "observaciones", required = false) String observaciones)
+            throws MiException, IOException, java.io.IOException {
+        try {
+            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen);
+            return ResponseEntity.ok().body(mascotaService.findById(id));
+        } catch (MiException ex) {
+            
+            return ResponseEntity.badRequest().body(mascotaService.findById(id));
+        }
+    }
+
+    @PostMapping("/borrar/{id}")
+    public ResponseEntity<Void> eliminarPerro(@PathVariable Long id) {
+
+        try {
+            Optional<Mascota> perro = mascotaService.findById(id);
+            if (perro.isPresent()) {
+                mascotaService.eliminarMascota(id);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MiException ex) {
+
+            return ResponseEntity.notFound().build();
+
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Mascota>> informacionPerro(@PathVariable long id) {
+        Optional<Mascota> perro = mascotaService.findById(id);
+        if (perro.isPresent()) {
+            return ResponseEntity.ok(perro);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{nombre}")
