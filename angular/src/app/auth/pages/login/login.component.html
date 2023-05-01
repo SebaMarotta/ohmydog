@@ -17,6 +17,7 @@
         <meta name="keywords" content="login,formulariode acceso html">
 
         <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+        <link href="./login.component.css" rel="stylesheet">
     </head>
 
     <body>
@@ -33,10 +34,11 @@
                   <form id="loginform" [formGroup]="formulario" (ngSubmit)="login()">
                     <span class="p-float-label">
                       <input pInputText id="username" formControlName="username" required />
+                      <input pInputText id="username" class="input-login" formControlName="username" />
                       <label htmlFor="username" class="text-100" style="text-align: center;">DNI</label>
                     </span>
                     <span class="p-float-label">
-                      <input pInputText id="password" formControlName="password"  type="password" required />
+                      <input pInputText id="password" class="input-login"  formControlName="password"  type="password" required />
                       <label htmlFor="password" class="text-100">Password</label>
                     </span>
 
