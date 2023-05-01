@@ -2,7 +2,7 @@ package com.leafcompany.ohmydog.service;
 
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationRequest;
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
-import com.leafcompany.ohmydog.RequestResponse.RegisterRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.repository.UserRepository;
 import com.leafcompany.ohmydog.entity.Role;
 import com.leafcompany.ohmydog.entity.User;
@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse register(RegisterRequest request){
+    public AuthenticationResponse register(RegisterUserRequest request){
         var user = User.builder()
                 .nombre(request.getNombre())
                 .apellido(request.getApellido())
