@@ -1,8 +1,6 @@
 package com.leafcompany.ohmydog.controller;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,14 +53,15 @@ public class MascotaController {
             @RequestParam("sexo") Sexo sexo,
             @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
             @RequestParam(value = "imagen", required = false) MultipartFile imagen,
-            @RequestParam(value = "observaciones", required = false) String observaciones)
+            @RequestParam(value = "observaciones", required = false) String observaciones,
+            @RequestParam("idDuenio") Long idDuenio)
             throws MiException, IOException, java.io.IOException {
 
         // Crear objeto Mascota con los parámetros recibidos y hacerlo persisitir en la
         // base de datos
         Mascota perro;
         try {
-            perro = mascotaService.crearMascota(nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen);
+            perro = mascotaService.crearMascota(nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen, idDuenio);
         } catch (MiException ex) {
             throw ex;
         }
@@ -92,10 +90,11 @@ public class MascotaController {
             @RequestParam("sexo") Sexo sexo,
             @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
             @RequestParam(value = "imagen", required = false) MultipartFile imagen,
-            @RequestParam(value = "observaciones", required = false) String observaciones)
+            @RequestParam(value = "observaciones", required = false) String observaciones,
+            @RequestParam("idDuenio") Long idDuenio)
             throws MiException, IOException, java.io.IOException {
         try {
-            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen);
+            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen, idDuenio);
             return ResponseEntity.ok().body(mascotaService.findById(id));
         } catch (MiException ex) {
             
@@ -141,9 +140,9 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<Mascota>> listarPerros() {
-        List<Mascota> perros = mascotaService.findAll();
+    @GetMapping("/{idDuenio}-listar")
+    public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
+        List<Mascota> perros = mascotaService.findByUser(idDuenio);
         if (perros != null) {
             return ResponseEntity.ok(perros);
         } else {

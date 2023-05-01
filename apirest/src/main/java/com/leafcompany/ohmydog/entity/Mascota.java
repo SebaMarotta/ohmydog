@@ -13,13 +13,14 @@ public class Mascota{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne
-    private User user;
+    private Long id;
+
     private String nombre;
     private String raza;
     private String color;
     private String observaciones;
+    @OneToOne
+    private User duenio;
 
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
@@ -84,6 +85,14 @@ public class Mascota{
 
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
+    }
+
+    public User getDueño() {
+        return dueño;
+    }
+
+    public void setDueño(User duenio) {
+        this.dueño = duenio;
     }
 
 
