@@ -10,8 +10,8 @@ import io.jsonwebtoken.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.leafcompany.ohmydog.dao.MascotaRepository;
-import com.leafcompany.ohmydog.dao.UserRepository;
+import com.leafcompany.ohmydog.repository.MascotaRepository;
+import com.leafcompany.ohmydog.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.leafcompany.ohmydog.dao.UserRepository;
+import com.leafcompany.ohmydog.repository.UserRepository;
 import com.leafcompany.ohmydog.entity.User;
 
 import java.util.Optional;
