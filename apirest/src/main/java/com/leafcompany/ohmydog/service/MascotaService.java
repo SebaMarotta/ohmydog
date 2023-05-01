@@ -9,7 +9,7 @@ import io.jsonwebtoken.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.leafcompany.ohmydog.dao.MascotaRepository;
+import com.leafcompany.ohmydog.repository.MascotaRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

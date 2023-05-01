@@ -1,7 +1,6 @@
-package com.leafcompany.ohmydog.dao;
+package com.leafcompany.ohmydog.repository;
 
 import com.leafcompany.ohmydog.entity.Mascota;
-import com.leafcompany.ohmydog.entity.Sexo;
 
 import java.util.List;
 
