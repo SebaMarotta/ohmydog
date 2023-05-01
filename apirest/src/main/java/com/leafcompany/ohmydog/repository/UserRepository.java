@@ -1,4 +1,4 @@
-package com.leafcompany.ohmydog.dao;
+package com.leafcompany.ohmydog.repository;
 
 import com.leafcompany.ohmydog.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

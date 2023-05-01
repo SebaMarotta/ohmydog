@@ -1,10 +1,9 @@
 package com.leafcompany.ohmydog.service;
 
-import com.leafcompany.ohmydog.service.JwtService;
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationRequest;
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
 import com.leafcompany.ohmydog.RequestResponse.RegisterRequest;
-import com.leafcompany.ohmydog.dao.UserRepository;
+import com.leafcompany.ohmydog.repository.UserRepository;
 import com.leafcompany.ohmydog.entity.Role;
 import com.leafcompany.ohmydog.entity.User;
 import lombok.RequiredArgsConstructor;
