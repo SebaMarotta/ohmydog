@@ -1,6 +1,7 @@
 package com.leafcompany.ohmydog.service;
 
 import com.leafcompany.ohmydog.entity.Sexo;
+import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.exceptions.MiException;
 
@@ -10,14 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.dao.MascotaRepository;
+import com.leafcompany.ohmydog.dao.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+import org.hibernate.metamodel.internal.InflightRuntimeMetamodel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +29,17 @@ public class MascotaService {
 
     @Autowired
     private MascotaRepository mascotaRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            String observaciones, MultipartFile imagen) throws MiException, IOException, java.io.IOException {
-        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen);
+            String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException {
+        
+        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen, idDueño);
+        
+        User dueño = userRepository.findById(idDueño).get();
 
         Mascota perro = new Mascota();
 
@@ -42,6 +49,7 @@ public class MascotaService {
         perro.setSexo(sexo);
         perro.setFechaDeNacimiento(fechaNac);
         perro.setObservaciones(observaciones);
+        perro.setDueño(dueño);
 
         try {
             if (imagen == null || imagen.isEmpty()) {
@@ -63,13 +71,22 @@ public class MascotaService {
 
     @Transactional
     public void modificarMascota(long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            String observaciones, MultipartFile imagen) throws MiException, IOException, java.io.IOException{
+            String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException{
 
-        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen);
-        Optional<Mascota> respuesta = mascotaRepository.findById(id);
+        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen, idDueño);
+        
+        Optional<Mascota> respuestaMascota = mascotaRepository.findById(id);
+        Optional<User> respuestaDueño = userRepository.findById(idDueño);
+        
+        User dueño = new User();
 
-        if (respuesta.isPresent()) {
-            Mascota perro = respuesta.get();
+        if (respuestaDueño.isPresent()){
+            dueño = respuestaDueño.get();
+        }
+
+
+        if (respuestaMascota.isPresent()) {
+            Mascota perro = respuestaMascota.get();
 
             perro.setNombre(nombre);
             perro.setRaza(raza);
@@ -77,6 +94,7 @@ public class MascotaService {
             perro.setSexo(sexo);
             perro.setFechaDeNacimiento(fechaNac);
             perro.setObservaciones(observaciones);
+            perro.setDueño(dueño);
             try {
                 if (imagen == null || imagen.isEmpty()) {
                     // Asignar imagen por defecto si no se proporciona ninguna imagen
@@ -109,7 +127,11 @@ public class MascotaService {
 
 
     // METODOS PARA CONSULTAS Y BUSQUEDAS 
-    public Optional<Mascota> findById(long id) {
+    public List<Mascota> findByUser (Long idDueño){
+        return mascotaRepository.findByUser(idDueño);
+    }
+
+    public Optional<Mascota> findById(Long id) {
         return mascotaRepository.findById(id);
     }
 
@@ -132,8 +154,10 @@ public class MascotaService {
         return mascotaRepository.findAll();
     }
 
+
+
     private void validarDatos(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            MultipartFile imagen) throws MiException {
+            MultipartFile imagen, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
         }
@@ -148,6 +172,9 @@ public class MascotaService {
         }
         if (fechaNac == null || fechaNac.after(new Date())) {
             throw new MiException("La fecha ingresada no puede ser nulo o Posterior al dia de la fecha actual");
+        }
+        if(idDueño == null){
+            throw new MiException("El id del dueño de la mascota no puede ser nulo");
         }
 
     }

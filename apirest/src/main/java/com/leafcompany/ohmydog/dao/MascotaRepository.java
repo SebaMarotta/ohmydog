@@ -1,7 +1,6 @@
 package com.leafcompany.ohmydog.dao;
 
 import com.leafcompany.ohmydog.entity.Mascota;
-import com.leafcompany.ohmydog.entity.Sexo;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long>  {
     @Query("SELECT m FROM Mascota m WHERE m.sexo = :sexo")
     public List<Mascota> findByGender(@Param("sexo") String sexo);
 
-    
+    @Query("SELECT m FROM Mascota m WHERE m.duenio.id = :idDuenio")
+    public List<Mascota> findByUser(@Param("idDuenio") long idDuenio);
 
 }
