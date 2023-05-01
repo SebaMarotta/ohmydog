@@ -33,7 +33,7 @@ export class UserService implements OnInit {
   private _user: Observable<User>;
 
   private getSession(username: String) {
-    const url = `${this.baseUrl}/auth/users/${username}`;
+    const url = `${this.baseUrl}/user/${username}`;
     this._user = this.http.get<User>(url);
   }
 
@@ -66,17 +66,17 @@ export class UserService implements OnInit {
   }
 
   findByUsername(username: String): Observable<User> {
-    const url = `${this.baseUrl}/auth/users/${username}`;
+    const url = `${this.baseUrl}/user/${username}`;
     return this.http.get<User>(url);
   }
 
   getUserSession(username: String): Observable<User> {
-    const url = `${this.baseUrl}/auth/users/${username}`;
+    const url = `${this.baseUrl}/user/${username}`;
     return this.http.get<User>(url).pipe(map((result) => result));
   }
 
   getUsers(): Observable<User[]> {
-    const url = `${this.baseUrl}/auth/users`;
+    const url = `${this.baseUrl}/user/list`;
     return this.http.get<User[]>(url);
   }
 }

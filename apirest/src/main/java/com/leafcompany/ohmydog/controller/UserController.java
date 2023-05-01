@@ -1,6 +1,8 @@
 package com.leafcompany.ohmydog.controller;
 
 
+import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
+import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.service.AuthenticationService;
 import com.leafcompany.ohmydog.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/user")
 public class UserController {
-   
+  @Autowired
+  private AuthenticationService service;
   @Autowired
   private UserRepository userRepository;
 
@@ -30,16 +33,24 @@ public class UserController {
   private UserDetailsService userDetailsService;
   @Autowired
   private AuthenticationService authService;
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> findByDni(@PathVariable String id){
+
       Optional<User> user = userRepository.findByDni(id);
       return ResponseEntity.ok(userRepository.findByDni(id));
     }
 
-  @GetMapping("/users")
+  @GetMapping("/list")
   public ResponseEntity<List<User>> getUsers(){
     List<User> user = userRepository.findAll();
     return ResponseEntity.ok(user);
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<AuthenticationResponse> register (
+          @RequestBody RegisterUserRequest request
+  ){
+    return ResponseEntity.ok(service.register(request));
   }
 
 

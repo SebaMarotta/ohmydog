@@ -14,7 +14,8 @@ public class Mascota{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @ManyToOne
+    private User user;
     private String nombre;
     private String raza;
     private String color;

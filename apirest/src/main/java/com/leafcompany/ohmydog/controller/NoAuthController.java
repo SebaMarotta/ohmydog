@@ -4,7 +4,7 @@ import com.leafcompany.ohmydog.RequestResponse.AuthenticationRequest;
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
 import com.leafcompany.ohmydog.repository.UserRepository;
 import com.leafcompany.ohmydog.service.AuthenticationService;
-import com.leafcompany.ohmydog.RequestResponse.RegisterRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class NoAuthController {
     private UserDetailsService userDetailsService;
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register (
-            @RequestBody RegisterRequest request
+            @RequestBody RegisterUserRequest request
     ){
         return ResponseEntity.ok(service.register(request));
     }
@@ -39,7 +39,7 @@ public class NoAuthController {
         return ResponseEntity.ok(service.authenticate(request));
     }
     @PostMapping("/token")
-    public ResponseEntity<Boolean> isTokenValid(String token, String username){
+    private ResponseEntity<Boolean> isTokenValid(String token, String username){
         UserDetails user = userDetailsService.loadUserByUsername(username);
         return ResponseEntity.ok(jwtService.isTokenValid(token, user));
     }
