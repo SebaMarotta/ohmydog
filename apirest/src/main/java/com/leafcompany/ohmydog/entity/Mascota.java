@@ -88,11 +88,11 @@ public class Mascota{
     }
 
     public User getDueño() {
-        return dueño;
+        return duenio;
     }
 
     public void setDueño(User duenio) {
-        this.dueño = duenio;
+        this.duenio = duenio;
     }
 
 
