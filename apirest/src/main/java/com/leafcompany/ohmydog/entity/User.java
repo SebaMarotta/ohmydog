@@ -21,7 +21,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     private String dni;
@@ -30,8 +30,6 @@ public class User implements UserDetails {
     private String email;
     private String telefono;
     private String password;
-    @ManyToOne
-    private Mascota perro;
 
     @Enumerated(EnumType.STRING)
     private Role role;
