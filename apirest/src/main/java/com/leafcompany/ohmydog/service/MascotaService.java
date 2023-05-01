@@ -15,7 +15,6 @@ import com.leafcompany.ohmydog.dao.UserRepository;
 
 import jakarta.transaction.Transactional;
 
-import org.hibernate.metamodel.internal.InflightRuntimeMetamodel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
