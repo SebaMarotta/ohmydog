@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { UsuarioService } from 'src/app/usuario.service';
+import { Route, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -7,5 +8,9 @@ import { UsuarioService } from 'src/app/usuario.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  constructor(private service: UsuarioService) {}
+  constructor(private userService: UserService, private router: Router) {}
+
+  cartelera() {
+    this.router.navigateByUrl('cartelera');
+  }
 }

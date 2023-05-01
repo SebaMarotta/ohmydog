@@ -2,17 +2,19 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
+@import 'animate.css';
 
 
 body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --orange-veterinaria: #F1965B;
+  --blue-veterinaria: #62ADC1
 }
 
 .veterinariaOrange{
   color: #F1965B;
-  background-color: #F1965B;
 }
 .veterinariaBlue{
   color: #62ADC1

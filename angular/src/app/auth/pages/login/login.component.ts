@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { UsuarioService } from 'src/app/usuario.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import jwtDecode from 'jwt-decode';
 import { catchError } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,23 +14,28 @@ import { catchError } from 'rxjs';
 export class LoginComponent {
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService,
-    private fb: FormBuilder
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) {}
 
   formulario: FormGroup = this.fb.group({
-    username: [''],
-    password: [''],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   login() {
     const { username, password } = this.formulario.value;
 
-    this.usuarioService.login(username, password).subscribe((resp) => {});
-  }
-
-  logout() {
-    this.usuarioService.logout();
-    this.router.navigateByUrl('/');
+    this.authService.login(username, password).subscribe((resp) => {
+      if (!resp.ok) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Informacion errónea',
+          detail: 'DNI o password inválido',
+          closable: false,
+        });
+      }
+    });
   }
 }

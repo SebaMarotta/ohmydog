@@ -3,11 +3,19 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { ModalComponent } from './modal/modal.component';
+import { MessagesModule } from 'primeng/messages';
+import { BackgroundComponent } from './background/background.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [NavbarComponent, ModalComponent],
-  exports: [NavbarComponent],
-  imports: [CommonModule, ButtonModule, DialogModule],
+  declarations: [NavbarComponent, BackgroundComponent],
+  exports: [NavbarComponent, BackgroundComponent],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    DialogModule,
+    MessagesModule,
+    RouterModule,
+  ],
 })
 export class SharedModule {}
