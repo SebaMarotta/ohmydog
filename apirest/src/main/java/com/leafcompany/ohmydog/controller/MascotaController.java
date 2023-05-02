@@ -73,7 +73,7 @@ public class MascotaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(perro);
     }
 
-    @GetMapping("/modificar/{id}")
+    @GetMapping("/modificacion/{id}")
     public ResponseEntity<Optional<Mascota>> modificarPerro(@PathVariable Long id) {
         Optional<Mascota> perro = mascotaService.findById(id);
         if (perro.isPresent()) {
@@ -130,6 +130,17 @@ public class MascotaController {
         }
     }
 
+    
+    @GetMapping("/{idDuenio}-listar")
+    public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
+        List<Mascota> perros = mascotaService.findByUser(idDuenio);
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/{nombre}")
     public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
         List<Mascota> perros = mascotaService.findByName(nombre);
@@ -140,15 +151,6 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{idDuenio}-listar")
-    public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
-        List<Mascota> perros = mascotaService.findByUser(idDuenio);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @GetMapping("/{raza}")
     public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
