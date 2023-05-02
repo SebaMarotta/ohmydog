@@ -69,7 +69,7 @@ public class MascotaService {
     }
 
     @Transactional
-    public void modificarMascota(long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
+    public void modificarMascota(Long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
             String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException{
 
         this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen, idDueño);
