@@ -45,8 +45,8 @@ public class MascotaController {
                               // porque si ingresa un valor
                               // nulo al controlador, ni se ejecuta, entonces de esta manera hacemos que si
                               // hay un nulo
-    // // o vacio , entre igual y manejemos el error desde la excepcion creada en el
-    // servicio
+                              // o vacio , entre igual y manejemos el error desde la excepcion creada en el
+                              // servicio
     public ResponseEntity<Mascota> guardarPerro(@RequestParam("nombre") String nombre,
             @RequestParam("raza") String raza,
             @RequestParam("color") String color,
@@ -61,19 +61,20 @@ public class MascotaController {
         // base de datos
         Mascota perro;
         try {
-            perro = mascotaService.crearMascota(nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen, idDuenio);
+            perro = mascotaService.crearMascota(nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen,
+                    idDuenio);
+            // apartado para simular que devuelvo el perro que acabo de crear//
+            // Mascota perro = mascotaService.findByName(nombre);
+            // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
+            // estado HTTP 201 (creado)
+            return ResponseEntity.status(HttpStatus.CREATED).body(perro);
         } catch (MiException ex) {
             throw ex;
         }
 
-        // apartado para simular que devuelvo el perro que acabo de crear//
-        // Mascota perro = mascotaService.findByName(nombre);
-        // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
-        // estado HTTP 201 (creado)
-        return ResponseEntity.status(HttpStatus.CREATED).body(perro);
     }
 
-    @GetMapping("/modificar/{id}")
+    @GetMapping("/modificacion/{id}")
     public ResponseEntity<Optional<Mascota>> modificarPerro(@PathVariable Long id) {
         Optional<Mascota> perro = mascotaService.findById(id);
         if (perro.isPresent()) {
@@ -94,10 +95,11 @@ public class MascotaController {
             @RequestParam("idDuenio") Long idDuenio)
             throws MiException, IOException, java.io.IOException {
         try {
-            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen, idDuenio);
+            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen,
+                    idDuenio);
             return ResponseEntity.ok().body(mascotaService.findById(id));
         } catch (MiException ex) {
-            
+
             return ResponseEntity.badRequest().body(mascotaService.findById(id));
         }
     }
@@ -130,9 +132,9 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{nombre}")
-    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
-        List<Mascota> perros = mascotaService.findByName(nombre);
+    @GetMapping("/{idDuenio}-listar")
+    public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
+        List<Mascota> perros = mascotaService.findByUser(idDuenio);
         if (perros != null) {
             return ResponseEntity.ok(perros);
         } else {
@@ -140,9 +142,9 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{idDuenio}-listar")
-    public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
-        List<Mascota> perros = mascotaService.findByUser(idDuenio);
+    @GetMapping("/{nombre}")
+    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
+        List<Mascota> perros = mascotaService.findByName(nombre);
         if (perros != null) {
             return ResponseEntity.ok(perros);
         } else {
