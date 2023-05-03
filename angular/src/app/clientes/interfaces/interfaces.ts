@@ -6,7 +6,7 @@ export interface User {
   email?: string;
   telefono?: string;
   password?: string;
-  role?: string;
+  role: string;
   enabled?: boolean;
   username?: string;
   authorities?: Authority[];

@@ -10,9 +10,15 @@ import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { CardModule } from 'primeng/card';
+import { SkeletonModule } from 'primeng/skeleton';
+import { DividerModule } from 'primeng/divider';
+import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, PerfilComponent],
   imports: [
     CommonModule,
     ClientesRoutingModule,
@@ -22,6 +28,11 @@ import { ButtonModule } from 'primeng/button';
     TagModule,
     DropdownModule,
     ButtonModule,
+    InputTextModule,
+    CardModule,
+    SkeletonModule,
+    DividerModule,
+    DataViewModule,
   ],
 })
 export class ClientesModule {}

@@ -8,6 +8,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { CarteleraComponent } from './pages/cartelera/cartelera.component';
 import { SharedModule } from '../shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [HomeComponent, CarteleraComponent],
@@ -20,6 +21,7 @@ import { DialogModule } from 'primeng/dialog';
     ToolbarModule,
     SharedModule,
     DialogModule,
+    RouterModule,
   ],
 })
 export class IndexModule {}

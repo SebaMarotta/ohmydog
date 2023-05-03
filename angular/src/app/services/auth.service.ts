@@ -39,13 +39,16 @@ export class AuthService {
     const token = JSON.parse(localStorage.getItem('token'));
     if (token) {
       const username = jwt_decode(token)['sub'];
-
-      this.tokenIsValid(token, username).subscribe((resp) => {
-        if (resp) {
-          this.getUserSession(username).subscribe((resp) => {
-            this._user$.next(resp);
-          });
-        }
+      const ok = this.tokenIsValid(token, username);
+      ok.subscribe({
+        next: (resp) => {
+          if (resp) {
+            this.getUserSession(username).subscribe((resp) => {
+              this._user$.next(resp);
+            });
+          }
+        },
+        error: (error) => localStorage.clear(),
       });
     }
   }

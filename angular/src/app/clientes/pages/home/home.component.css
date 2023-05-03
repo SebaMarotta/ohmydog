@@ -1,0 +1,20 @@
+
+p-table th:first-child{
+  border-radius:20px 0 0 0px;
+}
+
+p-table th:last-child{
+  border-radius:0px 20px 0px 0;
+}
+
+.buttonAcciones {
+  border-color: var(--blue-veterinaria);
+  background-color: var(--orange-veterinaria);
+  border-radius: 20px;
+
+}
+
+.iconosAcciones {
+  font-size: 1.5rem;
+
+}

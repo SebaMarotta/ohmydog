@@ -12,5 +12,4 @@ public class OhmydogApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OhmydogApplication.class, args);
 	}
-
 }
