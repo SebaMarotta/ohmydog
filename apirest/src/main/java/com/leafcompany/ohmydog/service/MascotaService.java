@@ -8,6 +8,7 @@ import com.leafcompany.ohmydog.exceptions.MiException;
 import io.jsonwebtoken.io.IOException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.repository.MascotaRepository;
@@ -33,39 +34,13 @@ public class MascotaService {
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
-    public Mascota crearMascota(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException {
-        
-        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen, idDueño);
-        
+    public Mascota crearMascota(Mascota mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
+
         User dueño = userRepository.findById(idDueño).get();
 
-        Mascota perro = new Mascota();
-
-        perro.setNombre(nombre);
-        perro.setRaza(raza);
-        perro.setColor(color);
-        perro.setSexo(sexo);
-        perro.setFechaDeNacimiento(fechaNac);
-        perro.setObservaciones(observaciones);
-        perro.setDueño(dueño);
-
-        try {
-            if (imagen == null || imagen.isEmpty()) {
-                // Asignar imagen por defecto si no se proporciona ninguna imagen
-                File imagenPorDefecto = new File("../../resources/static/img/perroDefault.png");
-                byte[] imagenBytes = Files.readAllBytes(imagenPorDefecto.toPath());
-                perro.setImagen(imagenBytes);
-            } else {
-                perro.setImagen(imagen.getBytes());
-            }
-        } catch (IOException ex) {
-            throw ex;
-        }
-
-        mascotaRepository.save(perro);
-
-        return perro;
+        mascota.setDueño(dueño);
+        mascotaRepository.save(mascota);
+        return mascota;
     }
 
     @Transactional

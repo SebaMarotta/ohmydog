@@ -9,11 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.entity.Mascota;
@@ -41,33 +37,22 @@ public class MascotaController {
     // return "mascota_form";
     // }
 
-    @PostMapping("/registro") // recibe del formulario que tiene este action . Usar el required=false es
+    @PostMapping("/registro/{idDuenio}") // recibe del formulario que tiene este action . Usar el required=false es
                               // porque si ingresa un valor
                               // nulo al controlador, ni se ejecuta, entonces de esta manera hacemos que si
                               // hay un nulo
                               // o vacio , entre igual y manejemos el error desde la excepcion creada en el
                               // servicio
-    public ResponseEntity<Mascota> guardarPerro(@RequestParam("nombre") String nombre,
-            @RequestParam("raza") String raza,
-            @RequestParam("color") String color,
-            @RequestParam("sexo") Sexo sexo,
-            @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
-            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
-            @RequestParam(value = "observaciones", required = false) String observaciones,
-            @RequestParam("idDuenio") Long idDuenio)
+    public ResponseEntity<Mascota> guardarPerro(@RequestBody Mascota mascota, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
 
-        // Crear objeto Mascota con los parámetros recibidos y hacerlo persisitir en la
-        // base de datos
-        Mascota perro;
         try {
-            perro = mascotaService.crearMascota(nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen,
-                    idDuenio);
+            Mascota aux = mascotaService.crearMascota(mascota, idDuenio);
             // apartado para simular que devuelvo el perro que acabo de crear//
             // Mascota perro = mascotaService.findByName(nombre);
             // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
             // estado HTTP 201 (creado)
-            return ResponseEntity.status(HttpStatus.CREATED).body(perro);
+            return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         } catch (MiException ex) {
             throw ex;
         }

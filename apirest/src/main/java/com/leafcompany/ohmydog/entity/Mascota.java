@@ -5,6 +5,7 @@ package com.leafcompany.ohmydog.entity;
 import java.util.Date;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -19,7 +20,7 @@ public class Mascota{
     private String raza;
     private String color;
     private String observaciones;
-    @OneToOne
+    @ManyToOne
     private User duenio;
 
     @Enumerated(EnumType.STRING)
