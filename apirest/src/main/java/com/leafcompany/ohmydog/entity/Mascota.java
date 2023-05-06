@@ -5,7 +5,7 @@ package com.leafcompany.ohmydog.entity;
 import java.util.Date;
 
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 @Entity
