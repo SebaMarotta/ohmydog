@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
 import com.leafcompany.ohmydog.entity.TipoServicio;
@@ -19,31 +20,42 @@ public class ServicioDeTercerosService {
     @Autowired
     private ServicioDeTercerosRepository servicioDeTercerosRepository;
 
-    @Transactional
-    public ServicioDeTerceros crearServicioDeTerceros(String nombre, String apellido, String telefono,
-            String email, TipoServicio tipo, String rangoHorario, List<String> dias) throws MiException {
 
-        this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
+    @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
+                   // luego desde el controlador devuelva el perro creado
+    public ServicioDeTerceros crearServicioDeTerceros(ServicioDeTerceros cuidador_paseador) throws MiException {
 
-        ServicioDeTerceros cuidador_paseador = new ServicioDeTerceros();
-
-        cuidador_paseador.setNombre(nombre);
-        cuidador_paseador.setApellido(apellido);
-        cuidador_paseador.setTelefono(telefono);
-        cuidador_paseador.setEmail(email);
-        cuidador_paseador.setTipo(tipo);
-        cuidador_paseador.setRangohorario(rangoHorario);
-        cuidador_paseador.setDias(dias);
-        cuidador_paseador.setDisponible(true);
+        this.validarDatos(cuidador_paseador.getNombre(), cuidador_paseador.getApellido(), cuidador_paseador.getTelefono(),
+            cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangohorario(), cuidador_paseador.getDias());
 
         servicioDeTercerosRepository.save(cuidador_paseador);
-
         return cuidador_paseador;
     }
 
+    // @Transactional
+    // public ServicioDeTerceros crearServicioDeTerceros(@RequestBody ServicioDeTerceros servicioDeTerceros) throws MiException {
+
+    //     this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
+
+    //     ServicioDeTerceros cuidador_paseador = new ServicioDeTerceros();
+
+    //     cuidador_paseador.setNombre(nombre);
+    //     cuidador_paseador.setApellido(apellido);
+    //     cuidador_paseador.setTelefono(telefono);
+    //     cuidador_paseador.setEmail(email);
+    //     cuidador_paseador.setTipo(tipo);
+    //     cuidador_paseador.setRangohorario(rangoHorario);
+    //     cuidador_paseador.setDias(dias);
+    //     cuidador_paseador.setDisponible(true);
+
+    //     servicioDeTercerosRepository.save(cuidador_paseador);
+
+    //     return cuidador_paseador;
+    // }
+
     @Transactional
     public void modificarServicioDeTerceros(Long id, String nombre, String apellido, String telefono,
-            String email, TipoServicio tipo, String rangoHorario, List<String> dias)
+            String email, TipoServicio tipo, String rangoHorario, List<String> dias, Boolean disponible)
             throws MiException {
 
         this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
@@ -60,7 +72,7 @@ public class ServicioDeTercerosService {
             cuidador_paseador.setTipo(tipo);
             cuidador_paseador.setRangohorario(rangoHorario);
             cuidador_paseador.setDias(dias);
-            cuidador_paseador.setDisponible(true);
+            cuidador_paseador.setDisponible(disponible);
             
             servicioDeTercerosRepository.save(cuidador_paseador);
 
@@ -83,6 +95,8 @@ public class ServicioDeTercerosService {
 
 
 
+
+
     // METODOS PARA CONSULTAS O BUSQUEDAS
     public List<ServicioDeTerceros> findByType(TipoServicio tipo){
         List<ServicioDeTerceros> resultado = servicioDeTercerosRepository.findByType(tipo.toString());
@@ -94,6 +108,14 @@ public class ServicioDeTercerosService {
         return (!resultado.isEmpty()) ? resultado : null;
     }
 
+    public List<ServicioDeTerceros> findAll(){
+        return servicioDeTercerosRepository.findAll();
+    }
+
+
+    public Optional<ServicioDeTerceros> findById(Long id){
+        return servicioDeTercerosRepository.findById(id);
+    }
     
 
     private void validarDatos(String nombre, String apellido, String telefono, String email, TipoServicio tipo,

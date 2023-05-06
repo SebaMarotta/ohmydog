@@ -36,6 +36,8 @@ public class MascotaService {
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(Mascota mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
 
+        this.validarDatos(mascota.getNombre(), mascota.getRaza(), mascota.getColor(), mascota.getSexo(), mascota.getFechaDeNacimiento(), idDueño);
+
         User dueño = userRepository.findById(idDueño).get();
 
         mascota.setDueño(dueño);
@@ -47,7 +49,7 @@ public class MascotaService {
     public void modificarMascota(Long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
             String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException{
 
-        this.validarDatos(nombre, raza, color, sexo, fechaNac, imagen, idDueño);
+        this.validarDatos(nombre, raza, color, sexo, fechaNac, idDueño);
         
         Optional<Mascota> respuestaMascota = mascotaRepository.findById(id);
         Optional<User> respuestaDueño = userRepository.findById(idDueño);
@@ -130,8 +132,7 @@ public class MascotaService {
 
 
 
-    private void validarDatos(String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            MultipartFile imagen, Long idDueño) throws MiException {
+    private void validarDatos(String nombre, String raza, String color, Sexo sexo, Date fechaNac, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
         }
