@@ -8,7 +8,6 @@ import com.leafcompany.ohmydog.exceptions.MiException;
 import io.jsonwebtoken.io.IOException;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.repository.MascotaRepository;
@@ -36,7 +35,8 @@ public class MascotaService {
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(Mascota mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
 
-        this.validarDatos(mascota.getNombre(), mascota.getRaza(), mascota.getColor(), mascota.getSexo(), mascota.getFechaDeNacimiento(), idDueño);
+        this.validarDatos(mascota.getNombre(), mascota.getRaza(), mascota.getColor(), mascota.getSexo(), 
+                    mascota.getFechaDeNacimiento(), idDueño);
 
         User dueño = userRepository.findById(idDueño).get();
 
