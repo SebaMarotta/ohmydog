@@ -3,6 +3,7 @@ package com.leafcompany.ohmydog.entity;
 
 import java.util.List;
 
+import com.leafcompany.ohmydog.enumerations.TipoServicio;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
-import com.leafcompany.ohmydog.entity.TipoServicio;
+import com.leafcompany.ohmydog.enumerations.TipoServicio;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.ServicioDeTercerosService;
 

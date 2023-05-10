@@ -5,10 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
-import com.leafcompany.ohmydog.entity.TipoServicio;
+import com.leafcompany.ohmydog.enumerations.TipoServicio;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.repository.ServicioDeTercerosRepository;
 

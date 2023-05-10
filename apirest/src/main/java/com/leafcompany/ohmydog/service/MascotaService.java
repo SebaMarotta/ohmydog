@@ -1,6 +1,6 @@
 package com.leafcompany.ohmydog.service;
 
-import com.leafcompany.ohmydog.entity.Sexo;
+import com.leafcompany.ohmydog.enumerations.Sexo;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.exceptions.MiException;
