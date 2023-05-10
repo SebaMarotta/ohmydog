@@ -43,7 +43,7 @@ public class MascotaController {
                               // hay un nulo
                               // o vacio , entre igual y manejemos el error desde la excepcion creada en el
                               // servicio
-    public ResponseEntity<Mascota> guardarPerro(@RequestBody Mascota mascota, @PathVariable Long idDuenio)
+    public ResponseEntity<Mascota> crearPerro(@RequestBody Mascota mascota, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
 
         try {
@@ -128,34 +128,34 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/listar/nombre")
-    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
-        List<Mascota> perros = mascotaService.findByName(nombre);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/listar/raza")
-    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
-        List<Mascota> perros = mascotaService.findByType(raza);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/listar/sexo")
-    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
-        List<Mascota> perros = mascotaService.findByGender(sexo);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/listar/{nombre}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
+//        List<Mascota> perros = mascotaService.findByName(nombre);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @GetMapping("/listar/{raza}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
+//        List<Mascota> perros = mascotaService.findByType(raza);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @GetMapping("/listar/{sexo}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
+//        List<Mascota> perros = mascotaService.findByGender(sexo);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
 }

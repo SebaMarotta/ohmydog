@@ -31,6 +31,20 @@ public class TurnoService {
     }
 
 
+    @Transactional
+    public void cancelarTurno(Long id) throws MiException{
+        if (id == null){
+            throw new MiException("El ID ingresado no puede ser nulo");
+        }
+        Optional<Turno> respuesta =  turnoRepository.findById(id);
+        if(respuesta.isPresent()){
+            Turno turno = respuesta.get();
+            if (turno.isActivo()) {
+                turno.desactivarTurno();
+                turnoRepository.save(turno);
+            }
+        }
+    }
    
     @Transactional
     public void eliminarTurno(Long id) throws MiException{
@@ -46,8 +60,8 @@ public class TurnoService {
 
 
     // METODOS PARA CONSULTAS O BUSQUEDAS
-    public List<Turno> findByType(MotivosTurnos motivo){
-        List<Turno> resultado = turnoRepository.findByType(motivo.toString());
+    public List<Turno> findByType(String motivo){
+        List<Turno> resultado = turnoRepository.findByType(motivo);
         return (!resultado.isEmpty()) ? resultado : null;
     }
 

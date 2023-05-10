@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface ServicioDeTercerosRepository extends JpaRepository<ServicioDeTerceros, Long>  {
 
-    @Query("SELECT s FROM ServicioDeTerceros s WHERE s.nombre = :nombre")
+    @Query("SELECT s FROM ServicioDeTerceros s WHERE s.nombre LIKE %:nombre%")
     public List<ServicioDeTerceros> findByName(@Param("nombre") String nombre);
 
     @Query("SELECT s FROM ServicioDeTerceros s WHERE s.tipo = :tipo")

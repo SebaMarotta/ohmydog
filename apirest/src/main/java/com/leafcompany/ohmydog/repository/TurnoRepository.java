@@ -1,6 +1,7 @@
 package com.leafcompany.ohmydog.repository;
 import com.leafcompany.ohmydog.entity.Turno;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,5 +18,8 @@ public interface TurnoRepository extends JpaRepository<Turno, Long>  {
 
     @Query("SELECT t FROM Turno t WHERE t.motivo = :motivo")
     public List<Turno> findByType(@Param("motivo") String motivo);
+
+    @Query("SELECT t FROM Turno t WHERE t.fecha = :fecha")
+    public List<Turno> findByDate(@Param("fecha") Date fecha);
 
 }

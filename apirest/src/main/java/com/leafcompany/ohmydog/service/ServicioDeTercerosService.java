@@ -97,8 +97,8 @@ public class ServicioDeTercerosService {
 
 
     // METODOS PARA CONSULTAS O BUSQUEDAS
-    public List<ServicioDeTerceros> findByType(TipoServicio tipo){
-        List<ServicioDeTerceros> resultado = servicioDeTercerosRepository.findByType(tipo.toString());
+    public List<ServicioDeTerceros> findByType(String tipo){
+        List<ServicioDeTerceros> resultado = servicioDeTercerosRepository.findByType(tipo);
         return (!resultado.isEmpty()) ? resultado : null;
     }
 

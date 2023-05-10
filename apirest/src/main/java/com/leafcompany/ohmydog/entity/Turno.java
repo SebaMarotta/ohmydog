@@ -2,13 +2,9 @@ package com.leafcompany.ohmydog.entity;
 
 
 import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import java.util.Date;
 
 
 @Entity
@@ -29,15 +25,22 @@ public class Turno{
 
     private String comentarios;
 
+    private Boolean activo;
+
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
+
     public Turno(){
 
     }
 
-    public Turno(User cliente, Mascota mascota, MotivosTurnos motivo, String comentarios){
+    public Turno(User cliente, Mascota mascota, MotivosTurnos motivo, String comentarios, Date fecha){
         this.cliente = cliente;
         this.mascota = mascota;
         this.motivo = motivo;
         this.comentarios = comentarios;
+        this.activo = true;
+        this.fecha = fecha;
     }
 
     public User getCliente() {
@@ -73,6 +76,19 @@ public class Turno{
         this.motivo = motivo;
     }
 
-    
+    public Boolean isActivo() {
+        return activo;
+    }
 
+    public void desactivarTurno() {
+        this.activo = false;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 }
