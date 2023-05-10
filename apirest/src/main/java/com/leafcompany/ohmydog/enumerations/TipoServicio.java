@@ -1,4 +1,4 @@
-package com.leafcompany.ohmydog.entity;
+package com.leafcompany.ohmydog.enumerations;
 
 public enum TipoServicio {
     PASEADOR,

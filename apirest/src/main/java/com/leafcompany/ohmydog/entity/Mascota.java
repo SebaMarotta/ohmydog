@@ -4,6 +4,7 @@ package com.leafcompany.ohmydog.entity;
 
 import java.util.Date;
 
+import com.leafcompany.ohmydog.enumerations.Sexo;
 import jakarta.persistence.*;
 
 

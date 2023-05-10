@@ -1,6 +1,7 @@
 package com.leafcompany.ohmydog.entity;
 
 
+import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -28,6 +29,9 @@ public class Turno{
 
     private String comentarios;
 
+    public Turno(){
+
+    }
 
     public Turno(User cliente, Mascota mascota, MotivosTurnos motivo, String comentarios){
         this.cliente = cliente;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.entity.Mascota;
-import com.leafcompany.ohmydog.entity.Sexo;
+import com.leafcompany.ohmydog.enumerations.Sexo;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.MascotaService;
 
@@ -118,7 +118,7 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{idDuenio}-listar")
+    @GetMapping("/listar/{idDuenio}")
     public ResponseEntity<List<Mascota>> listarPerrosDeCliente(@PathVariable Long idDuenio) {
         List<Mascota> perros = mascotaService.findByUser(idDuenio);
         if (perros != null) {
@@ -128,34 +128,34 @@ public class MascotaController {
         }
     }
 
-//    @GetMapping("/{nombre}")
-//    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
-//        List<Mascota> perros = mascotaService.findByName(nombre);
-//        if (perros != null) {
-//            return ResponseEntity.ok(perros);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//    @GetMapping("/{raza}")
-//    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
-//        List<Mascota> perros = mascotaService.findByType(raza);
-//        if (perros != null) {
-//            return ResponseEntity.ok(perros);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-//
-//    @GetMapping("/{sexo}")
-//    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
-//        List<Mascota> perros = mascotaService.findByGender(sexo);
-//        if (perros != null) {
-//            return ResponseEntity.ok(perros);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/listar/nombre")
+    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
+        List<Mascota> perros = mascotaService.findByName(nombre);
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listar/raza")
+    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
+        List<Mascota> perros = mascotaService.findByType(raza);
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listar/sexo")
+    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
+        List<Mascota> perros = mascotaService.findByGender(sexo);
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

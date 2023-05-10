@@ -4,7 +4,7 @@ import com.leafcompany.ohmydog.RequestResponse.AuthenticationRequest;
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
 import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.repository.UserRepository;
-import com.leafcompany.ohmydog.entity.Role;
+import com.leafcompany.ohmydog.enumerations.Role;
 import com.leafcompany.ohmydog.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
