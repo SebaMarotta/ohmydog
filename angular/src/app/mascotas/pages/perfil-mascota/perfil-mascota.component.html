@@ -1,0 +1,81 @@
+<div class="parent">
+  <div class="div1 justify-content-center mx-auto py-3" style="margin-bottom: 1cm;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-6">
+              <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg" class="rounded" />
+            </div>
+            <div class="col-md-6">
+              <p>
+                Nombre: {{mascota.nombre}}<br>
+                Raza: {{mascota.raza}}<br>
+                Sexo: {{mascota.sexo}}<br>
+                Nacimiento: {{mascota.fechaDeNacimiento}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <p class="text-center lead font-bold">
+            Observaciones<br>
+          </p>
+          <p class="text-left">
+            {{mascota.observaciones}}
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="libretaSanitaria">
+    <p-table
+            responsiveLayout="scroll"
+            [value]="libretaSanitaria"
+            [scrollable]="true"
+            scrollHeight="flex">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>NOMBRE</th>
+                    <th>DNI</th>
+                    <th>TELEFONO</th>
+                    <th>ACCIONES</th>
+
+                </tr>
+            </ng-template>
+
+            <ng-template
+                pTemplate="body"
+                let-rowData="rowData"
+                let-cliente sortMode="multiple">
+
+                <tr>
+                    <td>
+                      {{ cliente.nombre }} {{cliente.apellido }}
+                    </td>
+                    <td>
+                        {{ cliente.dni }}
+                    </td>
+                    <td>
+                        {{ cliente.telefono }}
+                    </td>
+                    <td>
+                      <button type="submit" routerLink="/clientes/{{cliente.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" title="Ver perfil"  class="text-white font-bold px-2 py-1 border-radius buttonAcciones"> <i class="pi pi-user" style="color: #ffffff"></i></button>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+      </div>
+      <div *ngIf="!libretaSanitaria" class="w-full text-0 font-bold text-center" style="background-color: rgb(0,0,0,0.4); border-radius: 20px;">
+        No se encuentra ninguna practica registrada para {{mascota.nombre}}
+        </div>
+
+      </div>
+    <!-- </div> -->
+
+
+

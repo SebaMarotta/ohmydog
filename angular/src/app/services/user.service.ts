@@ -66,12 +66,17 @@ export class UserService implements OnInit {
   }
 
   findByUsername(username: String): Observable<User> {
-    const url = `${this.baseUrl}/user/${username}`;
+    const url = `${this.baseUrl}/auth/${username}`;
+    return this.http.get<User>(url);
+  }
+
+  findById(id: Number): Observable<User> {
+    const url = `${this.baseUrl}/user/${id}`;
     return this.http.get<User>(url);
   }
 
   getUserSession(username: String): Observable<User> {
-    const url = `${this.baseUrl}/user/${username}`;
+    const url = `${this.baseUrl}/auth/${username}`;
     return this.http.get<User>(url).pipe(map((result) => result));
   }
 

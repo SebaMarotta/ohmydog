@@ -33,12 +33,12 @@ public class UserController {
   private UserDetailsService userDetailsService;
   @Autowired
   private AuthenticationService authService;
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findByDni(@PathVariable String id){
 
-      Optional<User> user = userRepository.findByDni(id);
-      return ResponseEntity.ok(userRepository.findByDni(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Optional<User>> findById(@PathVariable Long id){
+    Optional<User> user = userRepository.findById(id);
+    return ResponseEntity.ok(user);
+  }
 
   @GetMapping("/list")
   public ResponseEntity<List<User>> getUsers(){

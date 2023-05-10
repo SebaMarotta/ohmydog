@@ -1,13 +1,13 @@
 <div class="parent">
-  <div class="div1">
+  <div class="div1 justify-content-center mx-auto py-3 ">
     <div class="grid">
       <div class="col-4 flex">
-          <div class="p-fluid align-items-center justify-content-center col-1 py-3" style="height: 20vh;">
+          <div class="p-fluid align-items-center justify-content-center col-1 py-3" style="height: 18vh;">
 
-            <div class="flex mb-3 py-3 px-2">
+            <div class="flex mb-3 py-2 px-2">
               <img src="assets/imgs/clientes/default-avatar.png" width="90" height="90">
               <div>
-                  <div width="10rem" class="align-items-center justify-content-center px-2 py-5">asdasd</div>
+                  <div width="10rem" class="align-items-center text-center justify-content-center px-3 py-4"> {{user.nombre}} {{user.apellido}}</div>
               </div>
           </div>
 
@@ -17,43 +17,38 @@
           <p-divider layout="vertical">
           </p-divider>
       </div>
-      <div class="col-5 flex align-items-center justify-content-center">
-          <p-button label="Sign Up" icon="pi pi-user-plus" styleClass="p-button-success"></p-button>
+      <div class="col-5 flex align-items-left justify-content-center">
+        <p style="text-align:center;">
+          DNI: {{user.dni}}<br>
+          EMAIL: {{user.email}}<br>
+          TELEFONO: {{user.telefono}}<br></p>
       </div>
   </div>
 
   </div>
-  <div class="div2">
-    <p-dataView #dv [value]="mascotas" [layout]="layout">
-      <ng-template pTemplate="header">
-          <div class="flex justify-content-end">
-              <p-button label="+"></p-button>
-          </div>
-      </ng-template>
-      <ng-template let-product pTemplate="gridItem">
-          <div class="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
-              <div class="p-4 border-1 surface-border surface-card border-round">
-                  <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                      <span class="flex align-items-center gap-2">
-                          <i class="pi pi-tag"></i>
-                          <span class="font-semibold">{{ product.category }}</span>
-                      </span>
-                      <p-tag [value]="product.inventoryStatus"></p-tag>
-                  </div>
-                  <div class="flex flex-column align-items-center gap-3 py-5">
-                      <img class="w-9 shadow-2 border-round" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" />
-                      <div class="text-2xl font-bold">{{ product.name }}</div>
-                      <p-rating [readonly]="true" [cancel]="false"></p-rating>
-                  </div>
-                  <div class="flex align-items-center justify-content-between">
-                      <span class="text-2xl font-semibold">{{ '$' + product.price }}</span>
-                      <button pButton icon="pi pi-shopping-cart" class="p-button-rounded" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></button>
-                  </div>
-              </div>
-          </div>
-      </ng-template>
-  </p-dataView>
 
-  </div>
-  <div class="div3">asd </div>
-  </div>
+    <div class="album py-5 bg-body-tertiary">
+      <div class="container">
+
+        <div *ngFor="let mascota of mascotas; let i = index;"  class="row row-cols-3 row-cols-sm-2 row-cols-md-3 g-3">
+
+          <div class="col col-sm-4" >
+            <div class="card shadow-sm " style="border-radius: 20px;">
+              <img src="{{mascota.imagen}}" alt="Falló la imagen">
+              <div class="card-body">
+                <p class="card-text text-center"> {{mascota.nombre}}</p>
+                <p class="card-text text-center"> {{mascota.id}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised" ></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+

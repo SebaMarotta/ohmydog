@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit {
     });
 
     this.user$.subscribe((resp) => {
+
       if (this.user$.value != null) this._role = resp.role;
     });
   }

@@ -42,6 +42,7 @@ export class AuthService {
       const ok = this.tokenIsValid(token, username);
       ok.subscribe({
         next: (resp) => {
+
           if (resp) {
             this.getUserSession(username).subscribe((resp) => {
               this._user$.next(resp);
@@ -87,12 +88,11 @@ export class AuthService {
   }
 
   private getUserSession(username: String): Observable<User> {
-    return this.userService.getUserSession(username).pipe();
+    return this.userService.getUserSession(username);
   }
 
   logout() {
     localStorage.clear();
-    console.log('hola');
     this._user$.next(null); // Borra el nombre de usuario del BehaviorSubject
   }
 }

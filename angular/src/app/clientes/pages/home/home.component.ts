@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  redireccionar(username: String) {
-    this.router.navigateByUrl(`clientes/${username}`);
+  redireccionar(id: String) {
+    this.router.navigateByUrl(`clientes/${id}`);
   }
 }

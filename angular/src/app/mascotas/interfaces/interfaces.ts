@@ -1,7 +1,11 @@
 export interface Mascota {
+  id: number;
+  nombre: string;
+  raza: string;
+  color: string;
+  observaciones: string;
+  sexo: string;
+  fechaDeNacimiento: null;
+  imagen: string;
   id_user: number;
-  id?: number;
-  dni?: string;
-  nombre?: string;
-  sexo?: string;
 }

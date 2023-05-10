@@ -34,5 +34,6 @@ import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
     DividerModule,
     DataViewModule,
   ],
+  exports: [PerfilComponent],
 })
 export class ClientesModule {}

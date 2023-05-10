@@ -47,6 +47,7 @@ public class MascotaController {
             throws MiException, IOException, java.io.IOException {
 
         try {
+
             Mascota aux = mascotaService.crearMascota(mascota, idDuenio);
             // apartado para simular que devuelvo el perro que acabo de crear//
             // Mascota perro = mascotaService.findByName(nombre);
@@ -127,34 +128,34 @@ public class MascotaController {
         }
     }
 
-    @GetMapping("/{nombre}")
-    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
-        List<Mascota> perros = mascotaService.findByName(nombre);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/{raza}")
-    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
-        List<Mascota> perros = mascotaService.findByType(raza);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/{sexo}")
-    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
-        List<Mascota> perros = mascotaService.findByGender(sexo);
-        if (perros != null) {
-            return ResponseEntity.ok(perros);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/{nombre}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
+//        List<Mascota> perros = mascotaService.findByName(nombre);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @GetMapping("/{raza}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
+//        List<Mascota> perros = mascotaService.findByType(raza);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+//
+//    @GetMapping("/{sexo}")
+//    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {
+//        List<Mascota> perros = mascotaService.findByGender(sexo);
+//        if (perros != null) {
+//            return ResponseEntity.ok(perros);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
 }

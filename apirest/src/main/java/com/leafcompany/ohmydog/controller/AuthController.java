@@ -28,8 +28,8 @@ public class AuthController {
   private UserRepository userDao;
 
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<Optional<User>> findByDni(@PathVariable String id){
-        return ResponseEntity.ok(userDao.findByDni(id));
+    @GetMapping("/{username}")
+    public ResponseEntity<Optional<User>> findByDni(@PathVariable String username){
+        return ResponseEntity.ok(userDao.findByDni(username));
     }
 }

@@ -40,6 +40,7 @@ public class MascotaService {
 
         User dueño = userRepository.findById(idDueño).get();
 
+
         mascota.setDueño(dueño);
         mascotaRepository.save(mascota);
         return mascota;
@@ -107,10 +108,9 @@ public class MascotaService {
         return mascotaRepository.findByUser(idDueño);
     }
 
-    public Optional<Mascota> findById(Long id) {
+       public Optional<Mascota> findById(Long id) {
         return mascotaRepository.findById(id);
     }
-
     public List<Mascota> findByName(String nombre) {
         List<Mascota> resultado = mascotaRepository.findByName(nombre);
         return (!resultado.isEmpty()) ? resultado : null;
@@ -145,9 +145,7 @@ public class MascotaService {
         if (sexo == null) {
             throw new MiException("El sexo ingresado no puede ser nulo o estar vacio");
         }
-        if (fechaNac == null || fechaNac.after(new Date())) {
-            throw new MiException("La fecha ingresada no puede ser nulo o Posterior al dia de la fecha actual");
-        }
+
         if(idDueño == null){
             throw new MiException("El id del dueño de la mascota no puede ser nulo");
         }
