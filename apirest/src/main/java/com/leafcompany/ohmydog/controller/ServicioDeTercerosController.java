@@ -27,7 +27,7 @@ public class ServicioDeTercerosController {
     ServicioDeTercerosService servicioDeTercerosService;
 
     @PostMapping("/registro")
-    public ResponseEntity<ServicioDeTerceros> guardarPerro(@RequestBody ServicioDeTerceros cuidador_paseador) throws MiException {
+    public ResponseEntity<ServicioDeTerceros> guardarServicio(@RequestBody ServicioDeTerceros cuidador_paseador) throws MiException {
 
      
         try {
@@ -40,7 +40,7 @@ public class ServicioDeTercerosController {
     }
 
     @GetMapping("/modificacion/{id}")
-    public ResponseEntity<Optional<ServicioDeTerceros>> modificarPerro(@PathVariable Long id) {
+    public ResponseEntity<Optional<ServicioDeTerceros>> modificarServicio(@PathVariable Long id) {
         Optional<ServicioDeTerceros> cuidador_paseador = servicioDeTercerosService.findById(id);
         if (cuidador_paseador.isPresent()) {
             return ResponseEntity.ok(cuidador_paseador);
@@ -64,7 +64,7 @@ public class ServicioDeTercerosController {
     }
 
     @PostMapping("/borrar/{id}")
-    public ResponseEntity<Void> eliminarPerro(@PathVariable Long id) {
+    public ResponseEntity<Void> eliminarServicio(@PathVariable Long id) {
 
         try {
             Optional<ServicioDeTerceros> paseador_cuidador = servicioDeTercerosService.findById(id);
@@ -78,6 +78,36 @@ public class ServicioDeTercerosController {
 
             return ResponseEntity.notFound().build();
 
+        }
+    }
+
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<ServicioDeTerceros>> listarServicios() {
+        List<ServicioDeTerceros> servicios = servicioDeTercerosService.findAll();
+        if (servicios != null) {
+            return ResponseEntity.ok(servicios);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/listar/{nombre}")
+    public ResponseEntity<List<ServicioDeTerceros>> listarServiciosPorNombre(@PathVariable String nombre) {
+        List<ServicioDeTerceros> servicios = servicioDeTercerosService.findByName(nombre);
+        if (servicios != null) {
+            return ResponseEntity.ok(servicios);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listar/{tipo}")
+    public ResponseEntity<List<ServicioDeTerceros>> listarServiciosPorTipo(@PathVariable String tipo) {
+        List<ServicioDeTerceros> servicios = servicioDeTercerosService.findByType(tipo);
+        if (servicios != null) {
+            return ResponseEntity.ok(servicios);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
