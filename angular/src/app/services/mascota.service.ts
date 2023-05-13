@@ -17,7 +17,7 @@ export class MascotaService {
   constructor(private http: HttpClient, private router: Router) {}
 
   getMascotasUser(id: Number): Observable<Mascota[]> {
-    const url = `${this.baseUrl}/mascota/${id}-listar`;
+    const url = `${this.baseUrl}/mascota/listar/${id}`;
     http: return this.http.get<Mascota[]>(url);
   }
 

@@ -1,5 +1,6 @@
 package com.leafcompany.ohmydog.entity;
 
+import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

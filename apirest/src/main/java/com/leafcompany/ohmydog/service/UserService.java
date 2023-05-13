@@ -1,7 +1,7 @@
 package com.leafcompany.ohmydog.service;
 
 import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
-import com.leafcompany.ohmydog.entity.Role;
+import com.leafcompany.ohmydog.enumerations.Role;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
