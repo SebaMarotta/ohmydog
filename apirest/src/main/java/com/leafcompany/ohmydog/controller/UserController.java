@@ -5,6 +5,9 @@ import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
 import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.service.AuthenticationService;
 import com.leafcompany.ohmydog.service.JwtService;
+import com.leafcompany.ohmydog.service.UserService;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,35 +25,39 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserController {
   @Autowired
-  private AuthenticationService service;
-  @Autowired
-  private UserRepository userRepository;
+  private UserService userService;
 
-  @Autowired
-  private JwtService jwtService;
 
-  @Autowired
-  private UserDetailsService userDetailsService;
-  @Autowired
-  private AuthenticationService authService;
 
   @GetMapping("/{id}")
   public ResponseEntity<Optional<User>> findById(@PathVariable Long id){
-    Optional<User> user = userRepository.findById(id);
+    Optional<User> user = userService.findById(id);
     return ResponseEntity.ok(user);
   }
 
   @GetMapping("/list")
   public ResponseEntity<List<User>> getUsers(){
-    List<User> user = userRepository.findAll();
+    List<User> user = userService.findAll();
     return ResponseEntity.ok(user);
   }
 
   @PostMapping("/register")
-  public ResponseEntity<AuthenticationResponse> register (
+  public ResponseEntity<?> register (
           @RequestBody RegisterUserRequest request
   ){
-    return ResponseEntity.ok(service.register(request));
+
+    Map<String, Object> response = new HashMap<>();
+
+    try{
+      return ResponseEntity.ok(userService.register(request));
+    } catch (DataAccessException e) {
+
+      response.put("mensaje", "Error al crear el usuario");
+      response.put("error", e.getMostSpecificCause().getMessage());
+      System.out.println(e.getMostSpecificCause().getMessage());
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
   }
 
 

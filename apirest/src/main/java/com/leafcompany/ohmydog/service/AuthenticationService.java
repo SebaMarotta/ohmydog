@@ -22,24 +22,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse register(RegisterUserRequest request){
-        var user = User.builder()
-                .nombre(request.getNombre())
-                .apellido(request.getApellido())
-                .dni(request.getDni())
-                .email(request.getEmail())
-                .telefono(request.getTelefono())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
-        repository.save(user);
-        var jwtToken = jwtService.generateToken(new HashMap<>(),user);
-        return AuthenticationResponse.builder()
-                .ok(true)
-                .token(jwtToken)
-                .build();
-    }
-
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

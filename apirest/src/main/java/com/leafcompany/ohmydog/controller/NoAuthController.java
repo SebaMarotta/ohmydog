@@ -26,12 +26,7 @@ public class NoAuthController {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register (
-            @RequestBody RegisterUserRequest request
-    ){
-        return ResponseEntity.ok(service.register(request));
-    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate (
             @RequestBody AuthenticationRequest request
