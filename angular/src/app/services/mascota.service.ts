@@ -2,7 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { Mascota } from '../mascotas/interfaces/interfaces';
+import {
+  Mascota,
+  RegisterMascotaRequest,
+} from '../mascotas/interfaces/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -21,5 +24,13 @@ export class MascotaService {
   findById(id: Number): Observable<Mascota> {
     const url = `${this.baseUrl}/mascota/${id}`;
     http: return this.http.get<Mascota>(url);
+  }
+
+  register(
+    mascota: RegisterMascotaRequest,
+    idDuenio: Number
+  ): Observable<Mascota> {
+    const url = `${this.baseUrl}/mascota/registro/${idDuenio}`;
+    http: return this.http.post<Mascota>(url, mascota);
   }
 }

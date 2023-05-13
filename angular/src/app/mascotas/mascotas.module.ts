@@ -13,16 +13,37 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
+import { RegistroMascotaComponent } from './pages/registro-mascota/registro-mascota.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FileUploadModule } from 'primeng/fileupload';
+import { CalendarModule } from 'primeng/calendar';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
-  declarations: [PerfilMascotaComponent],
+  declarations: [PerfilMascotaComponent, RegistroMascotaComponent],
   imports: [
     CommonModule,
     MascotasRoutingModule,
     DividerModule,
     TableModule,
     ButtonModule,
+    ReactiveFormsModule,
+    ToolbarModule,
+    DropdownModule,
+    ButtonModule,
+    InputTextModule,
+    CardModule,
+    SkeletonModule,
+    DataViewModule,
+    DialogModule,
+    InputTextareaModule,
+    FileUploadModule,
+    InputMaskModule,
+    InputSwitchModule,
   ],
-  exports: [PerfilMascotaComponent],
+  exports: [PerfilMascotaComponent, RegistroMascotaComponent],
 })
 export class MascotasModule {}

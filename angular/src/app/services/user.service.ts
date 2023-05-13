@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthResponse } from '../auth/interfaces/interfaces';
-import { User } from '../clientes/interfaces/interfaces';
+import { RegisterUserRequest, User } from '../clientes/interfaces/interfaces';
 import {
   tap,
   map,
@@ -83,5 +83,11 @@ export class UserService implements OnInit {
   getUsers(): Observable<User[]> {
     const url = `${this.baseUrl}/user/list`;
     return this.http.get<User[]>(url);
+  }
+
+  register(user: RegisterUserRequest): Observable<User> {
+    const url = `${this.baseUrl}/user/register`;
+    const body = user;
+    return this.http.post<any>(url, body);
   }
 }

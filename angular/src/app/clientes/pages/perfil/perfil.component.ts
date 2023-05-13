@@ -12,9 +12,10 @@ import { User } from '../../interfaces/interfaces';
 })
 export class PerfilComponent implements OnInit {
   protected id: number;
-  protected user: User;
-  protected mascotas: Mascota[];
-  layout: string = 'grid';
+  protected user: User = {};
+  protected mascotas: Mascota[] = [];
+  protected registroModal: Boolean = false;
+  protected sexos: any = ['MACHO', 'HEMBRA'];
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
@@ -34,5 +35,9 @@ export class PerfilComponent implements OnInit {
   }
   redireccionar(mascota: Number) {
     this.router.navigateByUrl(`/clientes/${this.user.id}/${mascota}`);
+  }
+
+  toggleRegistro() {
+    this.registroModal = !this.registroModal;
   }
 }

@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../interfaces/interfaces';
 import { Observable, filter, map, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { RegistroComponent } from '../registro/registro.component';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +17,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  protected clientes: User[];
+  protected clientes: User[] = [];
+  protected registroModal: Boolean = false;
+
+  @ViewChild('RegistroContainer', { read: ViewContainerRef })
+  container: ViewContainerRef;
+
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit() {
@@ -24,5 +36,9 @@ export class HomeComponent implements OnInit {
 
   redireccionar(id: String) {
     this.router.navigateByUrl(`clientes/${id}`);
+  }
+
+  toggleRegistro() {
+    this.registroModal = !this.registroModal;
   }
 }

@@ -16,9 +16,13 @@ import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
+import { DialogModule } from 'primeng/dialog';
+import { RegistroComponent } from './pages/registro/registro.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MascotasModule } from '../mascotas/mascotas.module';
 
 @NgModule({
-  declarations: [HomeComponent, PerfilComponent],
+  declarations: [HomeComponent, PerfilComponent, RegistroComponent],
   imports: [
     CommonModule,
     ClientesRoutingModule,
@@ -33,7 +37,10 @@ import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
     SkeletonModule,
     DividerModule,
     DataViewModule,
+    DialogModule,
+    ReactiveFormsModule,
+    MascotasModule,
   ],
-  exports: [PerfilComponent],
+  exports: [PerfilComponent, RegistroComponent],
 })
 export class ClientesModule {}

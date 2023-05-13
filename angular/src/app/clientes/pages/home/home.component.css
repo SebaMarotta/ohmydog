@@ -1,6 +1,6 @@
 
 p-table th:first-child{
-  border-radius:20px 0 0 0px;
+  border-radius:0px 0 0 0px;
 }
 
 p-table th:last-child{
@@ -16,5 +16,14 @@ p-table th:last-child{
 
 .iconosAcciones {
   font-size: 1.5rem;
-
 }
+
+.p-button-veterinariaOrange {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  ;
+}
+
+

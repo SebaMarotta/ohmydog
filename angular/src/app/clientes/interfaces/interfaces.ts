@@ -1,3 +1,5 @@
+import { Obj } from '@popperjs/core';
+
 export interface User {
   id?: number;
   dni?: string;
@@ -6,7 +8,7 @@ export interface User {
   email?: string;
   telefono?: string;
   password?: string;
-  role: string;
+  role?: string;
   enabled?: boolean;
   username?: string;
   authorities?: Authority[];
@@ -17,4 +19,14 @@ export interface User {
 
 export interface Authority {
   authority?: string;
+}
+
+export interface RegisterUserRequest {
+  id?: number;
+  nombre?: string;
+  apellido?: string;
+  dni?: string;
+  password?: string;
+  email?: string;
+  telefono?: string;
 }

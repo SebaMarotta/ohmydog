@@ -1,54 +1,68 @@
-<div class="parent">
-  <div class="div1 justify-content-center mx-auto py-3 ">
-    <div class="grid">
-      <div class="col-4 flex">
-          <div class="p-fluid align-items-center justify-content-center col-1 py-3" style="height: 18vh;">
+<p-dialog  header="Registro de mascota" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+  <app-registro-mascota (registroModal)="toggleRegistro()" [idDuenio]="user.id"></app-registro-mascota>
+</p-dialog>
 
-            <div class="flex mb-3 py-2 px-2">
-              <img src="assets/imgs/clientes/default-avatar.png" width="90" height="90">
-              <div>
-                  <div width="10rem" class="align-items-center text-center justify-content-center px-3 py-4"> {{user.nombre}} {{user.apellido}}</div>
-              </div>
-          </div>
-
-          </div>
+<div class="row mx-auto div1 align-items-center text-left justify-content-center" style="background-color: white; display: flex;">
+  <div class="col-md-7">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="col-md-4 align-items-center text-left justify-content-center">
+          <img src="assets/imgs/clientes/default-avatar.png" style="height: 12vh; width: 6vw;">
+        </div>
       </div>
-      <div class="col-1">
-          <p-divider layout="vertical">
-          </p-divider>
+      <div class="col-md-3 align-items-center text-left justify-content-center mx-auto">
+        <div class="align-items-center text-center justify-content-center py-6">
+          <span>{{user.nombre}} </span>
+          <span>{{user.apellido}} </span>
+        </div>
       </div>
-      <div class="col-5 flex align-items-left justify-content-center">
-        <p style="text-align:center;">
+      <div class="col-md-7">
+        <p>
           DNI: {{user.dni}}<br>
           EMAIL: {{user.email}}<br>
-          TELEFONO: {{user.telefono}}<br></p>
+          TELEFONO: {{user.telefono}}<br>
+        </p>
       </div>
+    </div>
   </div>
+  <div class="col-1" style="height: 20vh;">
+    <p-divider layout="vertical">
+    </p-divider>
+</div>
+  <div class="col-md-4 align-items-center text-left justify-content-center mx-auto">
+
+    <button pButton  pRipple label="+ Mascota" (click)="toggleRegistro()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
 
   </div>
-
+</div>
+<div *ngIf="mascotas.length > 0" class="parent">
     <div class="album py-5 bg-body-tertiary">
-      <div class="container">
+      <div class="card-container">
 
-        <div *ngFor="let mascota of mascotas; let i = index;"  class="row row-cols-3 row-cols-sm-2 row-cols-md-3 g-3">
+        <div *ngFor="let mascota of mascotas; let i = index;"  class="">
 
-          <div class="col col-sm-4" >
+          <div class="" >
             <div class="card shadow-sm " style="border-radius: 20px;">
-              <img src="{{mascota.imagen}}" alt="Falló la imagen">
+              <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="width:100%">
               <div class="card-body">
                 <p class="card-text text-center"> {{mascota.nombre}}</p>
                 <p class="card-text text-center"> {{mascota.id}}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised" ></button>
+                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
                 </div>
               </div>
             </div>
           </div>
-
-
-          </div>
-        </div>
       </div>
     </div>
+    </div>
+</div>
+<div *ngIf="mascotas.length == 0 || mascotas == null" class="w-full font-bold text-center" style="background-color: rgb(255,255,255,1); border-radius: 20px; margin-top: 0.6cm;">
+  No se encuentra ninguna mascota registrada de {{user.nombre}}
+  </div>
+
+
+
+
 
 
