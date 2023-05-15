@@ -4,6 +4,10 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
+import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,9 @@ public class MascotaController {
     @Autowired
     MascotaService mascotaService;
 
+    @Autowired
+    UserService userService;
+
     // @GetMapping("/registrar") // localhost4200:/mascota/registrar ---> a
     // confirmar como se va a interactuar con el frontend
     // public String registrarMascota(ModelMap modelo){
@@ -43,7 +50,7 @@ public class MascotaController {
                               // hay un nulo
                               // o vacio , entre igual y manejemos el error desde la excepcion creada en el
                               // servicio
-    public ResponseEntity<Mascota> crearPerro(@RequestBody Mascota mascota, @PathVariable Long idDuenio)
+    public ResponseEntity<Mascota> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
 
         try {
@@ -60,33 +67,13 @@ public class MascotaController {
 
     }
 
-    @GetMapping("/modificacion/{id}")
-    public ResponseEntity<Optional<Mascota>> modificarPerro(@PathVariable Long id) {
-        Optional<Mascota> perro = mascotaService.findById(id);
-        if (perro.isPresent()) {
-            return ResponseEntity.ok(perro);
+    @PutMapping("/modificacion/{id}")
+    public ResponseEntity<Mascota> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
+        System.out.println(mascota);
+        if (mascota.getDuenio().equals(id)) {
+            return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
         } else {
             return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/modificar/{id}")
-    public ResponseEntity<Optional<Mascota>> modificar(@PathVariable long id, @RequestParam("nombre") String nombre,
-            @RequestParam("raza") String raza,
-            @RequestParam("color") String color,
-            @RequestParam("sexo") Sexo sexo,
-            @RequestParam("fechaNacimiento") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaNacimiento,
-            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
-            @RequestParam(value = "observaciones", required = false) String observaciones,
-            @RequestParam("idDuenio") Long idDuenio)
-            throws MiException, IOException, java.io.IOException {
-        try {
-            mascotaService.modificarMascota(id, nombre, raza, color, sexo, fechaNacimiento, observaciones, imagen,
-                    idDuenio);
-            return ResponseEntity.ok().body(mascotaService.findById(id));
-        } catch (MiException ex) {
-
-            return ResponseEntity.badRequest().body(mascotaService.findById(id));
         }
     }
 

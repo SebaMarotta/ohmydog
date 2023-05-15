@@ -1,5 +1,6 @@
 package com.leafcompany.ohmydog.controller;
 
+import com.leafcompany.ohmydog.RequestResponse.RegisterPracticaRequest;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.entity.PracticaMedica;
 import com.leafcompany.ohmydog.entity.User;
@@ -22,16 +23,16 @@ public class PracticaController {
 
     @Autowired
     private MascotaService mascotaService;
-    @GetMapping("/{id}-mascota")
+    @GetMapping("/buscar-mascota/{id}")
     public ResponseEntity<List<PracticaMedica>> findByMascota(@PathVariable Long id){
         List<PracticaMedica> practicas = practicaService.findByMascota(id);
         return ResponseEntity.ok(practicas);
     }
 
-    @PostMapping("/{id}-mascota")
-    public ResponseEntity<PracticaMedica> findByMascota(PracticaMedica practica, @PathVariable Long id){
-        Optional<Mascota> mascota = mascotaService.findById(id);
-        practica.setMascota(mascota.get());
-        return ResponseEntity.ok(practicaService.crear(practica));
+    @PostMapping("/crear/{id}")
+    public ResponseEntity<PracticaMedica> findByMascota(@RequestBody PracticaMedica request, @PathVariable Long id){
+
+        Mascota mascota = mascotaService.findById(id).get();
+        return ResponseEntity.ok(practicaService.crear(request,mascota));
     }
 }

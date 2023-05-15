@@ -1,47 +1,37 @@
-package com.leafcompany.ohmydog.entity;
+package com.leafcompany.ohmydog.RequestResponse;
 
-
-
-import java.time.LocalDate;
-import java.util.Date;
-
+import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.enumerations.Sexo;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mascota{
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class RegisterMascotaRequest {
     private String nombre;
     private String raza;
     private String color;
     private String observaciones;
-    @ManyToOne
     private User duenio;
 
-    @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate fechaDeNacimiento;
+    private String fechaDeNacimiento;
 
-    @Lob
     private byte[] imagen;
 
     private boolean cruza;
 
 }
+

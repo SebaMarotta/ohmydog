@@ -1,3 +1,5 @@
+import { User } from 'src/app/clientes/interfaces/interfaces';
+
 export interface Mascota {
   id: number;
   nombre: string;
@@ -5,9 +7,10 @@ export interface Mascota {
   color: string;
   observaciones: string;
   sexo: string;
-  fechaDeNacimiento: null;
+  fechaDeNacimiento: String;
   imagen: string;
-  id_user: number;
+  duenio: number;
+  cruza: boolean;
 }
 
 export interface RegisterMascotaRequest {
@@ -16,6 +19,6 @@ export interface RegisterMascotaRequest {
   color: string;
   observaciones: string;
   sexo: string;
-  fechaDeNacimiento: null;
+  fechaDeNacimiento: String;
   imagen: string;
 }

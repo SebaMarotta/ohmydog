@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -24,18 +25,30 @@ import { Router } from '@angular/router';
 import { MascotaService } from 'src/app/services/mascota.service';
 
 @Component({
-  selector: 'app-registro-mascota',
-  templateUrl: './registro-mascota.component.html',
-  styleUrls: ['./registro-mascota.component.css'],
+  selector: 'app-editar-mascota',
+  templateUrl: './editar-mascota.component.html',
+  styleUrls: ['./editar-mascota.component.css'],
 })
-export class RegistroMascotaComponent {
-  mascota: RegisterMascotaRequest;
+export class EditarMascotaComponent implements OnInit {
+  mascotaActual: Mascota = {
+    id: 0,
+    nombre: '',
+    raza: '',
+    color: '',
+    observaciones: '',
+    sexo: '',
+    fechaDeNacimiento: '',
+    imagen: '',
+    duenio: 0,
+    cruza: false,
+  };
+  mascotaEditada: Mascota;
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
-  @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
+  @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() idDuenio: number;
+  @Input() idMascota: number;
 
   constructor(
     private fb: FormBuilder,
@@ -50,10 +63,28 @@ export class RegistroMascotaComponent {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required]],
       observaciones: [''],
-      imagen: [null],
-      cruza: [false],
+      imagen: [],
+      cruza: [''],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+  }
+  ngOnInit(): void {
+    this.mascotaService.findById(this.idMascota).subscribe((resp) => {
+      this.mascotaActual = resp;
+      const fecha = resp.fechaDeNacimiento.toString();
+      const [year, month, day] = fecha.split('-');
+      const fechaFormateada = `${day}/${month}/${year}`;
+      this.formulario.patchValue({
+        nombre: this.mascotaActual.nombre,
+        raza: this.mascotaActual.raza,
+        color: this.mascotaActual.color,
+        sexo: { sexo: this.mascotaActual.sexo },
+        fechaDeNacimiento: fechaFormateada,
+        observaciones: this.mascotaActual.observaciones,
+        imagen: this.mascotaActual.imagen,
+        cruza: this.mascotaActual.cruza,
+      });
+    });
   }
 
   isValidField(field: string) {
@@ -83,11 +114,23 @@ export class RegistroMascotaComponent {
     this.formulario.markAllAsTouched();
     if (this.formulario.invalid) return null;
 
-    this.mascota = this.formulario.value;
-    this.mascota.sexo = this.mascota.sexo['sexo'];
+    this.mascotaEditada = this.mascotaActual;
+    this.mascotaEditada.nombre = this.formulario.value.nombre;
+    this.mascotaEditada.raza = this.formulario.value.raza;
+    this.mascotaEditada.sexo = this.formulario.value.sexo['sexo'];
+    this.mascotaEditada.color = this.formulario.value.color;
+    this.mascotaEditada.observaciones = this.formulario.value.observaciones;
+    this.mascotaEditada.imagen = this.formulario.value.imagen;
+    this.mascotaEditada.cruza = this.formulario.value.cruza;
+    this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
+
+    const [year, month, day] = this.mascotaEditada.fechaDeNacimiento.split('-');
+    const fechaFormateada = `${day}-${month}-${year}`;
+
+    this.mascotaEditada.fechaDeNacimiento = fechaFormateada;
 
     return this.mascotaService
-      .register(this.mascota, this.idDuenio)
+      .editar(this.mascotaEditada)
       .pipe(
         map((resp: any) => resp as Mascota),
         catchError((e: any) => {
@@ -101,11 +144,13 @@ export class RegistroMascotaComponent {
         })
       )
       .subscribe((resp) => {
-        this.router.navigateByUrl('/clientes');
+        this.cerrar();
+
+        this.router.navigateByUrl(`/clientes/${this.mascotaEditada.duenio}`);
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `La mascota ${resp.nombre} fue registrada correctamente`,
+          detail: `La mascota ${resp.nombre} fue editada correctamente`,
           closable: false,
         });
       });
@@ -113,6 +158,6 @@ export class RegistroMascotaComponent {
 
   cerrar(): void {
     setTimeout(() => this.formGroupDirective.resetForm(), 200);
-    this.registroModal.emit(false);
+    this.editarModal.emit(false);
   }
 }

@@ -4,6 +4,7 @@ import { Mascota } from 'src/app/mascotas/interfaces/interfaces';
 import { MascotaService } from 'src/app/services/mascota.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../interfaces/interfaces';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-perfil',
@@ -16,13 +17,18 @@ export class PerfilComponent implements OnInit {
   protected mascotas: Mascota[] = [];
   protected registroModal: Boolean = false;
   protected sexos: any = ['MACHO', 'HEMBRA'];
+  protected rolSession: any;
+  protected editarModal: Boolean = false;
+  protected cardMascotaId: number;
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private mascotaService: MascotaService,
+    private authService: AuthService,
     private router: Router
   ) {}
   ngOnInit(): void {
+    this.rolSession = this.authService.userSession.getValue()['role'];
     this.activatedRoute.params.subscribe((resp) => {
       this.id = resp['id'];
       this.userService.findById(this.id).subscribe((resp) => {
@@ -39,5 +45,9 @@ export class PerfilComponent implements OnInit {
 
   toggleRegistro() {
     this.registroModal = !this.registroModal;
+  }
+
+  toggleEditar() {
+    this.editarModal = !this.editarModal;
   }
 }

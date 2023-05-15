@@ -4,6 +4,7 @@ package com.leafcompany.ohmydog.controller;
 
 import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
 import com.leafcompany.ohmydog.entity.Turno;
+import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,12 @@ public class TurnoController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    //Esto es para poder listar los motivos en la planilla del historial clinico
+    @GetMapping("/motivos")
+    public ResponseEntity<MotivosTurnos[]> motivosDeTurnos() {
+        return ResponseEntity.ok(MotivosTurnos.values());
     }
 
 

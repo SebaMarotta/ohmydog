@@ -21,9 +21,16 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.module';
+import { EditarMascotaComponent } from './pages/editar-mascota/editar-mascota.component';
 
 @NgModule({
-  declarations: [PerfilMascotaComponent, RegistroMascotaComponent],
+  declarations: [
+    PerfilMascotaComponent,
+    RegistroMascotaComponent,
+    EditarMascotaComponent,
+  ],
   imports: [
     CommonModule,
     MascotasRoutingModule,
@@ -43,7 +50,13 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     FileUploadModule,
     InputMaskModule,
     InputSwitchModule,
+    ScrollPanelModule,
+    LibretaSanitariaModule,
   ],
-  exports: [PerfilMascotaComponent, RegistroMascotaComponent],
+  exports: [
+    PerfilMascotaComponent,
+    RegistroMascotaComponent,
+    EditarMascotaComponent,
+  ],
 })
 export class MascotasModule {}

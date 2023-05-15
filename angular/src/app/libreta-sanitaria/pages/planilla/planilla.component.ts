@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -14,46 +15,65 @@ import {
   Validators,
 } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { UserService } from 'src/app/services/user.service';
-import {
-  Mascota,
-  RegisterMascotaRequest,
-} from 'src/app/mascotas/interfaces/interfaces';
+
 import { catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { MascotaService } from 'src/app/services/mascota.service';
+import { TurnoService } from 'src/app/services/turno.service';
+import { Motivos, RegisterPlanillaRequest } from '../../interfaces/interfaces';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-registro-mascota',
-  templateUrl: './registro-mascota.component.html',
-  styleUrls: ['./registro-mascota.component.css'],
+  selector: 'app-planilla',
+  templateUrl: './planilla.component.html',
+  styleUrls: ['./planilla.component.css'],
 })
-export class RegistroMascotaComponent {
-  mascota: RegisterMascotaRequest;
+export class PlanillaComponent implements OnInit {
+  planilla: RegisterPlanillaRequest;
   validador: Boolean;
   formulario: FormGroup;
-  sexos: any;
-  @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
+  motivos: Motivos[] = [];
+  protected inputHidden: Boolean = true;
+
+  @Output() planillaModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() idDuenio: number;
+  @Input() idMascota: number;
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private mascotaService: MascotaService,
+    private turnoService: TurnoService,
     private router: Router
   ) {
     this.formulario = this.fb.group({
-      nombre: ['', Validators.required],
-      raza: ['', Validators.required],
-      color: ['', [Validators.required]],
-      sexo: ['', Validators.required],
-      fechaDeNacimiento: ['', [Validators.required]],
+      motivo: ['', [Validators.required]],
       observaciones: [''],
-      imagen: [null],
-      cruza: [false],
+      monto: ['', [Validators.required]],
+      peso: [{ value: '', disabled: true }, Validators.required],
+      cantidad: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.min(0)],
+      ],
     });
-    this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+    this.formulario.get('motivo').valueChanges.subscribe((value) => {
+      if (value.motivo === 'DESPARACITACION') {
+        this.inputHidden = false;
+        this.formulario.get('peso').enable();
+        this.formulario.get('cantidad').enable();
+      } else {
+        this.inputHidden = true;
+        this.formulario.get('peso').disable();
+        this.formulario.get('cantidad').disable();
+      }
+    });
+  }
+  ngOnInit(): void {
+    this.turnoService.getMotivosTurno().subscribe((resp) => {
+      resp.forEach((resp) => {
+        this.motivos.push({ motivo: resp });
+      });
+    });
   }
 
   isValidField(field: string) {
@@ -74,6 +94,8 @@ export class RegistroMascotaComponent {
           return 'Este campo es requerido';
         case 'email':
           return 'Formato de email inválido';
+        case 'min':
+          return `La cantidad minima es 0`;
       }
     }
     return null;
@@ -83,13 +105,14 @@ export class RegistroMascotaComponent {
     this.formulario.markAllAsTouched();
     if (this.formulario.invalid) return null;
 
-    this.mascota = this.formulario.value;
-    this.mascota.sexo = this.mascota.sexo['sexo'];
+    this.planilla = this.formulario.value;
+    this.planilla.motivo = this.planilla.motivo['motivo'];
 
-    return this.mascotaService
-      .register(this.mascota, this.idDuenio)
+    console.log(this.planilla);
+    return this.turnoService
+      .setPlanilla(this.planilla, this.idMascota)
       .pipe(
-        map((resp: any) => resp as Mascota),
+        map((resp: any) => resp as RegisterPlanillaRequest),
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',
@@ -105,7 +128,7 @@ export class RegistroMascotaComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `La mascota ${resp.nombre} fue registrada correctamente`,
+          detail: `La mascota fue registrada correctamente`,
           closable: false,
         });
       });
@@ -113,6 +136,6 @@ export class RegistroMascotaComponent {
 
   cerrar(): void {
     setTimeout(() => this.formGroupDirective.resetForm(), 200);
-    this.registroModal.emit(false);
+    this.planillaModal.emit(false);
   }
 }

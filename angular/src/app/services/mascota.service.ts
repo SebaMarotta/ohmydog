@@ -18,12 +18,12 @@ export class MascotaService {
 
   getMascotasUser(id: Number): Observable<Mascota[]> {
     const url = `${this.baseUrl}/mascota/listar/${id}`;
-    http: return this.http.get<Mascota[]>(url);
+    return this.http.get<Mascota[]>(url);
   }
 
   findById(id: Number): Observable<Mascota> {
     const url = `${this.baseUrl}/mascota/${id}`;
-    http: return this.http.get<Mascota>(url);
+   return this.http.get<Mascota>(url);
   }
 
   register(
@@ -31,6 +31,11 @@ export class MascotaService {
     idDuenio: Number
   ): Observable<Mascota> {
     const url = `${this.baseUrl}/mascota/registro/${idDuenio}`;
-    http: return this.http.post<Mascota>(url, mascota);
+    return this.http.post<Mascota>(url, mascota);
+  }
+
+  editar(mascota: Mascota): Observable<Mascota> {
+    const url = `${this.baseUrl}/mascota/modificacion/${mascota.duenio}`;
+      return this.http.put<Mascota>(url,mascota)
   }
 }

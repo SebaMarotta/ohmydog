@@ -1,13 +1,14 @@
+<div *ngIf="registroModal">
 <p-dialog  header="Registro de mascota" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
   <app-registro-mascota (registroModal)="toggleRegistro()" [idDuenio]="user.id"></app-registro-mascota>
 </p-dialog>
-
+</div>
 <div class="row mx-auto div1 align-items-center text-left justify-content-center" style="background-color: white; display: flex;">
   <div class="col-md-7">
     <div class="row">
       <div class="col-md-2">
         <div class="col-md-4 align-items-center text-left justify-content-center">
-          <img src="assets/imgs/clientes/default-avatar.png" style="height: 12vh; width: 6vw;">
+          <img src="assets/imgs/clientes/default-avatar.png" style="height: 6rem; width: 6rem;">
         </div>
       </div>
       <div class="col-md-3 align-items-center text-left justify-content-center mx-auto">
@@ -28,11 +29,15 @@
   <div class="col-1" style="height: 20vh;">
     <p-divider layout="vertical">
     </p-divider>
-</div>
+  </div>
   <div class="col-md-4 align-items-center text-left justify-content-center mx-auto">
 
+    <div *ngIf="rolSession == 'ADMIN'">
     <button pButton  pRipple label="+ Mascota" (click)="toggleRegistro()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-
+    </div>
+    <div *ngIf="rolSession == 'USER'">
+    <!-- <button pButton  pRipple label="Editar perfil" (click)="toggleEditar()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button> -->
+  </div>
   </div>
 </div>
 <div *ngIf="mascotas.length > 0" class="parent">
@@ -42,18 +47,23 @@
         <div *ngFor="let mascota of mascotas; let i = index;"  class="">
 
           <div class="" >
-            <div class="card shadow-sm " style="border-radius: 20px;">
-              <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="width:100%">
+            <div class="card shadow-sm justify-content-between" style="border-radius: 20px; max-width: 30vw;">
+              <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 30vw;">
               <div class="card-body">
                 <p class="card-text text-center"> {{mascota.nombre}}</p>
                 <p class="card-text text-center"> {{mascota.id}}</p>
                 <div class="d-flex justify-content-between align-items-center">
-                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
+                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="w-full mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
+                  <button pButton  pRipple (click)="this.cardMascotaId = mascota.id; toggleEditar()" label="Editar mascota" type="button" class=" w-full mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
                 </div>
+
               </div>
             </div>
+
+
           </div>
-      </div>
+
+        </div>
     </div>
     </div>
 </div>
@@ -63,6 +73,10 @@
 
 
 
-
+  <div *ngIf="editarModal">
+    <p-dialog  header="Edicion de mascota" [(visible)]="editarModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+      <app-editar-mascota (editarModal)="toggleEditar()" [idMascota]="cardMascotaId"></app-editar-mascota>
+    </p-dialog>
+  </div>
 
 

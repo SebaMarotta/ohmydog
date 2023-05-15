@@ -4,25 +4,47 @@ import {
   CanActivateFn,
   CanMatchFn,
   Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UsuarioService } from 'src/app/usuario.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivateFn() {
     return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
       const token = localStorage.getItem('token');
+      const asd = JSON.parse(token);
+      const ok = true;
+      console.log(this.authService.userSession);
+      if (!ok) {
+        this.router.navigateByUrl('/login'); // El usuario no tiene permiso para acceder a la ruta
+        return false;
+      }
 
-      if (this.usuarioService.user) {
-        // El usuario no tiene permiso para acceder a la ruta
+      // El usuario tiene permiso para acceder a la ruta
+      return true;
+    };
+  }
+
+  canMatchFn() {
+    return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+      const token = localStorage.getItem('token');
+      const asd = JSON.parse(token);
+      const ok = this.authService.tokenIsValid(
+        token,
+        this.authService.userSession.getValue['dni']
+      );
+      console.log(this.authService.userSession);
+      if (!ok) {
+        this.router.navigateByUrl('/login'); // El usuario no tiene permiso para acceder a la ruta
         return false;
       }
 

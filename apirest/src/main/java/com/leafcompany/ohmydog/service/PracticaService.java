@@ -1,12 +1,16 @@
 package com.leafcompany.ohmydog.service;
 
+import com.leafcompany.ohmydog.RequestResponse.RegisterPracticaRequest;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.entity.PracticaMedica;
+import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
 import com.leafcompany.ohmydog.repository.PracticaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PracticaService {
 
@@ -17,7 +21,8 @@ public class PracticaService {
         return practicaRepository.findByMascotaId(idMascota);
     }
 
-    public PracticaMedica crear (PracticaMedica practica){
-        return practicaRepository.save(practica);
+    public PracticaMedica crear (PracticaMedica request, Mascota id){
+        request.setMascota(id);
+        return practicaRepository.save(request);
     }
 }

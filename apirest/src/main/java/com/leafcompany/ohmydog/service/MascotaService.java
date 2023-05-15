@@ -1,5 +1,7 @@
 package com.leafcompany.ohmydog.service;
 
+import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.entity.Mascota;
@@ -8,7 +10,6 @@ import com.leafcompany.ohmydog.exceptions.MiException;
 import io.jsonwebtoken.io.IOException;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.leafcompany.ohmydog.repository.MascotaRepository;
 import com.leafcompany.ohmydog.repository.UserRepository;
@@ -16,9 +17,10 @@ import com.leafcompany.ohmydog.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.File;
-import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,62 +35,51 @@ public class MascotaService {
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
-    public Mascota crearMascota(Mascota mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
-
-        this.validarDatos(mascota.getNombre(), mascota.getRaza(), mascota.getColor(), mascota.getSexo(), 
-                    mascota.getFechaDeNacimiento(), idDueño);
+    public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
 
         User dueño = userRepository.findById(idDueño).get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
+        var aux = Mascota.builder()
+        .nombre(mascota.getNombre())
+        .color(mascota.getColor())
+        .raza(mascota.getRaza())
+        .cruza(mascota.isCruza())
+        .duenio(dueño)
+        .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(),formatter))
+        .imagen(mascota.getImagen())
+        .sexo(mascota.getSexo())
+        .observaciones(mascota.getObservaciones())
+        .build();
 
-
-        mascota.setDueño(dueño);
-        mascotaRepository.save(mascota);
-        return mascota;
+        return mascotaRepository.save(aux);
     }
 
     @Transactional
-    public void modificarMascota(Long id, String nombre, String raza, String color, Sexo sexo, Date fechaNac,
-            String observaciones, MultipartFile imagen, Long idDueño) throws MiException, IOException, java.io.IOException{
+    public Mascota modificarMascota(EditMascotaRequest mascota){
 
-        this.validarDatos(nombre, raza, color, sexo, fechaNac, idDueño);
-        
-        Optional<Mascota> respuestaMascota = mascotaRepository.findById(id);
-        Optional<User> respuestaDueño = userRepository.findById(idDueño);
-        
-        User dueño = new User();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
+        var user = this.userRepository.findById(mascota.getDuenio()).get();
+        Mascota aux = Mascota
+                .builder()
+                .duenio(user)
+                .raza(mascota.getRaza())
+                .id(mascota.getId())
+                .nombre(mascota.getNombre())
+                .color(mascota.getColor())
+                .cruza(mascota.isCruza())
+                .duenio(user)
+                .fechaDeNacimiento(fecha)
+                .imagen(mascota.getImagen())
+                .observaciones(mascota.getObservaciones())
+                .sexo(mascota.getSexo())
+                .build();
 
-        if (respuestaDueño.isPresent()){
-            dueño = respuestaDueño.get();
+
+        return mascotaRepository.save(aux);
         }
 
-
-        if (respuestaMascota.isPresent()) {
-            Mascota perro = respuestaMascota.get();
-
-            perro.setNombre(nombre);
-            perro.setRaza(raza);
-            perro.setColor(color);
-            perro.setSexo(sexo);
-            perro.setFechaDeNacimiento(fechaNac);
-            perro.setObservaciones(observaciones);
-            perro.setDueño(dueño);
-            try {
-                if (imagen == null || imagen.isEmpty()) {
-                    // Asignar imagen por defecto si no se proporciona ninguna imagen
-                    File imagenPorDefecto = new File("../../resources/static/img/perroDefault.png");
-                    byte[] imagenBytes = Files.readAllBytes(imagenPorDefecto.toPath());
-                    perro.setImagen(imagenBytes);
-                } else {
-                    perro.setImagen(imagen.getBytes());
-                }
-            } catch (IOException ex) {
-                throw ex;
-            }
-
-            mascotaRepository.save(perro);
-        }
-
-    }
 
     @Transactional
     public void eliminarMascota(Long id) throws MiException{
@@ -109,6 +100,7 @@ public class MascotaService {
     }
 
        public Optional<Mascota> findById(Long id) {
+
         return mascotaRepository.findById(id);
     }
     public List<Mascota> findByName(String nombre) {
