@@ -2,7 +2,10 @@ package com.leafcompany.ohmydog.controller;
 
 
 import com.leafcompany.ohmydog.RequestResponse.AuthenticationResponse;
+import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
+import com.leafcompany.ohmydog.RequestResponse.EditUserRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
+import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.service.AuthenticationService;
 import com.leafcompany.ohmydog.service.JwtService;
 import com.leafcompany.ohmydog.service.UserService;
@@ -59,6 +62,23 @@ public class UserController {
     }
 
   }
+  @PutMapping("/edit/{id}")
+  public ResponseEntity<User> modificar(@RequestBody EditUserRequest user, @PathVariable Long id) {
+    if (user.getId().equals(id)) {
+      return ResponseEntity.ok(userService.editUser(user));
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
 
+  @PutMapping("/edit-password/{id}")
+  public ResponseEntity<Boolean> modificarPassword(@RequestBody String password, @PathVariable Long id) {
+    try{
+    userService.editPassword(password, id);
+    return ResponseEntity.ok(true);
+  } catch (DataAccessException e){
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+    }
+  }
 
 }

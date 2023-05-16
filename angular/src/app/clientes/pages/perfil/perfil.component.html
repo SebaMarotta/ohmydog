@@ -6,22 +6,17 @@
 <div class="row mx-auto div1 align-items-center text-left justify-content-center" style="background-color: white; display: flex;">
   <div class="col-md-7">
     <div class="row">
-      <div class="col-md-2">
-        <div class="col-md-4 align-items-center text-left justify-content-center">
+      <div class="col-md-3">
+        <div class="col-md-4 align-items-center text-center justify-content-center py-5">
           <img src="assets/imgs/clientes/default-avatar.png" style="height: 6rem; width: 6rem;">
         </div>
       </div>
-      <div class="col-md-3 align-items-center text-left justify-content-center mx-auto">
-        <div class="align-items-center text-center justify-content-center py-6">
-          <span>{{user.nombre}} </span>
-          <span>{{user.apellido}} </span>
-        </div>
-      </div>
-      <div class="col-md-7">
+      <div class="col-md-7 align-items-left text-left justify-content-left mx-auto">
         <p>
-          DNI: {{user.dni}}<br>
-          EMAIL: {{user.email}}<br>
-          TELEFONO: {{user.telefono}}<br>
+          <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ user.nombre }} {{user.apellido}} </span><br>
+          <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ user.dni}} </span><br>
+          <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ user.email}} </span><br>
+          <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ user.telefono}} </span><br>
         </p>
       </div>
     </div>
@@ -30,18 +25,19 @@
     <p-divider layout="vertical">
     </p-divider>
   </div>
-  <div class="col-md-4 align-items-center text-left justify-content-center mx-auto">
+  <div class="col-md-4 align-items-left text-left justify-content-left mx-auto">
 
     <div *ngIf="rolSession == 'ADMIN'">
     <button pButton  pRipple label="+ Mascota" (click)="toggleRegistro()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
     </div>
     <div *ngIf="rolSession == 'USER'">
-    <!-- <button pButton  pRipple label="Editar perfil" (click)="toggleEditar()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button> -->
+    <button pButton  pRipple label="Editar perfil" (click)="toggleEditarUser()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+    <button pButton  pRipple label="Editar contraseña" (click)="toggleEditarPassword()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
   </div>
   </div>
 </div>
 <div *ngIf="mascotas.length > 0" class="parent">
-    <div class="album py-5 bg-body-tertiary">
+    <div class="album py-5 ">
       <div class="card-container">
 
         <div *ngFor="let mascota of mascotas; let i = index;"  class="">
@@ -51,10 +47,9 @@
               <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 30vw;">
               <div class="card-body">
                 <p class="card-text text-center"> {{mascota.nombre}}</p>
-                <p class="card-text text-center"> {{mascota.id}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Ver mascota" type="button" class="w-full mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
-                  <button pButton  pRipple (click)="this.cardMascotaId = mascota.id; toggleEditar()" label="Editar mascota" type="button" class=" w-full mr-3 p-button-veterinariaOrange p-button-raised w-full" ></button>
+                <div class="justify-content-between align-items-center">
+                  <button pButton  pRipple (click)="redireccionar(mascota.id)" label="Perfil" type="button" class="w-full mr-3 p-button-veterinariaOrange p-button-raised p-button-sm" ></button>
+                  <button pButton  pRipple (click)="this.cardMascotaId = mascota.id; toggleEditarMascota()" label="Editar" type="button" class=" w-full mr-3 p-button-veterinariaOrange p-button-raised p-button-sm" ></button>
                 </div>
 
               </div>
@@ -73,9 +68,19 @@
 
 
 
-  <div *ngIf="editarModal">
-    <p-dialog  header="Edicion de mascota" [(visible)]="editarModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
-      <app-editar-mascota (editarModal)="toggleEditar()" [idMascota]="cardMascotaId"></app-editar-mascota>
+  <div *ngIf="editarModalMascota">
+    <p-dialog  header="Edicion de mascota" [(visible)]="editarModalMascota" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+      <app-editar-mascota (editarModal)="toggleEditarMascota()" [idMascota]="cardMascotaId"></app-editar-mascota>
+    </p-dialog>
+  </div>
+  <div *ngIf="editarModalUser">
+    <p-dialog  header="Edicion de cliente" [(visible)]="editarModalUser" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+      <app-editar (editarModal)="toggleEditarUser()" [idUser]="user.id"></app-editar>
+    </p-dialog>
+  </div>
+  <div *ngIf="editarModalPassword">
+    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+      <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
     </p-dialog>
   </div>
 

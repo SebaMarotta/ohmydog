@@ -20,9 +20,11 @@ import { DialogModule } from 'primeng/dialog';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MascotasModule } from '../mascotas/mascotas.module';
+import { EditarComponent } from './pages/editar/editar.component';
+import { EditarPasswordComponent } from './pages/editar-password/editar-password.component';
 
 @NgModule({
-  declarations: [HomeComponent, PerfilComponent, RegistroComponent],
+  declarations: [HomeComponent, PerfilComponent, RegistroComponent, EditarComponent, EditarPasswordComponent],
   imports: [
     CommonModule,
     ClientesRoutingModule,

@@ -42,7 +42,6 @@ export class AuthService {
       const ok = this.tokenIsValid(token, username);
       ok.subscribe({
         next: (resp) => {
-
           if (resp) {
             this.getUserSession(username).subscribe((resp) => {
               this._user$.next(resp);
@@ -56,6 +55,14 @@ export class AuthService {
 
   get userSession(): BehaviorSubject<User> {
     return this._user$;
+  }
+
+  get isAuthenticated(): Boolean {
+    return this._user$.value != null;
+  }
+
+  get isAdmin(): Boolean {
+    return this._user$.value.role == 'ADMIN';
   }
 
   login(username: String, password: String): Observable<AuthResponse> {

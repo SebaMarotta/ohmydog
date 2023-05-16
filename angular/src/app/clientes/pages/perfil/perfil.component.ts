@@ -17,8 +17,10 @@ export class PerfilComponent implements OnInit {
   protected mascotas: Mascota[] = [];
   protected registroModal: Boolean = false;
   protected sexos: any = ['MACHO', 'HEMBRA'];
-  protected rolSession: any;
-  protected editarModal: Boolean = false;
+  protected rolSession: any = '';
+  protected editarModalMascota: Boolean = false;
+  protected editarModalUser: Boolean = false;
+  protected editarModalPassword: Boolean = false;
   protected cardMascotaId: number;
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,7 +30,6 @@ export class PerfilComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    this.rolSession = this.authService.userSession.getValue()['role'];
     this.activatedRoute.params.subscribe((resp) => {
       this.id = resp['id'];
       this.userService.findById(this.id).subscribe((resp) => {
@@ -37,6 +38,7 @@ export class PerfilComponent implements OnInit {
     });
     this.mascotaService.getMascotasUser(this.id).subscribe((resp) => {
       this.mascotas = resp;
+      this.rolSession = this.authService.userSession.getValue()['role'];
     });
   }
   redireccionar(mascota: Number) {
@@ -47,7 +49,15 @@ export class PerfilComponent implements OnInit {
     this.registroModal = !this.registroModal;
   }
 
-  toggleEditar() {
-    this.editarModal = !this.editarModal;
+  toggleEditarUser() {
+    this.editarModalUser = !this.editarModalUser;
+  }
+
+  toggleEditarMascota() {
+    this.editarModalMascota = !this.editarModalMascota;
+  }
+
+  toggleEditarPassword() {
+    this.editarModalPassword = !this.editarModalPassword;
   }
 }

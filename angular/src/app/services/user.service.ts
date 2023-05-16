@@ -90,4 +90,14 @@ export class UserService implements OnInit {
     const body = user;
     return this.http.post<any>(url, body);
   }
+
+  edit(user: User): Observable<User> {
+    const url = `${this.baseUrl}/user/edit/${user.id}`;
+    return this.http.put<User>(url, user);
+  }
+
+  editPassword(password: string, id: Number): Observable<Boolean> {
+    const url = `${this.baseUrl}/user/edit-password/${id}`;
+    return this.http.put<Boolean>(url, password);
+  }
 }

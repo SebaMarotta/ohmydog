@@ -1,5 +1,6 @@
 package com.leafcompany.ohmydog.service;
 
+import com.leafcompany.ohmydog.RequestResponse.EditUserRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.enumerations.Role;
 import com.leafcompany.ohmydog.entity.User;
@@ -36,5 +37,19 @@ public class UserService {
 
     public Optional<User> findById(Long id){
         return userRepository.findById(id);
+    }
+    public User editUser(EditUserRequest user) {
+        User aux = userRepository.findById(user.getId()).get();
+        aux.setNombre(user.getNombre());
+        aux.setApellido(user.getApellido());
+        aux.setEmail(user.getEmail());
+        aux.setTelefono(user.getTelefono());
+        return userRepository.save(aux);
+    }
+
+    public User editPassword(String password, Long id) {
+        User aux = userRepository.findById(id).get();
+        aux.setPassword(passwordEncoder.encode(password));
+        return userRepository.save(aux);
     }
 }

@@ -23,7 +23,7 @@
             <a class="nav-link" href="/mascotas">Mis mascotas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/perfil">Mi perfil</a>
+            <a class="nav-link" href="/clientes/{{user$.getValue()['id']}}">Mi perfil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" (click)="logout()"  href="">Cerrar sesión</a>
