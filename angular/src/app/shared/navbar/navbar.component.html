@@ -20,10 +20,16 @@
       <div *ngIf="_role == 'USER'" class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto justify-content-center" [ngClass]="{'': _home, 'flex-grow-1': !_home}">
           <li class="nav-item">
-            <a class="nav-link" href="/mascotas">Mis mascotas</a>
+            <a class="nav-link" routerLink="turnos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Mis turnos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/clientes/{{user$.getValue()['id']}}">Mi perfil</a>
+            <a class="nav-link" routerLink="cartelera" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cartelera</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="donaciones" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Donaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  routerLink="clientes/{{user$.value.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Mi perfil</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" (click)="logout()"  href="">Cerrar sesión</a>
@@ -40,11 +46,12 @@
           <a class="nav-link" routerLink="turnos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Turnos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="turnos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Turnos pendientes</a>
+          <a class="nav-link" routerLink="cartelera" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cartelera</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="perfil"  routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Mi perfil</a>
+          <a class="nav-link" routerLink="donaciones" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Donaciones</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" (click)="logout()"  href="">Cerrar sesión</a>
         </li>

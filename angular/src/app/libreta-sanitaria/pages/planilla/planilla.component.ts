@@ -108,7 +108,7 @@ export class PlanillaComponent implements OnInit {
     this.planilla = this.formulario.value;
     this.planilla.motivo = this.planilla.motivo['motivo'];
 
-    console.log(this.planilla);
+
     return this.turnoService
       .setPlanilla(this.planilla, this.idMascota)
       .pipe(

@@ -1,6 +1,14 @@
+<div *ngIf="solicitudModal">
+  <p-dialog  header="Solicitud de turno" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <app-turnos-mascotas (solicitudModal)="toggleSolicitud()" [idMascota]="mascota.id" [idUser]="idUser"></app-turnos-mascotas>
+  </p-dialog>
+  </div>
+
+<div *ngIf="planillaModal">
 <p-dialog  header="Rellenar planilla" [(visible)]="planillaModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
   <app-planilla (planillaModal)="togglePlanilla()" [idMascota]="mascota.id"></app-planilla>
 </p-dialog>
+</div>
 
 <div class="parent">
   <div class="div1 justify-content-center mx-auto py-3" style="margin-bottom: 1cm;">
@@ -16,11 +24,16 @@
               <p-divider layout="vertical">
               </p-divider>
             </div>
-            <div class="col-md-5">
-              <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ mascota.nombre }} </span><br>
-              <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ mascota.raza }} </span><br>
-              <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ mascota.sexo }} </span><br>
-              <span class="uppercase text-base px-2 text-green-900 bg-green-300 rounded"> {{ mascota.fechaDeNacimiento }} </span><br>
+
+            <div class="flex flex-column gap-0 text-center" style="margin-left: 3vw;">
+              <small id="username-help">Nombre</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.nombre }}" readonly disabled />
+              <small id="username-help">Raza</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.raza }}" readonly disabled />
+              <small id="username-help">Sexo</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.sexo }}" readonly disabled />
+              <small id="username-help">Fecha de nacimiento</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento }}" readonly disabled />
             </div>
           </div>
         </div>
@@ -28,32 +41,27 @@
           <p-divider layout="vertical">
           </p-divider>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <p class="text-center lead font-bold">
             Observaciones<br>
           </p>
-          <p-scrollPanel [style]="{ width: '115%', height: '110px' }">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
-                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-            </p>
-            <p class="m-0">
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui
-                officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus.
-            </p>
+          <p-scrollPanel class="observaciones" [style]="{ width: '115%', height: '120px' }">
+
+            {{mascota.observaciones}}
         </p-scrollPanel>
         </div>
         <div class="col-1" style="height: 18vh;">
           <p-divider layout="vertical">
           </p-divider>
         </div>
-        <div class="col-md-3">
-          <button pButton  pRipple label="Rellenar planilla" (click)="togglePlanilla()" class="text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
+        <div class="col-1">
+        <div *ngIf="rolSession == 'ADMIN'">
+             <button pButton  pRipple label="Rellenar planilla" (click)="togglePlanilla()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
         </div>
+        <div *ngIf="rolSession == 'USER'">
+             <button pButton  pRipple label="Solicitar turno" (click)="toggleSolicitud()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -67,8 +75,8 @@
 
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Motivo</th>
-                    <th>Fecha</th>
+                  <th>Fecha</th>
+                  <th>Motivo</th>
                     <th>ACCIONES</th>
 
                 </tr>
@@ -81,7 +89,7 @@
 
                 <tr>
                     <td>
-                        {{ mascota.fecha }}
+                        {{ mascota.fecha | date:'d MMM yy' }}
                     </td>
                     <td>
                         {{ mascota.motivo }}

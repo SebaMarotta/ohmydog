@@ -99,7 +99,7 @@ export class RegistroComponent {
         })
       )
       .subscribe((resp) => {
-        this.router.navigateByUrl('/clientes');
+        this.router.navigateByUrl(`/clientes/${resp.id}`);
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

@@ -24,12 +24,14 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.module';
 import { EditarMascotaComponent } from './pages/editar-mascota/editar-mascota.component';
+import { TurnosMascotasComponent } from './pages/turnos-mascotas/turnos-mascotas.component';
 
 @NgModule({
   declarations: [
     PerfilMascotaComponent,
     RegistroMascotaComponent,
     EditarMascotaComponent,
+    TurnosMascotasComponent,
   ],
   imports: [
     CommonModule,

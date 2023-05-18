@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MascotaService } from 'src/app/services/mascota.service';
 import { Mascota } from '../../interfaces/interfaces';
 import { TurnoService } from 'src/app/services/turno.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-perfil-mascota',
@@ -24,12 +25,17 @@ export class PerfilMascotaComponent {
   };
   protected libretaSanitaria: any;
   protected planillaModal: Boolean = false;
+  protected solicitudModal: Boolean = false;
+  protected rolSession: string;
+  protected idUser: number;
+  protected observaciones: string[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private mascotaService: MascotaService,
     private turnoService: TurnoService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((resp) => {
@@ -40,6 +46,8 @@ export class PerfilMascotaComponent {
       this.turnoService.getPlanilla(id).subscribe((resp) => {
         this.libretaSanitaria = resp;
       });
+      this.rolSession = this.authService.userSession.getValue()['role'];
+      this.idUser = this.authService.userSession.getValue()['id'];
     });
   }
   redireccionar(mascota: Number) {
@@ -48,4 +56,9 @@ export class PerfilMascotaComponent {
   togglePlanilla() {
     this.planillaModal = !this.planillaModal;
   }
+  toggleSolicitud() {
+    this.solicitudModal = !this.solicitudModal;
+  }
+
+  espaciarObservacion() {}
 }

@@ -72,6 +72,7 @@ export class AuthService {
       tap((resp) => {
         if (resp.ok) {
           localStorage.setItem('token', JSON.stringify(resp.token));
+          localStorage.setItem('index', JSON.stringify(0));
           this.getUserSession(username).subscribe((resp) => {
             this._user$.next(resp);
           });

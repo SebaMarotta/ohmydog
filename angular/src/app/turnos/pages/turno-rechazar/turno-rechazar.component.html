@@ -1,0 +1,20 @@
+
+<div class="text-center justify-content-center">
+  <h6>Mascota</h6>
+  <h5>{{turnoRechazado.mascota.nombre}}</h5><br>
+  <h6>Dueño</h6>
+  <h5>{{turnoRechazado.cliente.nombre}} {{turnoRechazado.cliente.apellido}}</h5><br>
+  <h6>Motivo</h6>
+  <h5>{{turnoRechazado.motivo}}</h5><br>
+  <h6>Turno</h6>
+  <h5>{{turnoRechazado.fecha | date:'d MMM, h:mm '}}</h5><br>
+</div>
+  <form [formGroup]="formulario">
+    <textarea rows="5" cols="30" pInputTextarea formControlName="motivo"></textarea>
+  <p><br></p>
+  <span *ngIf="isValidField('motivo')" class="form-text text-danger">
+    {{ getFieldError('motivo') }}
+  </span>
+  </form>
+  <p><br></p>
+<p-button (click)="guardar()" icon="pi pi-check" label="Rechazar Turno" styleClass="p-button-success p-button-text"></p-button>

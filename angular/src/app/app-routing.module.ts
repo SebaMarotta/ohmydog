@@ -16,7 +16,11 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./clientes/clientes.module').then((m) => m.ClientesModule),
-    canActivate: [],
+  },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./turnos/turnos.module').then((m) => m.TurnosModule),
   },
 ];
 

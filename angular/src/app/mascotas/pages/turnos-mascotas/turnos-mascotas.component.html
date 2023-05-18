@@ -1,0 +1,29 @@
+
+<p>
+  Turno mañana: 8hs a 13hs, Lunes a Sabado<br>
+  Turno tarde: 15hs a 20hs, Lunes a Viernes
+</p>
+<form [formGroup]="formulario" >
+
+  <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo"></p-dropdown>
+  <span *ngIf="isValidField('motivo')" class="form-text text-danger">
+    {{ getFieldError('motivo') }}
+  </span>
+
+  <p-dropdown styleClass="w-full mt-4" formControlName="horario" [options]="horarios" placeholder="Horario" [editable]="false" optionLabel="horario"></p-dropdown>
+  <span *ngIf="isValidField('horario')" class="form-text text-danger">
+    {{ getFieldError('horario') }}
+  </span>
+
+  <button pButton  pRipple label="Guardar" (click)="guardar()" class="w-full mt-4 text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+  <button pButton  pRipple label="Cerrar" (click)="cerrar()" class="mt-1 w-full text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+
+</form>
+
+
+
+
+
+
+
+

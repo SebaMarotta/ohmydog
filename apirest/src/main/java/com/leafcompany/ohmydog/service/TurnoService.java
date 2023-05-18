@@ -3,7 +3,13 @@ package com.leafcompany.ohmydog.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.leafcompany.ohmydog.RequestResponse.RegisterTurnoRequest;
+import com.leafcompany.ohmydog.entity.Mascota;
+import com.leafcompany.ohmydog.entity.SolicitudDeTurno;
+import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.repository.MascotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.leafcompany.ohmydog.enumerations.MotivosTurnos;
@@ -19,17 +25,40 @@ public class TurnoService {
     @Autowired
     private TurnoRepository turnoRepository;
 
+    @Autowired
+    private MascotaService mascotaService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private SolicitudDeTurnoService solicitudDeTurnoService;
+
+
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el turno creado
-    public Turno crearTurno(Turno turno, Long idCliente, Long idMascota) throws MiException {
+    public Turno crearTurno(RegisterTurnoRequest request) throws MiException {
+        Mascota mascota = this.mascotaService.findById(request.getIdMascota()).get();
+        User user = this.userService.findById(request.getIdUser()).get();
 
-        this.validarDatos(turno.getMotivo().toString(), idCliente, idMascota);
-
-        turnoRepository.save(turno);
-        return turno;
+        try {
+            var turno = Turno
+                    .builder()
+                    .mascota(mascota)
+                    .cliente(user)
+                    .activo(true)
+                    .fecha(request.getFecha())
+                    .motivo(MotivosTurnos.valueOf(request.getMotivo()))
+                    .build();
+            return this.turnoRepository.save(turno);
+        } catch (DataAccessException e){
+            throw(e);
+        }
     }
 
+    public Turno editar (Turno request){
+        return turnoRepository.save(request);
+    }
 
     @Transactional
     public void cancelarTurno(Long id) throws MiException{
@@ -45,7 +74,7 @@ public class TurnoService {
             }
         }
     }
-   
+
     @Transactional
     public void eliminarTurno(Long id) throws MiException{
         if (id == null){

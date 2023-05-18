@@ -45,6 +45,8 @@ export class EditarComponent {
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
+      dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+      password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
     });
@@ -55,6 +57,8 @@ export class EditarComponent {
       this.formulario.patchValue({
         nombre: this.userActual.nombre,
         apellido: this.userActual.apellido,
+        dni: this.userActual.dni,
+        password: this.userActual.password,
         email: this.userActual.email,
         telefono: this.userActual.telefono,
       });
@@ -111,7 +115,11 @@ export class EditarComponent {
       .subscribe((resp) => {
         this.cerrar();
 
-        this.router.navigateByUrl(`/clientes/${this.idUser}`);
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(`/clientes/${this.idUser}`);
+          });
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

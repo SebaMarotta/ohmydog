@@ -101,7 +101,7 @@ export class RegistroMascotaComponent {
         })
       )
       .subscribe((resp) => {
-        this.router.navigateByUrl('/clientes');
+        this.router.navigateByUrl(`/clientes/${resp.duenio}/${resp.id}`);
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
