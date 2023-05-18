@@ -101,13 +101,13 @@ export class RegistroMascotaComponent {
         })
       )
       .subscribe((resp) => {
-        this.router.navigateByUrl(`/clientes/${resp.duenio}/${resp.id}`);
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
           detail: `La mascota ${resp.nombre} fue registrada correctamente`,
           closable: false,
         });
+        this.registroModal.emit(false);
       });
   }
 

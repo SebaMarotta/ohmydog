@@ -28,7 +28,7 @@ import { MessageService } from 'primeng/api';
 export class AuthService {
   private baseUrl: string = environment.baseUrl;
   private _ok: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(null);
-  private _user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private _user$: BehaviorSubject<User> = new BehaviorSubject<User>({});
 
   constructor(
     private http: HttpClient,

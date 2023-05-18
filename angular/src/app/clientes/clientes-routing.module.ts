@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'clientes',
     component: BackgroundComponent,
     children: [{ path: '', component: HomeComponent }],
-    canActivate: [isAuthenticatedGuardActivateFn],
+    // canActivate: [isAuthenticatedGuardActivateFn],
   },
   {
     path: 'clientes/:id',

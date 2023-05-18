@@ -42,7 +42,7 @@ export class UserService implements OnInit {
     console.log(token);
     if (token) {
       const username = jwt_decode(token)['sub'];
-      console.log(username);
+      this.getSession(username);
     }
   }
 
