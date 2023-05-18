@@ -11,7 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { SolicitudPendiente } from 'src/app/turnos/interfaces/interfaces';
 import { TurnoService } from 'src/app/services/turno.service';
-import { map } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'app-turnos-pendientes',
@@ -22,6 +22,7 @@ export class TurnosPendientesComponent implements OnInit {
   protected solicitudesPendientes: SolicitudPendiente[] = [];
   protected solicitudAceptadaModal: Boolean = false;
   protected solicitudRechazadaModal: Boolean = false;
+  protected suscripcionRefresh: Subscription;
   protected solicitudIndividual: SolicitudPendiente = {
     id: 0,
     mascota: undefined,
@@ -42,6 +43,16 @@ export class TurnosPendientesComponent implements OnInit {
         this.solicitudesPendientes = resp;
         this.cantidadSolicitudes.emit(`${resp.length}`);
       });
+
+    this.suscripcionRefresh = this.turnoService.refresh$.subscribe(() => {
+      this.turnoService
+        .getTurnosPendientes()
+        .pipe(map((resp) => resp.filter((resp2) => resp2.estado == true)))
+        .subscribe((resp) => {
+          this.solicitudesPendientes = resp;
+          this.cantidadSolicitudes.emit(`${resp.length}`);
+        });
+    });
   }
 
   redireccionar(id: String) {

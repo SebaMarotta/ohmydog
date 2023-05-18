@@ -31,3 +31,12 @@ export interface Turno {
   activo: boolean;
   fecha: Date;
 }
+
+export interface TurnoAceptado {
+  id: number;
+  cliente: User;
+  mascota: Mascota;
+  motivo: string;
+  activo: boolean;
+  fecha: Date;
+}

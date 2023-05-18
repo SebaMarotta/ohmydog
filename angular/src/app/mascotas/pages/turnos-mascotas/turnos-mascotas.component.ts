@@ -122,7 +122,7 @@ export class TurnosMascotasComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `La mascota fue registrada correctamente`,
+          detail: `La solicitud fue enviada correctamente, espere la respuesta de la administracion`,
           closable: false,
         });
       });

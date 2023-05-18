@@ -28,6 +28,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { TurnoPendienteRechazarComponent } from './pages/turno-pendiente-rechazar/turno-pendiente-rechazar.component';
 import { TurnoRechazarComponent } from './pages/turno-rechazar/turno-rechazar.component';
 import { TurnoAceptarComponent } from './pages/turno-aceptar/turno-aceptar.component';
+import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.module';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { TurnoAceptarComponent } from './pages/turno-aceptar/turno-aceptar.compo
     TabMenuModule,
     TabViewModule,
     CalendarModule,
+    LibretaSanitariaModule,
   ],
 })
 export class TurnosModule {}

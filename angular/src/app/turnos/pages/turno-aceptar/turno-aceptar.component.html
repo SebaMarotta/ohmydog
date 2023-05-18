@@ -1,1 +1,22 @@
-<p>turno-aceptar works!</p>
+
+<div *ngIf="planillaModal">
+  <p-dialog  header="Rellenar planilla" [(visible)]="planillaModal" [modal]="true" [style]="{ width: '30vw',height: '55vh', maxHeight: '100vh' }"  [draggable]="false" [resizable]="true" [closable]="true">
+    <app-planilla (planillaModal)="togglePlanilla()" [turno]="turnoAceptado"></app-planilla>
+  </p-dialog>
+  </div>
+
+
+
+<div class="text-center justify-content-center">
+  <h6>Mascota</h6>
+  <h5>{{turnoAceptado.mascota.nombre}}</h5><br>
+  <h6>Dueño</h6>
+  <h5>{{turnoAceptado.cliente.nombre}} {{turnoAceptado.cliente.apellido}}</h5><br>
+  <h6>Motivo</h6>
+  <h5>{{turnoAceptado.motivo}}</h5><br>
+  <h6>Turno</h6>
+  <h5>{{turnoAceptado.fecha | date:'d MMM, h:mm '}}</h5><br>
+</div>
+
+  <p><br></p>
+  <p-button (click)="togglePlanilla()" icon="pi pi-check" label="Rellenar planilla" styleClass="p-button-success p-button-text"></p-button>

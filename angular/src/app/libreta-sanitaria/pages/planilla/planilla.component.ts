@@ -22,6 +22,7 @@ import { MascotaService } from 'src/app/services/mascota.service';
 import { TurnoService } from 'src/app/services/turno.service';
 import { Motivos, RegisterPlanillaRequest } from '../../interfaces/interfaces';
 import { DatePipe } from '@angular/common';
+import { Turno } from 'src/app/turnos/interfaces/interfaces';
 
 @Component({
   selector: 'app-planilla',
@@ -37,7 +38,8 @@ export class PlanillaComponent implements OnInit {
 
   @Output() planillaModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() idMascota: number;
+
+  @Input() turno: Turno;
 
   constructor(
     private fb: FormBuilder,
@@ -56,6 +58,7 @@ export class PlanillaComponent implements OnInit {
         [Validators.required, Validators.min(0)],
       ],
     });
+
     this.formulario.get('motivo').valueChanges.subscribe((value) => {
       if (value.motivo === 'DESPARACITACION') {
         this.inputHidden = false;
@@ -69,6 +72,7 @@ export class PlanillaComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+    console.log(this.turno);
     this.turnoService.getMotivosTurno().subscribe((resp) => {
       resp.forEach((resp) => {
         this.motivos.push({ motivo: resp });
@@ -108,9 +112,8 @@ export class PlanillaComponent implements OnInit {
     this.planilla = this.formulario.value;
     this.planilla.motivo = this.planilla.motivo['motivo'];
 
-
     return this.turnoService
-      .setPlanilla(this.planilla, this.idMascota)
+      .setPlanilla(this.planilla, this.turno.mascota.id)
       .pipe(
         map((resp: any) => resp as RegisterPlanillaRequest),
         catchError((e: any) => {
@@ -124,11 +127,35 @@ export class PlanillaComponent implements OnInit {
         })
       )
       .subscribe((resp) => {
-        this.router.navigateByUrl('/clientes');
+        this.turnoService
+          .setTurnoCompletado(this.turno.id)
+          .pipe(
+            map((resp: any) => resp as RegisterPlanillaRequest),
+            catchError((e: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: `${e.error.mensaje}`,
+                detail: `${e.error.error}`,
+                closable: false,
+              });
+              return throwError(e);
+            })
+          )
+          .subscribe((resp) => {
+            // Lo dejo vacio asi se activa pero no necesito que haga nada porque solo da de baja el turno en la base de datos
+          });
+
+        const currentUrl = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(currentUrl);
+          });
+
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `La mascota fue registrada correctamente`,
+          detail: `El turno fue completado correctamente`,
           closable: false,
         });
       });
@@ -138,4 +165,6 @@ export class PlanillaComponent implements OnInit {
     setTimeout(() => this.formGroupDirective.resetForm(), 200);
     this.planillaModal.emit(false);
   }
+
+  private guardado(idMascota) {}
 }

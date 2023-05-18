@@ -14,7 +14,6 @@ import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.EmailService;
 import com.leafcompany.ohmydog.service.SolicitudDeTurnoService;
 import com.leafcompany.ohmydog.service.TurnoService;
-import com.leafcompany.ohmydog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/turno")
@@ -85,9 +83,21 @@ public class TurnoController {
         }
     }
 
+    //Sirve para cuando se rellena la planilla, esto solamente da de baja el turno que ya fue completado
+    @PostMapping("/aceptado")
+    public ResponseEntity<Boolean> turnoAceptado(@RequestBody Long idTurno) {
+        try {
+            Turno turno = this.turnoService.findById(idTurno).get();
+            turno.setActivo(false);
+            this.turnoService.editar(turno);
+            return ResponseEntity.ok(true);
+        } catch (DataAccessException e) {
+            throw e;
+        }
+    }
     @GetMapping("/listar")
     public ResponseEntity<List<Turno>> listarTurnos() {
-        List<Turno> turnos = turnoService.findAll();
+        List<Turno> turnos = turnoService.findAllByOrderByFecha();
         if (turnos != null) {
             return ResponseEntity.ok(turnos);
         } else {

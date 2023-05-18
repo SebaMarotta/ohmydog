@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   RegisterPlanillaRequest,
@@ -20,6 +20,11 @@ export class TurnoService {
   constructor(private http: HttpClient) {}
 
   private baseUrl: string = environment.baseUrl;
+  private _refresh$ = new Subject<void>();
+
+  get refresh$() {
+    return this._refresh$;
+  }
 
   getMotivosTurno(): Observable<String[]> {
     const url = `${this.baseUrl}/turno/motivos`;
@@ -45,7 +50,11 @@ export class TurnoService {
   }
   setSolicitudTurno(solicitud: SolicitudTurno): Observable<Boolean> {
     const url = `${this.baseUrl}/solicitud-turno/crear`;
-    return this.http.post<any>(url, solicitud);
+    return this.http.post<any>(url, solicitud).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    );
   }
 
   setSolicitudTurnoRechazado(
@@ -58,6 +67,12 @@ export class TurnoService {
   setTurnoRechazado(turno: SolicitudTurnoRechazado): Observable<Boolean> {
     const url = `${this.baseUrl}/turno/rechazar`;
     return this.http.post<any>(url, turno);
+  }
+
+  //Uso la misma estructura de solicitud de turno rechazado pero agrego manualmente como motivo="ok" entonces en spring si el motivo es ok, da de baja el turno y no envia el email
+  setTurnoCompletado(idTurno: number): Observable<Boolean> {
+    const url = `${this.baseUrl}/turno/aceptado`;
+    return this.http.post<any>(url, idTurno);
   }
 
   getTurnosPendientes(): Observable<SolicitudPendiente[]> {

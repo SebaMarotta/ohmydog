@@ -22,4 +22,5 @@ public interface TurnoRepository extends JpaRepository<Turno, Long>  {
     @Query("SELECT t FROM Turno t WHERE t.fecha = :fecha")
     public List<Turno> findByDate(@Param("fecha") Date fecha);
 
+    public List<Turno> findAllByOrderByFecha();
 }

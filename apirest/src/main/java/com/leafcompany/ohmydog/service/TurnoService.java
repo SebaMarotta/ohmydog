@@ -102,6 +102,9 @@ public class TurnoService {
     public List<Turno> findAll(){
         return turnoRepository.findAll();
     }
+    public List<Turno> findAllByOrderByFecha(){
+        return turnoRepository.findAllByOrderByFecha();
+    }
 
 
     public Optional<Turno> findById(Long id){

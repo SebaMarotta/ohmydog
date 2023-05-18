@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -29,8 +30,8 @@ public class PracticaMedica {
     private MotivosTurnos motivo;
 
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date fecha;
+
+    private LocalDateTime fecha;
     private String observaciones;
     @Column(nullable = false)
     private BigDecimal monto;
@@ -39,6 +40,6 @@ public class PracticaMedica {
 
     @PrePersist
     public void prePersist () {
-        fecha = new Date();
+        this.setFecha(LocalDateTime.now());
     }
 }

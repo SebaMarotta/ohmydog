@@ -4,6 +4,8 @@ import { MascotaService } from 'src/app/services/mascota.service';
 import { Mascota } from '../../interfaces/interfaces';
 import { TurnoService } from 'src/app/services/turno.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/clientes/interfaces/interfaces';
 
 @Component({
   selector: 'app-perfil-mascota',
@@ -26,7 +28,9 @@ export class PerfilMascotaComponent {
   protected libretaSanitaria: any;
   protected planillaModal: Boolean = false;
   protected solicitudModal: Boolean = false;
-  protected rolSession: string;
+  protected user$: BehaviorSubject<User> = this.authService.userSession;
+  protected rolSession = '';
+
   protected idUser: number;
   protected observaciones: string[];
 
@@ -38,6 +42,9 @@ export class PerfilMascotaComponent {
     private authService: AuthService
   ) {}
   ngOnInit(): void {
+    this.user$.subscribe((resp) => {
+      if (this.user$.value != null) this.rolSession = resp.role;
+    });
     this.activatedRoute.params.subscribe((resp) => {
       const id = resp['idMascota'];
       this.mascotaService.findById(id).subscribe((resp) => {

@@ -4,11 +4,6 @@
   </p-dialog>
   </div>
 
-<div *ngIf="planillaModal">
-<p-dialog  header="Rellenar planilla" [(visible)]="planillaModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
-  <app-planilla (planillaModal)="togglePlanilla()" [idMascota]="mascota.id"></app-planilla>
-</p-dialog>
-</div>
 
 <div class="parent">
   <div class="div1 justify-content-center mx-auto py-3" style="margin-bottom: 1cm;">
@@ -55,9 +50,7 @@
           </p-divider>
         </div>
         <div class="col-1">
-        <div *ngIf="rolSession == 'ADMIN'">
-             <button pButton  pRipple label="Rellenar planilla" (click)="togglePlanilla()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
-        </div>
+
         <div *ngIf="rolSession == 'USER'">
              <button pButton  pRipple label="Solicitar turno" (click)="toggleSolicitud()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
         </div>
@@ -89,7 +82,7 @@
 
                 <tr>
                     <td>
-                        {{ mascota.fecha | date:'d MMM yy' }}
+                        {{ mascota.fecha | date:'d MMM yy, HH:mm' }}
                     </td>
                     <td>
                         {{ mascota.motivo }}
