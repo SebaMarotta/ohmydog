@@ -1,3 +1,11 @@
 p-dialog {
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2);
 }
+
+p-table th:first-child{
+  border-radius:10px 0 0 0px;
+}
+
+p-table th:last-child{
+  border-radius:0px 10px 0px 0;
+}

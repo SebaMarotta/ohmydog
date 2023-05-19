@@ -4,23 +4,16 @@
   </p-dialog>
   </div>
 
+  <div class="container-fluid div1 justify-content-center mx-auto py-3">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 13vw;" class="rounded">
 
-<div class="parent">
-  <div class="div1 justify-content-center mx-auto py-3" style="margin-bottom: 1cm;">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="row">
-            <div class="col-md-5">
-              <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 13vw;" class="rounded">
-
-            </div>
-            <div class="col-1" style="height: 18vh;">
-              <p-divider layout="vertical">
-              </p-divider>
-            </div>
-
-            <div class="flex flex-column gap-0 text-center" style="margin-left: 3vw;">
+          </div>
+          <div class="col-md-3">
+            <div class="flex flex-column gap-0 text-center">
               <small id="username-help">Nombre</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.nombre }}" readonly disabled />
               <small id="username-help">Raza</small>
@@ -31,35 +24,27 @@
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento }}" readonly disabled />
             </div>
           </div>
-        </div>
-        <div class="col-1" style="height: 18vh;">
-          <p-divider layout="vertical">
-          </p-divider>
-        </div>
-        <div class="col-md-4">
-          <p class="text-center lead font-bold">
-            Observaciones<br>
-          </p>
-          <p-scrollPanel class="observaciones" [style]="{ width: '115%', height: '120px' }">
+          <div class="col-md-6">
+            <p class="text-center lead font-bold">
+              Observaciones<br>
+            </p>
+            <p-scrollPanel class="observaciones" [style]="{ width: '130%', height: '120px' }">
 
-            {{mascota.observaciones}}
-        </p-scrollPanel>
+              {{mascota.observaciones}}
+          </p-scrollPanel>
+          </div>
         </div>
-        <div class="col-1" style="height: 18vh;">
-          <p-divider layout="vertical">
-          </p-divider>
-        </div>
-        <div class="col-1">
-
-        <div *ngIf="rolSession == 'USER'">
-             <button pButton  pRipple label="Solicitar turno" (click)="toggleSolicitud()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
-        </div>
-      </div>
       </div>
     </div>
   </div>
+<div class="parent">
 
-  <div *ngIf="libretaSanitaria">
+  <div *ngIf="rolSession == 'USER'" style="margin-bottom: 1rem;">
+    <button pButton  pRipple label="Solicitar turno" (click)="toggleSolicitud()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm" style="width: 80%;"></button>
+  </div>
+
+<div class="mx-auto lista">
+  <div *ngIf="libretaSanitaria.length > 0">
     <p-table
             responsiveLayout="scroll"
             [value]="libretaSanitaria"
@@ -95,12 +80,12 @@
             </ng-template>
         </p-table>
       </div>
-      <div *ngIf="!libretaSanitaria" class="w-full text-0 font-bold text-center" style="background-color: rgb(0,0,0,0.4); border-radius: 20px;">
+      <div *ngIf="libretaSanitaria.length == 0" class="w-full  font-bold text-center" style="background-color: rgb(255,255,255,1); border-radius: 20px;">
         No se encuentra ninguna practica registrada de {{mascota.nombre}}
         </div>
 
       </div>
     <!-- </div> -->
-
+  </div>
 
 

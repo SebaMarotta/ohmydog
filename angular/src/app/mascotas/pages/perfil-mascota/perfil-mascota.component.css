@@ -1,9 +1,13 @@
 
   .div1 {
     background-color: rgb(255, 255, 255);
-    width: 100vw;
+    width: 70vw;
     height: 23vh;
+
+    margin-bottom: 1cm;
     border-radius: 20px;
+    box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+    margin-top: 1cm;
   }
   .div2 {
     height: 100vh;
@@ -89,10 +93,43 @@ input:disabled {
   background-color: #f0ede7; /* Cambiar el color de fondo cuando está deshabilitado */
   border-radius: 20px;
   height: 0.6cm;
+  width: 16vw;
 }
 
 
 input::placeholder {
   color: rgb(7, 7, 7);
   height: 4vh;
+
+}
+
+.lista {
+  width: 70vw;
+  border-radius: 20px;
+  margin-bottom: 0rem;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+  margin-top: 1cm;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  margin-right: 10cm;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(85, 75, 75);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #F1965B;
 }

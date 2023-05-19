@@ -4,6 +4,10 @@
     width: 45vw;
     height: 20vh;
     border-radius: 20px;
+
+    margin-bottom: 0rem;
+    box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+    margin-top: 1cm;
   }
   .div2 {
     height: 80vh;
@@ -55,19 +59,6 @@
      background-color: transparent !important;
     }
 
-    .card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 20px;
-  justify-content: space-around;
-}
-.card {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
 
 button {
   margin-bottom: 1rem;
@@ -86,3 +77,66 @@ input::placeholder {
   height: 2vh;
 }
 
+.album {
+  /* Add your album styles here */
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+
+}
+
+.card-item {
+  flex: 0 0 calc(20% - 20px);
+  border-radius: 20px;
+  margin-bottom: 0rem;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+  margin-top: 0cm; /* Adjust the width as per your requirement */
+
+}
+
+.card {
+  padding: 0cm;
+  border-width: 0cm;
+  border-radius: 20px;
+  margin-bottom: 0rem;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+  margin-top: 0cm;
+}
+
+.card-img {
+  max-width: 100%;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  height: auto;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-text {
+  text-align: center;
+}
+
+.card-buttons {
+  display:inline-block;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.card-button {
+  width: 100%;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #ff8c00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
-<button pButton  pRipple label="Agregar +" (click)="toggleRegistro()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+<div class="container mx-auto">
+<button pButton  pRipple label="Agregar cliente +" (click)="toggleRegistro()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
 
 <p-dialog header="Registro de cliente" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
   <app-registro  (registroModal)="toggleRegistro()"></app-registro>
@@ -46,3 +47,4 @@
   <div *ngIf="clientes.length == 0 || clientes == null" class="w-full text-0 font-bold text-center" style="background-color: rgb(255,255,255,1); border-radius: 20px; margin-top: 0.6cm;">
     No hay ningun cliente registrado
     </div>
+  </div>
