@@ -10,13 +10,20 @@
   <h5>{{solicitud.horario}}</h5><br>
 </div>
   <form [formGroup]="formulario">
-  <div class="calendar-container">
-    <p-calendar formControlName="fecha" panelStyleClass="panel" [minDate]="minDate" [readonlyInput]="true" [showTime]="true" [showIcon]="true" dateFormat="dd-mm-yy" ></p-calendar>
-  </div>
+
+    <p-calendar formControlName="fecha" panelStyleClass="panel" [minDate]="minDate" [readonlyInput]="true" [showTime]="true" [showIcon]="true" dateFormat="dd-mm-yy" [readonlyInput]="true"></p-calendar>
+
   <p><br></p>
   <span *ngIf="isValidField('fecha')" class="form-text text-danger">
     {{ getFieldError('fecha') }}
   </span>
   </form>
   <p><br></p>
-<p-button (click)="guardar()" icon="pi pi-check" label="Aceptar turno" styleClass="p-button-success p-button-text"></p-button>
+
+<div class="d-flex justify-content-center align-items-center">
+  <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Aceptar solicitud" class="p-button-success p-button-text text-center"></button>
+</div>
+
+<div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+<p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+</div>

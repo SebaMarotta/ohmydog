@@ -65,35 +65,6 @@ export class TurnoAceptarComponent {
     return null;
   }
 
-  guardar() {
-    this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
-
-    //   return this.turnoService
-    //     .setTurnoRechazado(this.turno)
-    //     .pipe(
-    //       map((resp: any) => resp as Boolean),
-    //       catchError((e: any) => {
-    //         this.messageService.add({
-    //           severity: 'error',
-    //           summary: `${e.error.mensaje}`,
-    //           detail: `${e.error.error}`,
-    //           closable: false,
-    //         });
-    //         return throwError(e);
-    //       })
-    //     )
-    //     .subscribe((resp) => {
-    //       location.reload();
-    //       this.turnoRechazadoModal.emit();
-    //       this.messageService.add({
-    //         severity: 'success',
-    //         summary: 'Operacion completada',
-    //         detail: `El turno fue rechazado correctamente`,
-    //         closable: false,
-    //       });
-    //     });
-  }
   togglePlanilla() {
     this.planillaModal = !this.planillaModal;
   }

@@ -11,10 +11,15 @@
 </div>
   <form [formGroup]="formulario">
     <textarea rows="5" cols="30" pInputTextarea formControlName="motivo"></textarea>
-  <p><br></p>
   <span *ngIf="isValidField('motivo')" class="form-text text-danger">
     {{ getFieldError('motivo') }}
   </span>
   </form>
-  <p><br></p>
-<p-button (click)="guardar()" icon="pi pi-check" label="Rechazar Turno" styleClass="p-button-success p-button-text"></p-button>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Rechazar turno" class="p-button-success p-button-text text-center"></button>
+  </div>
+
+  <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+  <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+  </div>

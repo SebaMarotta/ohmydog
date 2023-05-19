@@ -20,10 +20,11 @@ p-calendar {
   z-index: 1;
 }
 
-p-button {
+button {
   display: flex;
-  justify-content: center;}
-
+  justify-content: center;
+  width: 12rem;
+}
 
   textarea{
     white-space:pre;

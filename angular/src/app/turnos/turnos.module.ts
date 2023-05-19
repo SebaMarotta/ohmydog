@@ -29,6 +29,8 @@ import { TurnoPendienteRechazarComponent } from './pages/turno-pendiente-rechaza
 import { TurnoRechazarComponent } from './pages/turno-rechazar/turno-rechazar.component';
 import { TurnoAceptarComponent } from './pages/turno-aceptar/turno-aceptar.component';
 import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.module';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.m
     TabViewModule,
     CalendarModule,
     LibretaSanitariaModule,
+    ProgressSpinnerModule,
   ],
 })
 export class TurnosModule {}

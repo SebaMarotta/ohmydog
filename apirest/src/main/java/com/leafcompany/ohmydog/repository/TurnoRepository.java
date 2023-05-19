@@ -1,6 +1,8 @@
 package com.leafcompany.ohmydog.repository;
 import com.leafcompany.ohmydog.entity.Turno;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -22,5 +24,6 @@ public interface TurnoRepository extends JpaRepository<Turno, Long>  {
     @Query("SELECT t FROM Turno t WHERE t.fecha = :fecha")
     public List<Turno> findByDate(@Param("fecha") Date fecha);
 
+    public List<Turno> findAllByFechaBetweenOrderByFecha(LocalDateTime inicioDelDia, LocalDateTime finDelDia);
     public List<Turno> findAllByOrderByFecha();
 }

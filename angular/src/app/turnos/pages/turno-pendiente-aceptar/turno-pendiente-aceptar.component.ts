@@ -50,6 +50,8 @@ export class TurnoPendienteModalComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() solicitud: SolicitudPendiente;
 
+  protected isButtonDisabled: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -89,7 +91,11 @@ export class TurnoPendienteModalComponent implements OnInit {
 
   guardar() {
     this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
+    this.isButtonDisabled = true;
+    if (this.formulario.invalid) {
+      this.isButtonDisabled = false;
+      return null;
+    }
 
     this.turno.idMascota = this.solicitud.mascota.id;
     this.turno.idUser = this.solicitud.user.id;
@@ -112,7 +118,11 @@ export class TurnoPendienteModalComponent implements OnInit {
         })
       )
       .subscribe((resp) => {
-        location.reload();
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(`/turnos`);
+          });
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

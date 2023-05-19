@@ -51,7 +51,7 @@
     </div>
 
     <div *ngIf="solicitudAceptadaModal">
-    <p-dialog header="Header" [(visible)]="solicitudAceptadaModal" [style]="{ width: '20vw' }">
+    <p-dialog header="Header" [(visible)]="solicitudAceptadaModal" [style]="{ width: '20vw' }" [resizable]="false">
       <ng-template pTemplate="header">
         <span class="text-xl font-bold">Aceptar solicitud</span>
       </ng-template>
@@ -62,9 +62,9 @@
     </div>
 
     <div *ngIf="solicitudRechazadaModal">
-      <p-dialog header="Header" [(visible)]="solicitudRechazadaModal" [style]="{ width: '22vw' }">
+      <p-dialog header="Header" [(visible)]="solicitudRechazadaModal" [style]="{ width: '22vw' }" [resizable]="false" >
         <ng-template pTemplate="header">
-          <span class="text-xl font-bold">Aceptar solicitud</span>
+          <span class="text-xl font-bold">Rechazar solicitud</span>
         </ng-template>
         <div class="w-full mx-auto">
         <app-turno-pendiente-rechazar (solicitudRechazadaModal)="toggleSolicitudRechazada( $event )" [solicitud]="solicitudIndividual"></app-turno-pendiente-rechazar>

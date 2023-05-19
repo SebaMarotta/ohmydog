@@ -18,5 +18,8 @@
   <h5>{{turnoAceptado.fecha | date:'d MMM, h:mm '}}</h5><br>
 </div>
 
-  <p><br></p>
-  <p-button (click)="togglePlanilla()" icon="pi pi-check" label="Rellenar planilla" styleClass="p-button-success p-button-text"></p-button>
+
+<div class="d-flex justify-content-center align-items-center">
+  <button pButton style="margin: 0 auto;" (click)="togglePlanilla()" icon="pi pi-check" iconPos="right" label="Rellenar planilla" class="p-button-success p-button-text text-center"></button>
+</div>
+

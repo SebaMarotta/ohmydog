@@ -35,7 +35,7 @@ export class TurnosDiaComponent {
 
   ngOnInit() {
     this.turnoService
-      .getTurnos()
+      .getTurnosDelDia()
       .pipe(map((resp) => resp.filter((resp2) => resp2.activo == true)))
       .subscribe((resp) => {
         this.turnos = resp;

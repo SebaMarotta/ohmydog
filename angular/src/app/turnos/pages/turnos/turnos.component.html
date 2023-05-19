@@ -32,7 +32,7 @@
                       {{ turno.motivo }}
                   </td>
                   <td>
-                    {{ turno.fecha | date:'d MMM, h:mm '}}
+                    {{ turno.fecha | date:'d MMM, HH:mm '}}
                 </td>
                   <td>
                     <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-check" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>

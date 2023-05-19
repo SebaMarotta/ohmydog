@@ -1,5 +1,7 @@
 package com.leafcompany.ohmydog.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,6 +106,10 @@ public class TurnoService {
     }
     public List<Turno> findAllByOrderByFecha(){
         return turnoRepository.findAllByOrderByFecha();
+    }
+
+    public List<Turno> findAllByFechaBetweenOrderByFecha(LocalDateTime fechaInicio, LocalDateTime fechaFin){
+        return turnoRepository.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
     }
 
 

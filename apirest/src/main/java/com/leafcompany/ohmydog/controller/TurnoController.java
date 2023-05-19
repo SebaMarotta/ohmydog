@@ -22,6 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Controller
@@ -44,6 +48,9 @@ public class TurnoController {
 
     @PostMapping("/crear")
     public ResponseEntity<Turno> crearTurno(@RequestBody RegisterTurnoRequest turno) throws MiException {
+
+       turno.setFecha(turno.getFecha().minusHours(3));
+
         try {
             Turno aux = turnoService.crearTurno(turno);
             SolicitudDeTurno solicitud = this.solicitudDeTurnoService.findById(turno.getIdSolicitud()).get();
@@ -56,7 +63,7 @@ public class TurnoController {
             String cuerpo = "El turno de " + mascota.getNombre() + " con motivo " + solicitud.getMotivo() + " fue aceptado para el dia: " + turno.getFecha();
             emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(aux);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new Turno());
         } catch (DataAccessException e) {
             throw e;
         }
@@ -98,6 +105,22 @@ public class TurnoController {
     @GetMapping("/listar")
     public ResponseEntity<List<Turno>> listarTurnos() {
         List<Turno> turnos = turnoService.findAllByOrderByFecha();
+        if (turnos != null) {
+            return ResponseEntity.ok(turnos);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @GetMapping("/listarDia")
+    public ResponseEntity<List<Turno>> listarTurnosDia() {
+        LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 0,0);
+        LocalDateTime fechaFin = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
+
+        System.out.println("fechaInicio = " + fechaInicio);
+        System.out.println("fechaFin = " + fechaFin);
+
+        List<Turno> turnos = turnoService.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
+        System.out.println("turnos" + turnos);
         if (turnos != null) {
             return ResponseEntity.ok(turnos);
         } else {

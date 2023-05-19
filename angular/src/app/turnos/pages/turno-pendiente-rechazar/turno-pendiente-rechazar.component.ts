@@ -45,6 +45,7 @@ export class TurnoPendienteRechazarComponent {
 
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() solicitud: SolicitudPendiente;
+  isButtonDisabled: Boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +83,11 @@ export class TurnoPendienteRechazarComponent {
 
   guardar() {
     this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
+    this.isButtonDisabled = true;
+    if (this.formulario.invalid) {
+      this.isButtonDisabled = false;
+      return null;
+    }
 
     this.turno.idSolicitud = this.solicitud.id;
     this.turno.motivo = this.formulario.value.motivo;
