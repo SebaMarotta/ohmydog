@@ -110,6 +110,10 @@ public class PublicacionAdopcionService {
         return publicacionAdopcionRepository.findByDateAndVisible(fecha);
     }
 
+    public Optional<PublicacionAdopcion> findById(Long id){
+        return publicacionAdopcionRepository.findById(id);
+    }
+
     public List<PublicacionAdopcion> findVisible(){
         return publicacionAdopcionRepository.findVisible();
     }
