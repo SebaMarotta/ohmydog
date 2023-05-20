@@ -147,3 +147,17 @@ input::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: #F1965B;
 }
+.label-perfil{
+  align-self: self-start;
+}
+
+.perfil-field{
+  padding: 0.7rem;
+}
+.contenedor-perfil{
+  height: -webkit-fill-available;
+}
+.observaciones{
+  inline-size: 100px;
+  overflow-wrap: break-word;
+}

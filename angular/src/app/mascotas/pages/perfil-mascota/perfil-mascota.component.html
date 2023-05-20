@@ -4,7 +4,7 @@
   </p-dialog>
   </div>
 
-  <div class="container-fluid div1 justify-content-center mx-auto py-3">
+  <div class="container-fluid div1 justify-content-center mx-auto py-3 contenedor-perfil">
     <div class="row">
       <div class="col-md-12">
         <div class="row">
@@ -14,13 +14,13 @@
           </div>
           <div class="col-md-3">
             <div class="flex flex-column gap-0 text-center">
-              <small id="username-help">Nombre</small>
+              <small id="username-help" class='label-perfil'>Nombre</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.nombre }}" readonly disabled />
-              <small id="username-help">Raza</small>
+              <small id="username-help" class='label-perfil'>Raza</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.raza }}" readonly disabled />
-              <small id="username-help">Sexo</small>
+              <small id="username-help" class='label-perfil'>Sexo</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.sexo }}" readonly disabled />
-              <small id="username-help">Fecha de nacimiento</small>
+              <small id="username-help" class='label-perfil'>Fecha de nacimiento</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento }}" readonly disabled />
             </div>
           </div>
@@ -28,7 +28,7 @@
             <p class="text-center lead font-bold">
               Observaciones<br>
             </p>
-            <p-scrollPanel class="observaciones" [style]="{ width: '130%', height: '120px' }">
+            <p-scrollPanel class="observaciones" [style]="{ width: '100%', height: '120px' }">
 
               {{mascota.observaciones}}
           </p-scrollPanel>
@@ -40,7 +40,7 @@
 <div class="parent">
 
   <div *ngIf="rolSession == 'USER'" class="mx-auto" style="width: 70vw;">
-    <button pButton  pRipple label="Para solicitar un turno clickee aquí" (click)="toggleSolicitud()" class="w-full font-bold text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-lg" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"></button>
+    <button pButton  pRipple label="Para solicitar un TURNO haga click aquí" (click)="toggleSolicitud()" class="w-full font-bold text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-lg" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"></button>
   </div>
 
 <div class="mx-auto lista">
