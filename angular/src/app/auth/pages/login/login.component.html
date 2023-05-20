@@ -1,0 +1,50 @@
+<!-- Define que el documento esta bajo el estandar de HTML 5 -->
+<!doctype html>
+
+<!-- Representa la raíz de un documento HTML o XHTML. Todos los demás elementos deben ser descendientes de este elemento. -->
+<html lang="es">
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <title> Formulario de Acceso </title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="author" content="Videojuegos & Desarrollo">
+        <meta name="description" content="Ejemplo de formulario de acceso basado en HTML5 y CSS">
+        <meta name="keywords" content="login,formulariode acceso html">
+
+        <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div id="contenedor">
+
+            <div id="contenedorcentrado">
+              <div class="titulo">
+                      <img src="assets/imgs/logo1.png" alt="Image" style="max-height: 300px;" class="md:ml-auto md:h-full align-items-center">
+                    </div>
+
+                <div id="derecho" class="px-0">
+
+                  <form id="loginform" [formGroup]="formulario" (ngSubmit)="login()">
+                    <span class="p-float-label" style="margin-bottom: 0.6cm;">
+                      <input pInputText id="username" formControlName="username" required />
+                      <label htmlFor="username" class="text-100" style="text-align: center;">DNI</label>
+                    </span>
+                    <span class="p-float-label">
+                      <input pInputText id="password" class="input-login"  formControlName="password"  type="password" required />
+                      <label htmlFor="password" class="text-100">Password</label>
+                    </span>
+
+                    <button pButton  pRipple label="Iniciar sesion" type="submit" class="text-0 mr-3 w-full p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+                  </form>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

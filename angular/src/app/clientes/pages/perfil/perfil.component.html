@@ -1,0 +1,86 @@
+<div *ngIf="registroModal">
+<p-dialog  header="Registro de mascota" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="true" [resizable]="true" [closable]="true">
+  <app-registro-mascota (registroModal)="toggleRegistro()" [idDuenio]="user.id"></app-registro-mascota>
+</p-dialog>
+</div>
+
+<div class="row mx-auto div1 align-items-center text-left justify-content-center" style="background-color: white;">
+  <div class="col-md-7 col-lg-6">
+    <div class="row">
+      <div class="col-4 col-md-3 align-items-center text-center justify-content-center py-5">
+        <img src="assets/imgs/clientes/default-avatar.png" style="height: 6rem; width: 6rem;">
+      </div>
+      <div class="col-8 col-md-9 align-items-center text-left justify-content-center mx-auto">
+        <div class="flex flex-column gap-0 text-center">
+          <small id="username-help">Nombre</small>
+          <input pInputText type="text" class="info p-inputtext-sm text-center" placeholder="Small" placeholder="{{user.nombre}} {{user.apellido}}" readonly disabled />
+          <small id="username-help">Dni</small>
+          <input pInputText type="text" class="info p-inputtext-sm text-center" placeholder="Small" placeholder="{{user.dni}}" readonly disabled />
+          <small id="username-help">Email</small>
+          <input pInputText type="text" class="info p-inputtext-sm text-center" placeholder="Small" placeholder="{{user.email}}" readonly disabled />
+          <small id="username-help">Apellido</small>
+          <input pInputText type="text" class="info p-inputtext-sm text-center" placeholder="Small" placeholder="{{user.telefono}}" readonly disabled />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-5 col-lg-5 align-items-left text-left justify-content-left mx-auto">
+    <div *ngIf="rolSession == 'ADMIN'">
+      <button pButton pRipple label="+ Mascota" (click)="toggleRegistro()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+    </div>
+    <div *ngIf="rolSession == 'USER'">
+      <button pButton pRipple label="Editar perfil" (click)="toggleEditarUser()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+      <button pButton pRipple label="Editar contraseña" (click)="toggleEditarPassword()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mascotas.length > 0" class="parent">
+  <div class="album py-5">
+    <div class="card-container">
+      <div *ngFor="let mascota of mascotas; let i = index;" class="card-item">
+        <div class="card shadow-sm">
+          <img src="assets/imgs/perroMuestra.png" alt="Avatar" class="card-img" >
+          <div class="card-body">
+            <p class="card-text">{{mascota.nombre}}</p>
+            <div class="card-buttons">
+              <button pButton pRipple label="Perfil" (click)="redireccionar(mascota.id)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              <div *ngIf="rolSession == 'ADMIN'">
+                <button pButton pRipple label="Editar" (click)="this.cardMascotaId = mascota.id; toggleEditarMascota()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="mascotas.length == 0 || mascotas == null" class="w-full font-bold text-center" style="background-color: rgb(255,255,255,1); border-radius: 20px; margin-top: 0.6cm;">
+  No se encuentra ninguna mascota registrada de {{user.nombre}}
+  </div>
+
+
+
+  <div *ngIf="editarModalMascota">
+    <p-dialog  header="Edicion de mascota" [(visible)]="editarModalMascota" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="true" [closable]="true">
+      <app-editar-mascota (editarModal)="toggleEditarMascota()" [idMascota]="cardMascotaId"></app-editar-mascota>
+    </p-dialog>
+  </div>
+  <div *ngIf="editarModalUser">
+    <p-dialog  header="Edicion de cliente" [(visible)]="editarModalUser" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+      <app-editar (editarModal)="toggleEditarUser()" [idUser]="user.id"></app-editar>
+    </p-dialog>
+  </div>
+  <div *ngIf="editarModalPassword">
+    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+      <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
+    </p-dialog>
+  </div>
+  <div *ngIf="editarModalPassword">
+    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+      <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
+    </p-dialog>
+  </div>
+
+

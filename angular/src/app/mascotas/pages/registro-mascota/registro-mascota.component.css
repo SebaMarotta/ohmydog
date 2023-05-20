@@ -1,0 +1,27 @@
+.p-float-label {
+  margin-top: 0.6cm;
+}
+.p-button-veterinariaOrange {
+  margin-top: 0.6cm;
+}
+
+input {
+  width: 100%;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  width: 20rem;
+}
+textarea{
+  white-space:pre;
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

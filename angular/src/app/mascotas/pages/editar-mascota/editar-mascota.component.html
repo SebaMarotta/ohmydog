@@ -1,0 +1,67 @@
+  <form [formGroup]="formulario" >
+
+    <span class="p-float-label" >
+      <input pInputText id="nombre" formControlName="nombre" />
+      <label htmlFor="nombre">Nombre</label>
+    </span>
+    <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+      {{ getFieldError('nombre') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="raza" formControlName="raza" />
+      <label htmlFor="raza">Raza</label>
+    </span>
+    <span *ngIf="isValidField('raza')" class="form-text text-danger">
+      {{ getFieldError('raza') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="color" formControlName="color" />
+      <label htmlFor="color">Color</label>
+    </span>
+    <span *ngIf="isValidField('color')" class="form-text text-danger">
+      {{ getFieldError('color') }}
+    </span>
+
+    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo" [editable]="false" optionLabel="sexo"></p-dropdown>
+    <span *ngIf="isValidField('sexo')" class="form-text text-danger">
+      {{ getFieldError('sexo') }}
+    </span>
+
+    <span class="p-float-label">
+      <p-inputMask styleClass="w-full"  mask="99/99/9999" slotChar="dd/mm/yyyy" formControlName="fechaDeNacimiento" id="ssn_input"></p-inputMask>
+
+      <label htmlFor="ssn_input">Fecha de nacimiento</label>
+   </span>
+    <span *ngIf="isValidField('fechaDeNacimiento')" class="form-text text-danger">
+      {{ getFieldError('fechaDeNacimiento') }}
+    </span>
+
+    <span class="p-float-label">
+      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones"></textarea>
+      <label htmlFor="observaciones">Observaciones</label>
+    </span>
+    <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
+      {{ getFieldError('observaciones') }}
+    </span>
+
+
+      <label htmlFor="imagen">Imagen</label>
+      <p-fileUpload formControlName="imagen" mode="basic" chooseLabel="Imagen"></p-fileUpload>
+
+
+      <label style="margin-right: 1rem;" htmlFor="cruza">Le gustaría cruzarla?</label>
+
+      <p-inputSwitch formControlName="cruza"></p-inputSwitch>
+
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Editar mascota" class="p-button-success p-button-text text-center"></button>
+      </div>
+
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
+  </form>
+
+
