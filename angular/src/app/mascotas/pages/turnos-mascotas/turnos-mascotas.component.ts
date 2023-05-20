@@ -214,7 +214,7 @@ export class TurnosMascotasComponent {
       )
       .subscribe((result) => {
         // El usuario ya hizo una solicitud de turno o tiene un turno asignado
-        this.isButtonDisabled = false;
+        this.cerrar();
         if (menor2meses) {
           return this.messageService.add({
             severity: 'error',
