@@ -43,7 +43,10 @@ export class PerfilMascotaComponent {
   ) {}
   ngOnInit(): void {
     this.user$.subscribe((resp) => {
-      if (this.user$.value != null) this.rolSession = resp.role;
+      if (this.user$.value != null) {
+        this.rolSession = resp.role;
+        this.idUser = resp.id;
+      }
     });
     this.activatedRoute.params.subscribe((resp) => {
       const id = resp['idMascota'];
@@ -53,8 +56,6 @@ export class PerfilMascotaComponent {
       this.turnoService.getPlanilla(id).subscribe((resp) => {
         this.libretaSanitaria = resp;
       });
-      this.rolSession = this.authService.userSession.getValue()['role'];
-      this.idUser = this.authService.userSession.getValue()['id'];
     });
   }
   redireccionar(mascota: Number) {
