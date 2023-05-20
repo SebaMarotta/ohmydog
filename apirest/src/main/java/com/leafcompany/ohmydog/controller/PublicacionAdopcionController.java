@@ -6,6 +6,7 @@ import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterPublicacionAdopcion;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.entity.PublicacionAdopcion;
+import com.leafcompany.ohmydog.entity.Turno;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.PublicacionAdopcionService;
 import io.jsonwebtoken.io.IOException;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -82,6 +84,28 @@ public class PublicacionAdopcionController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    //METODO CONSTULA
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<PublicacionAdopcion>> listarPublicaciones() {
+        List<PublicacionAdopcion> publicaciones = publicacionAdopcionService.findVisible();
+        if (publicaciones != null) {
+            return ResponseEntity.ok(publicaciones);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listarAdmin")
+    public ResponseEntity<List<PublicacionAdopcion>> listarPublicacionesAdministrador() {
+        List<PublicacionAdopcion> publicaciones = publicacionAdopcionService.findAll();
+        if (publicaciones != null) {
+            return ResponseEntity.ok(publicaciones);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

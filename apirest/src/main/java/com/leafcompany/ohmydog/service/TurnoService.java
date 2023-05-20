@@ -90,6 +90,7 @@ public class TurnoService {
     }
 
 
+
     // METODOS PARA CONSULTAS O BUSQUEDAS
     public List<Turno> findByType(String motivo){
         List<Turno> resultado = turnoRepository.findByType(motivo);
@@ -115,6 +116,9 @@ public class TurnoService {
         return turnoRepository.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
     }
 
+    public List<Turno> findAllByFechaGreaterThan(LocalDate fecha){
+        return turnoRepository.findAllByFechaGreaterThan(fecha);
+    }
 
     public Optional<Turno> findById(Long id){
         return turnoRepository.findById(id);
