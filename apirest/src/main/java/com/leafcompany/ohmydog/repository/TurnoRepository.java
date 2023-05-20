@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +23,7 @@ public interface TurnoRepository extends JpaRepository<Turno, Long>  {
     public List<Turno> findByType(@Param("motivo") String motivo);
 
     @Query("SELECT t FROM Turno t WHERE t.fecha = :fecha")
-    public List<Turno> findByDate(@Param("fecha") Date fecha);
+    public List<Turno> findByDate(@Param("fecha") LocalDate fecha);
 
     public List<Turno> findAllByFechaBetweenOrderByFecha(LocalDateTime inicioDelDia, LocalDateTime finDelDia);
     public List<Turno> findAllByOrderByFecha();

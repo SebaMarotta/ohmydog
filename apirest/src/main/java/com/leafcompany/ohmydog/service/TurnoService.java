@@ -108,6 +108,9 @@ public class TurnoService {
         return turnoRepository.findAllByOrderByFecha();
     }
 
+    public List<Turno> findByDate(LocalDate fecha){
+        return turnoRepository.findByDate(fecha);
+    }
     public List<Turno> findAllByFechaBetweenOrderByFecha(LocalDateTime fechaInicio, LocalDateTime fechaFin){
         return turnoRepository.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
     }
