@@ -30,7 +30,7 @@ public class PracticaController {
     }
 
     @PostMapping("/crear/{id}")
-    public ResponseEntity<PracticaMedica> findByMascota(@RequestBody PracticaMedica request, @PathVariable Long id){
+    public ResponseEntity<PracticaMedica> crear(@RequestBody PracticaMedica request, @PathVariable Long id){
 
         Mascota mascota = mascotaService.findById(id).get();
         return ResponseEntity.ok(practicaService.crear(request,mascota));
