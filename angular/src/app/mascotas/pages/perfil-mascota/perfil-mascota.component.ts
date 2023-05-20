@@ -25,7 +25,7 @@ export class PerfilMascotaComponent {
     duenio: 0,
     cruza: false,
   };
-  protected libretaSanitaria: any;
+  protected libretaSanitaria: any = {};
   protected planillaModal: Boolean = false;
   protected solicitudModal: Boolean = false;
   protected user$: BehaviorSubject<User> = this.authService.userSession;

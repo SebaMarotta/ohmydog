@@ -46,6 +46,7 @@ export class EditarMascotaComponent implements OnInit {
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  isButtonDisabled: Boolean = false;
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idMascota: number;
@@ -112,7 +113,11 @@ export class EditarMascotaComponent implements OnInit {
 
   guardar() {
     this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
+    this.isButtonDisabled = true;
+    if (this.formulario.invalid) {
+      this.isButtonDisabled = false;
+      return null;
+    }
 
     this.mascotaEditada = this.mascotaActual;
     this.mascotaEditada.nombre = this.formulario.value.nombre;
@@ -146,7 +151,13 @@ export class EditarMascotaComponent implements OnInit {
       .subscribe((resp) => {
         this.cerrar();
 
-        this.router.navigateByUrl(`/clientes/${this.mascotaEditada.duenio}`);
+        const url = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(url);
+          });
+
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

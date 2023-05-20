@@ -73,11 +73,11 @@
 }
 
 p-table th:first-child{
-  border-radius:20px 0 0 0px;
+  border-radius:0px 0 0 0px;
 }
 
 p-table th:last-child{
-  border-radius:0px 20px 0px 0;
+  border-radius:0px 0px 0px 0;
 }
 
 .observaciones{
@@ -105,11 +105,25 @@ input::placeholder {
 
 .lista {
   width: 70vw;
-  border-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   margin-bottom: 0rem;
   box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
-  margin-top: 1cm;
+  margin-top: 0cm;
+
 }
+
+.lista2 {
+  width: 70vw;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 0rem;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+  margin-top: 0cm;
+  width: 5rem;
+
+}
+
 
 /* width */
 ::-webkit-scrollbar {

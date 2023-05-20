@@ -22,9 +22,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MascotasModule } from '../mascotas/mascotas.module';
 import { EditarComponent } from './pages/editar/editar.component';
 import { EditarPasswordComponent } from './pages/editar-password/editar-password.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
-  declarations: [HomeComponent, PerfilComponent, RegistroComponent, EditarComponent, EditarPasswordComponent],
+  declarations: [
+    HomeComponent,
+    PerfilComponent,
+    RegistroComponent,
+    EditarComponent,
+    EditarPasswordComponent,
+  ],
   imports: [
     CommonModule,
     ClientesRoutingModule,
@@ -42,6 +49,7 @@ import { EditarPasswordComponent } from './pages/editar-password/editar-password
     DialogModule,
     ReactiveFormsModule,
     MascotasModule,
+    ProgressSpinnerModule,
   ],
   exports: [PerfilComponent, RegistroComponent],
 })

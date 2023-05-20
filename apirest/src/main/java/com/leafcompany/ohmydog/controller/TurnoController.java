@@ -49,8 +49,7 @@ public class TurnoController {
     @PostMapping("/crear")
     public ResponseEntity<Turno> crearTurno(@RequestBody RegisterTurnoRequest turno) throws MiException {
 
-       turno.setFecha(turno.getFecha().minusHours(3));
-
+       turno.setFecha(turno.getFecha().minusHours(3).withSecond(0).withNano(0));
         try {
             Turno aux = turnoService.crearTurno(turno);
             SolicitudDeTurno solicitud = this.solicitudDeTurnoService.findById(turno.getIdSolicitud()).get();
@@ -60,8 +59,19 @@ public class TurnoController {
             solicitudDeTurnoService.edit(solicitud);
 //
             String titulo = "Turno creado para " + mascota.getNombre();
-            String cuerpo = "El turno de " + mascota.getNombre() + " con motivo " + solicitud.getMotivo() + " fue aceptado para el dia: " + turno.getFecha();
+            String cuerpo =
+                    "Le informamos que la solicitud " + solicitud.getMotivo() + " para "+ mascota.getNombre() + " ha sido aceptada.\n\n"
+                    + "Detalles del turno:\n\n"
+                    + "Fecha: " + aux.getFecha().getDayOfMonth() + "/" + aux.getFecha().getMonthValue() + "/" + aux.getFecha().getYear() + "\n"
+                    + "Hora: " + aux.getFecha().toLocalTime() + "\n\n"
+
+                    + "Si necesita cancelar o reprogramar su turno, comuníquese con nosotros lo antes posible.\n\n"
+                    + "Gracias por elegir nuestra veterinaria y esperamos verlo pronto.\n\n"
+                    + "Saludos cordiales,\n"
+                    + "Veterinaria 'Oh My Dog!'";
             emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
+
+
 
             return ResponseEntity.status(HttpStatus.CREATED).body(new Turno());
         } catch (DataAccessException e) {
@@ -81,9 +91,19 @@ public class TurnoController {
             Mascota mascota = turno.getMascota();
 
             String titulo = "Turno rechazado de " + mascota.getNombre();
-            String cuerpo = "El turno de " + mascota.getNombre() + " con motivo " + turno.getMotivo() + " del dia " + turno.getFecha().getDayOfMonth() + '/'+ turno.getFecha().getMonth().getValue()+"/"+ turno.getFecha().getYear() + " a las " + turno.getFecha().getHour()+":"+turno.getFecha().getMinute() + " fue rechazado por el siguiente motivo: \n \n" + request.getMotivo();
-            emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
+            String cuerpo =
+                    "Lamentamos informarle que el siguiente turno ha sido rechazado \n\n"
+                            + "Mascota: " + turno.getMascota().getNombre() + "\n"
+                            + "Motivo: " + turno.getMotivo()+ "\n"
+                            + "Fecha: " + turno.getFecha().getDayOfMonth() + "/" + turno.getFecha().getMonthValue() + "/" + turno.getFecha().getYear() + "\n"
+                            + "Hora: " + turno.getFecha().toLocalTime() + "\n\n"
 
+                            + "El motivo es el siguiente: \n\n"
+                            + request.getMotivo() + "\n\n"
+                            + "Lamentamos las molestias que esto pueda causar y agradecemos su comprensión.\n\n"
+                            + "Saludos cordiales,\n"
+                            + "Veterinaria 'Oh My Dog!'";
+            emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
             return ResponseEntity.ok(true);
         } catch (DataAccessException e) {
             throw e;

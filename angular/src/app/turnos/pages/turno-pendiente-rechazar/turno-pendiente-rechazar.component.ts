@@ -107,7 +107,11 @@ export class TurnoPendienteRechazarComponent {
         })
       )
       .subscribe((resp) => {
-        this.solicitudRechazadaModal.emit();
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(`/turnos`);
+          });
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

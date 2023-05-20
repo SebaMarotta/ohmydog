@@ -97,7 +97,11 @@ export class TurnoRechazarComponent {
         })
       )
       .subscribe((resp) => {
-        location.reload();
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(`/turnos`);
+          });
         this.turnoRechazadoModal.emit();
         this.messageService.add({
           severity: 'success',

@@ -16,9 +16,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
 
 @NgModule({
-  declarations: [PlanillaComponent],
+  declarations: [PlanillaComponent, MotivosPipe],
   imports: [
     CommonModule,
     DividerModule,
@@ -37,6 +38,6 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     InputSwitchModule,
     ScrollPanelModule,
   ],
-  exports: [PlanillaComponent],
+  exports: [PlanillaComponent, MotivosPipe],
 })
 export class LibretaSanitariaModule {}

@@ -35,6 +35,7 @@ export class EditarComponent {
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idUser: number;
+  isButtonDisabled: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -123,7 +124,7 @@ export class EditarComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `El cliente ${resp.nombre} fue editado correctamente`,
+          detail: `Fuiste editado correctamente`,
           closable: false,
         });
       });

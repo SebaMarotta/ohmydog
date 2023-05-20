@@ -39,7 +39,7 @@
     </span>
 
     <span class="p-float-label">
-      <textarea styleClass="w-full" rows="5" cols="33" pInputTextarea formControlName="observaciones"></textarea>
+      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones"></textarea>
       <label htmlFor="observaciones">Observaciones</label>
     </span>
     <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
@@ -51,12 +51,17 @@
       <p-fileUpload formControlName="imagen" mode="basic" chooseLabel="Imagen"></p-fileUpload>
 
 
-      <label style="margin-right: 1cm;" htmlFor="cruza">Le gustaría cruzarlo?</label>
+      <label style="margin-right: 1rem;" htmlFor="cruza">Le gustaría cruzarla?</label>
+
       <p-inputSwitch formControlName="cruza"></p-inputSwitch>
 
-    <button pButton  pRipple label="Guardar" (click)="guardar()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-    <button pButton  pRipple label="Cerrar" (click)="cerrar()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Editar mascota" class="p-button-success p-button-text text-center"></button>
+      </div>
 
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
   </form>
 
 

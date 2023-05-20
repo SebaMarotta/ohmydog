@@ -33,6 +33,7 @@ export class RegistroMascotaComponent {
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  isButtonDisabled: Boolean = false;
   @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idDuenio: number;
@@ -81,7 +82,11 @@ export class RegistroMascotaComponent {
 
   guardar() {
     this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
+    this.isButtonDisabled = true;
+    if (this.formulario.invalid) {
+      this.isButtonDisabled = false;
+      return null;
+    }
 
     this.mascota = this.formulario.value;
     this.mascota.sexo = this.mascota.sexo['sexo'];

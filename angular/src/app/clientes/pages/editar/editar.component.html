@@ -29,9 +29,9 @@
       {{ getFieldError('telefono') }}
     </span>
 
-    <button pButton  (click)="guardar()" pRipple label="Guardar" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-    <button pButton  pRipple label="Cerrar" (click)="cerrar()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-
+    <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+      <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Editar perfil" class="p-button-success p-button-text text-center"></button>
+    </div>
   </form>
   </div>
 

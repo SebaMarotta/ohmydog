@@ -5,25 +5,34 @@
 </p>
 <form [formGroup]="formulario" >
 
-  <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo"></p-dropdown>
+  <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo">
+    <ng-template pTemplate="item" let-motivo>
+      {{ motivo.motivo | motivoPipe | titlecase }}
+    </ng-template>
+    <ng-template pTemplate="selectedItem" let-motivo>
+      {{ motivo.motivo | motivoPipe | titlecase }}
+    </ng-template>
+  </p-dropdown>
   <span *ngIf="isValidField('motivo')" class="form-text text-danger">
     {{ getFieldError('motivo') }}
   </span>
 
-  <p-dropdown styleClass="w-full mt-4" formControlName="horario" [options]="horarios" placeholder="Horario" [editable]="false" optionLabel="horario"></p-dropdown>
+  <p-dropdown styleClass="w-full mt-4" formControlName="horario" [options]="horarios" placeholder="Horario" [editable]="false" optionLabel="horario">
+    <ng-template pTemplate="item" let-horario>
+      {{ horario.horario | titlecase }}
+    </ng-template>
+    <ng-template pTemplate="selectedItem" let-horario>
+      {{ horario.horario | titlecase }}
+    </ng-template>
+  </p-dropdown>
+
   <span *ngIf="isValidField('horario')" class="form-text text-danger">
     {{ getFieldError('horario') }}
   </span>
 
-  <button pButton  pRipple label="Guardar" (click)="guardar()" class="w-full mt-4 text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-  <button pButton  pRipple label="Cerrar" (click)="cerrar()" class="mt-1 w-full text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-
+  <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+    <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Enviar" class="p-button-success p-button-text text-center"></button>
+  </div>
 </form>
-
-
-
-
-
-
 
 

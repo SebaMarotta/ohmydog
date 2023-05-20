@@ -77,9 +77,6 @@ input::placeholder {
   height: 2vh;
 }
 
-.album {
-  /* Add your album styles here */
-}
 
 .card-container {
   display: flex;

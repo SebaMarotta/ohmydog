@@ -49,7 +49,13 @@ public class SolicitudDeTurnoController {
             Mascota mascota = solicitud.getMascota();
 
             String titulo = "Solicitud de turno rechazada de " + mascota.getNombre();
-            String cuerpo = "La solicitud de " + mascota.getNombre() + " con motivo " + solicitud.getMotivo() + " fue rechazada por el siguiente motivo: \n \n" + turno.getMotivo();
+            String cuerpo =
+                    "Lamentamos informarle que su solicitud con el motivo " + solicitud.getMotivo() + " para " + solicitud.getMascota().getNombre() + " ha sido rechazada.\n\n"
+                    + "El motivo es el siguiente: \n\n"
+                    + turno.getMotivo() + "\n\n"
+                    + "Lamentamos las molestias que esto pueda causar y agradecemos su comprensión.\n\n"
+                    + "Saludos cordiales,\n"
+                    + "Veterinaria 'Oh My Dog!'";
             emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
 
             return ResponseEntity.ok(true);

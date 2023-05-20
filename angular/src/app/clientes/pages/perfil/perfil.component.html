@@ -1,5 +1,5 @@
 <div *ngIf="registroModal">
-<p-dialog  header="Registro de mascota" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+<p-dialog  header="Registro de mascota" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="true" [resizable]="true" [closable]="true">
   <app-registro-mascota (registroModal)="toggleRegistro()" [idDuenio]="user.id"></app-registro-mascota>
 </p-dialog>
 </div>
@@ -63,22 +63,22 @@
 
 
   <div *ngIf="editarModalMascota">
-    <p-dialog  header="Edicion de mascota" [(visible)]="editarModalMascota" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <p-dialog  header="Edicion de mascota" [(visible)]="editarModalMascota" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="true" [closable]="true">
       <app-editar-mascota (editarModal)="toggleEditarMascota()" [idMascota]="cardMascotaId"></app-editar-mascota>
     </p-dialog>
   </div>
   <div *ngIf="editarModalUser">
-    <p-dialog  header="Edicion de cliente" [(visible)]="editarModalUser" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <p-dialog  header="Edicion de cliente" [(visible)]="editarModalUser" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
       <app-editar (editarModal)="toggleEditarUser()" [idUser]="user.id"></app-editar>
     </p-dialog>
   </div>
   <div *ngIf="editarModalPassword">
-    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
       <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
     </p-dialog>
   </div>
   <div *ngIf="editarModalPassword">
-    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
       <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
     </p-dialog>
   </div>

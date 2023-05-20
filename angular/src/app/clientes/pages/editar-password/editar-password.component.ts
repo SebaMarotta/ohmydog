@@ -32,6 +32,7 @@ export class EditarPasswordComponent {
   userEditado: User;
   validador: Boolean;
   formulario: FormGroup;
+  isButtonDisabled: Boolean = false;
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idUser: number;
@@ -101,9 +102,19 @@ export class EditarPasswordComponent {
         })
       )
       .subscribe((resp) => {
-        this.cerrar();
+        this.formulario.markAllAsTouched();
+        this.isButtonDisabled = true;
+        if (this.formulario.invalid) {
+          this.isButtonDisabled = false;
+          return null;
+        }
 
-        this.router.navigateByUrl(`/clientes/${this.idUser}`);
+        const url = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(url);
+          });
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',

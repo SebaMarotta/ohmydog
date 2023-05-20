@@ -5,7 +5,17 @@
   margin-top: 0.6cm;
 }
 
-input, button {
+input {
+  width: 100%;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  width: 20rem;
+}
+textarea{
+  white-space:pre;
   width: 100%;
 }
 

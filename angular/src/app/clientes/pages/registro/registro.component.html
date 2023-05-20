@@ -22,13 +22,6 @@
     {{ getFieldError('dni') }}
   </span>
   <span class="p-float-label">
-    <input pInputText id="password" formControlName="password" type="password"/>
-    <label htmlFor="password">Password</label>
-  </span>
-  <span *ngIf="isValidField('password')" class="form-text text-danger">
-    {{ getFieldError('password') }}
-  </span>
-  <span class="p-float-label">
     <input pInputText id="email" formControlName="email" type="email"/>
     <label htmlFor="email">Email</label>
   </span>
@@ -43,9 +36,13 @@
     {{ getFieldError('telefono') }}
   </span>
 
-  <button pButton  (click)="guardar()" pRipple label="Guardar" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-  <button pButton  pRipple label="Cerrar" (click)="cerrar()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+  <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+    <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar cliente" class="p-button-success p-button-text text-center"></button>
+  </div>
 
+  <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+  <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+  </div>
 </form>
 </div>
 

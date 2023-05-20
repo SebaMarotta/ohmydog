@@ -30,6 +30,7 @@ import { JsonPipe } from '@angular/common';
 export class RegistroComponent {
   user: RegisterUserRequest;
   validador: Boolean;
+  isButtonDisabled: Boolean = false;
 
   @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -45,7 +46,6 @@ export class RegistroComponent {
     nombre: ['', Validators.required],
     apellido: ['', Validators.required],
     dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-    password: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     telefono: ['', Validators.required],
   });
@@ -75,7 +75,11 @@ export class RegistroComponent {
 
   guardar() {
     this.formulario.markAllAsTouched();
-    if (this.formulario.invalid) return null;
+    this.isButtonDisabled = true;
+    if (this.formulario.invalid) {
+      this.isButtonDisabled = false;
+      return null;
+    }
 
     this.user = this.formulario.value;
     return this.userService

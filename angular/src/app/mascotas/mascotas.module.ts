@@ -25,6 +25,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.module';
 import { EditarMascotaComponent } from './pages/editar-mascota/editar-mascota.component';
 import { TurnosMascotasComponent } from './pages/turnos-mascotas/turnos-mascotas.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TurnosMascotasComponent } from './pages/turnos-mascotas/turnos-mascotas
     InputSwitchModule,
     ScrollPanelModule,
     LibretaSanitariaModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     PerfilMascotaComponent,
