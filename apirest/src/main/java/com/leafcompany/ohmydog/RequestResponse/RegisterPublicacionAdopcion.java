@@ -21,11 +21,10 @@ public class RegisterPublicacionAdopcion {
 
     private String nombrePerro;
     private Long cliente;
-    private Integer edad;
+    private String edad;
     private String raza;
     private String color;
     private Sexo sexo;
-    private String fecha;
     private String origen;
 
 }

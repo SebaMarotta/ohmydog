@@ -16,7 +16,7 @@ public class EditPublicacionAdopcionRequest {
     private Long id;
     private String nombrePerro;
     private Long cliente;
-    private Integer edad;
+    private String edad;
     private String raza;
     private String color;
     private Sexo sexo;

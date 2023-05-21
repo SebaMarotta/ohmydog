@@ -1,9 +1,18 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, CanLoadFn, CanMatchFn, Router } from '@angular/router';
+import {
+  CanActivateChildFn,
+  CanActivateFn,
+  CanLoadFn,
+  CanMatchFn,
+  Router,
+} from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageService } from 'primeng/api';
 
-export const isAuthenticatedGuardActivateFn: CanActivateFn = (route, state) => {
+export const isAuthenticatedGuardActivateChildFn: CanActivateChildFn = (
+  route,
+  state
+) => {
   const authService = inject(AuthService);
   const messageService = inject(MessageService);
   const router = inject(Router);
@@ -12,14 +21,9 @@ export const isAuthenticatedGuardActivateFn: CanActivateFn = (route, state) => {
   messageService.add({
     severity: 'error',
     summary: 'Error',
-    detail: 'No tienes los permisos suficientes para acceder',
+    detail: 'No tienes los permisos suficientes',
     closable: false,
   });
-
-  if (authService.userSession.value.id) {
-    router.navigateByUrl('/');
-    return false;
-  }
 
   router.navigateByUrl('/login');
   return false;

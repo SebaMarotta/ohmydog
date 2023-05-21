@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -18,7 +19,7 @@ import {
   RegisterUserRequest,
   User,
 } from 'src/app/clientes/interfaces/interfaces';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import {
@@ -26,16 +27,26 @@ import {
   FormularioAdopcionRequest,
 } from '../../interfaces/interfaces';
 import { AdopcionService } from 'src/app/services/adopcion.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-solicitud',
   templateUrl: './solicitud.component.html',
   styleUrls: ['./solicitud.component.css'],
 })
-export class SolicitudComponent {
+export class SolicitudComponent implements OnInit {
   formularioAdopcion: FormularioAdopcionRequest;
   validador: Boolean;
   isButtonDisabled: Boolean = false;
+  protected user$: BehaviorSubject<User> = this.authService.userSession;
+  protected rolSession: string = '';
+  protected idUser: number = 0;
+
+  formulario: FormGroup = this.fb.group({
+    nombre: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    telefono: ['', Validators.required],
+  });
 
   @Output() solicitudModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -45,14 +56,22 @@ export class SolicitudComponent {
     private fb: FormBuilder,
     private messageService: MessageService,
     private adopcionService: AdopcionService,
+    private authService: AuthService,
     private router: Router
   ) {}
-
-  formulario: FormGroup = this.fb.group({
-    nombre: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    telefono: ['', Validators.required],
-  });
+  ngOnInit(): void {
+    if (Object.keys(this.user$.value).length != 0) {
+      this.user$.subscribe((resp) => {
+        this.rolSession = resp.role;
+        this.idUser = resp.id;
+        this.formulario.patchValue({
+          nombre: this.user$.value.nombre + ` ` + this.user$.value.apellido,
+          email: this.user$.value.email,
+          telefono: this.user$.value.telefono,
+        });
+      });
+    }
+  }
 
   isValidField(field: string) {
     return (

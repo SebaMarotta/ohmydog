@@ -4,20 +4,21 @@ import { BackgroundComponent } from '../shared/background/background.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PerfilMascotaComponent } from '../mascotas/pages/perfil-mascota/perfil-mascota.component';
-import { isAuthenticatedGuardActivateFn } from '../auth/guards/is-authenticated.guard';
 import { isAdminGuard } from '../auth/guards/is-admin.guard';
+import { isPerfilDelClienteGuard } from '../auth/guards/is-perfil-del-cliente.guard';
 
 const routes: Routes = [
   {
     path: 'clientes',
     component: BackgroundComponent,
     children: [{ path: '', component: HomeComponent }],
-    // canActivate: [isAuthenticatedGuardActivateFn],
+    canActivate: [isAdminGuard],
   },
   {
     path: 'clientes/:id',
     component: BackgroundComponent,
     children: [{ path: '', component: PerfilComponent }],
+    canActivate: [isPerfilDelClienteGuard],
   },
   {
     path: 'clientes/:id/:idMascota',

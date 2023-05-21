@@ -3,10 +3,11 @@
     <!-- Columna izquierda: Información de la mascota -->
     <h3>Información de la mascota</h3>
     <p><strong>Nombre de la mascota:</strong> {{ adopcion.nombrePerro }}</p>
+    <p><strong>Edad aproximada:</strong> {{ adopcion.edad }}</p>
     <p><strong>Raza:</strong> {{ adopcion.raza }}</p>
     <p><strong>Color:</strong> {{ adopcion.color }}</p>
     <p><strong>Sexo:</strong> {{ adopcion.sexo }}</p>
-    <p><strong>Fecha de nacimiento:</strong> {{ adopcion.fecha }}</p>
+    <p><strong>Fecha de la publicacion:</strong> {{ adopcion.fecha | date:'dd/MM/yyyy' }}</p>
     <p><strong>Origen:</strong> {{ adopcion.origen }}</p>
     <!-- Agrega más información de la mascota según tus necesidades -->
   </div>

@@ -1,8 +1,10 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { Adopcion } from '../../interfaces/interfaces';
 import { AdopcionService } from 'src/app/services/adopcion.service';
+import { User } from 'src/app/clientes/interfaces/interfaces';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,7 @@ import { AdopcionService } from 'src/app/services/adopcion.service';
 })
 export class HomeComponent {
   protected adopciones: Adopcion[] = [];
-  protected registroModal: Boolean = false;
+  protected crearModal: Boolean = false;
   protected solicitudModal: Boolean = false;
   protected adopcionIndividual: Adopcion = {
     id: 0,
@@ -25,16 +27,26 @@ export class HomeComponent {
     origen: '',
     visible: false,
   };
+  protected user$: BehaviorSubject<User> = this.authService.userSession;
+  protected rolSession: string = '';
+  protected idUser: number = 0;
 
   @ViewChild('RegistroContainer', { read: ViewContainerRef })
   container: ViewContainerRef;
 
   constructor(
     private adopcionService: AdopcionService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.user$.subscribe((resp) => {
+      if (this.user$.value != null) {
+        this.rolSession = resp.role;
+        this.idUser = resp.id;
+      }
+    });
     this.adopcionService.getAdopciones().subscribe((resp) => {
       this.adopciones = resp;
     });
@@ -44,8 +56,8 @@ export class HomeComponent {
     this.router.navigateByUrl(`clientes/${id}`);
   }
 
-  toggleRegistro() {
-    this.registroModal = !this.registroModal;
+  toggleCrear() {
+    this.crearModal = !this.crearModal;
   }
 
   toggleSolicitud(adopcion) {

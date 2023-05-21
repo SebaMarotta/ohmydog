@@ -33,22 +33,19 @@ public class PublicacionAdopcionService {
     @Transactional
     public PublicacionAdopcion crearPublicacion(RegisterPublicacionAdopcion publicacion, Long idCliente) throws MiException{
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.validarDatos(publicacion.getNombrePerro(),publicacion.getRaza(),publicacion.getColor(), publicacion.getEdad(),
-                publicacion.getSexo(),LocalDate.parse(publicacion.getFecha(),formatter),publicacion.getOrigen(),
-                publicacion.getVisible(), publicacion.getCliente());
+                publicacion.getSexo(),publicacion.getOrigen(), idCliente);
 
         User cliente = userRepository.findById(idCliente).get();
 
         var aux = PublicacionAdopcion.builder()
                 .cliente(cliente)
-                .nombrePerro(publicacionAdopcion.getNombrePerro())
-                .edad(publicacionAdopcion.getEdad())
-                .raza(publicacionAdopcion.getRaza())
-                .color(publicacionAdopcion.getColor())
-                .sexo(publicacionAdopcion.getSexo())
-                .fecha(LocalDate.parse(publicacionAdopcion.getFecha(),formatter))
-                .origen(publicacionAdopcion.getOrigen())
+                .nombrePerro(publicacion.getNombrePerro())
+                .edad(publicacion.getEdad())
+                .raza(publicacion.getRaza())
+                .color(publicacion.getColor())
+                .sexo(publicacion.getSexo())
+                .origen(publicacion.getOrigen())
                 .visible(true)
                 .build();
 
@@ -132,7 +129,7 @@ public class PublicacionAdopcionService {
     }
 
 
-    private void validarDatos(String nombreDePerro, String raza, String color, Integer edad, Sexo sexo,
+    private void validarDatos(String nombreDePerro, String raza, String color, String edad, Sexo sexo,
                               LocalDate fecha, String origen, Boolean visible, Long cliente) throws MiException {
 
         if (nombreDePerro == null || nombreDePerro.isEmpty()) {
@@ -165,5 +162,31 @@ public class PublicacionAdopcionService {
 
     }
 
+    private void validarDatos(String nombreDePerro, String raza, String color, String edad, Sexo sexo,
+                              String origen, Long cliente) throws MiException {
 
+        if (nombreDePerro == null || nombreDePerro.isEmpty()) {
+            throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
+        }
+        if (raza == null || raza.isEmpty()) {
+            throw new MiException("LA raza ingresado no puede ser nulo o estar vacio");
+        }
+        if (color == null || color.isEmpty()) {
+            throw new MiException("El color ingresado no puede ser nulo o estar vacio");
+        }
+        if (edad == null) {
+            throw new MiException("La edad ingresada no puede ser nulo");
+        }
+        if (sexo == null || sexo.toString().isEmpty()) {
+            throw new MiException("El sexo ingresado no puede ser nulo o estar vacio");
+        }
+        if (origen == null || origen.isEmpty()) {
+            throw new MiException("El origen  ingresado no puede ser nulo o estar vacio");
+        }
+
+        if(cliente == null){
+            throw new MiException("el cliente ingresado no puede ser nulo");
+        }
+
+    }
 }

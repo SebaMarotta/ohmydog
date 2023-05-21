@@ -3,13 +3,16 @@ import { CanActivateFn, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthService } from 'src/app/services/auth.service';
 
-export const isAdminGuard: CanActivateFn = (route, state) => {
+export const isPerfilDelClienteGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const messageService = inject(MessageService);
   const router = inject(Router);
 
-  if (authService.isAdmin) return true;
+  const idCliente = route.paramMap.get('id');
+  const numberCliente = Number.parseInt(idCliente);
 
+  if (authService.isAdmin) return true;
+  if (authService.userSession.value.id == numberCliente) return true;
   messageService.add({
     severity: 'error',
     summary: 'Error',

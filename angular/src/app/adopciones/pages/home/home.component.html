@@ -1,10 +1,12 @@
 <div class="container mx-auto">
-  <button pButton  pRipple label="Agregar cliente +" (click)="toggleRegistro()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
-
-  <!-- <p-dialog header="Registro de cliente" [(visible)]="registroModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
-    <app-registro  (registroModal)="toggleRegistro()"></app-registro>
-  </p-dialog> -->
-
+  <div *ngIf="rolSession">
+  <button pButton  pRipple label="Agregar adopcion +" (click)="toggleCrear()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+</div>
+<div *ngIf="crearModal">
+<p-dialog header="Registro de publicacion" [(visible)]="crearModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+    <app-crear (crearModal)="toggleCrear()" [idUser]="this.user$.value.id"></app-crear>
+  </p-dialog>
+</div>
 
   <div *ngIf="adopciones.length > 0">
   <p-table
@@ -15,11 +17,12 @@
 
           <ng-template pTemplate="header">
               <tr>
-                  <th>Dueño</th>
+
                   <th>Nombre</th>
                   <th>Raza</th>
+                  <th>Edad aproximada</th>
                   <th>Sexo</th>
-                  <th>Fecha Nacimiento</th>
+                  <th>Dueño</th>
                   <th>Opciones</th>
 
               </tr>
@@ -31,22 +34,23 @@
               let-adopcion sortMode="multiple">
 
               <tr>
-                  <td>
-                    {{ adopcion.cliente.nombre }} {{adopcion.cliente.apellido }}
-                  </td>
+
                   <td>
                       {{ adopcion.nombrePerro }}
                   </td>
                   <td>
                       {{ adopcion.raza }}
                   </td>
-
+                  <td>
+                    {{ adopcion.edad }}
+                </td>
                 <td>
                   {{ adopcion.sexo }}
               </td>
               <td>
-                {{ adopcion.fecha }}
-            </td>
+                {{ adopcion.cliente.nombre }} {{adopcion.cliente.apellido }}
+              </td>
+
             <td>
               <p-button (click)="toggleSolicitud(adopcion)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button>
             </td>
@@ -60,7 +64,7 @@
     </div>
     <div *ngIf="adopciones.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
       <div style="padding-top: 0.8vw;">
-      No hay ningun cliente registrado
+      No hay ninguna publicacion de adopción
       </div>
     </div>
     </div>

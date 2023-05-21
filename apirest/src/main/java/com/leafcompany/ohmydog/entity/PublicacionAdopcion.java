@@ -24,7 +24,7 @@ public class PublicacionAdopcion {
     @ManyToOne
     private User cliente;
     private String nombrePerro;
-    private Integer edad;
+    private String edad;
     private String raza;
     private String color;
     @Enumerated(EnumType.STRING)
@@ -34,4 +34,8 @@ public class PublicacionAdopcion {
     private String origen;
     private Boolean visible;
 
+    @PrePersist
+    public void prePersist() {
+        setFecha(LocalDate.now());
+    }
 }
