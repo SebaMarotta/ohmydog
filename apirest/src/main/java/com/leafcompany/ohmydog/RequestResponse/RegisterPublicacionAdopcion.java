@@ -20,7 +20,7 @@ import java.util.Date;
 public class RegisterPublicacionAdopcion {
 
     private String nombrePerro;
-    private User cliente;
+    private Long cliente;
     private Integer edad;
     private String raza;
     private String color;

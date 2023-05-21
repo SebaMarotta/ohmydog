@@ -1,8 +1,13 @@
 package com.leafcompany.ohmydog.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.leafcompany.ohmydog.RequestResponse.EditServicioDeTerceroRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterServicioDeTercerosRequest;
+import com.leafcompany.ohmydog.entity.Mascota;
+import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,62 +25,52 @@ public class ServicioDeTercerosService {
     private ServicioDeTercerosRepository servicioDeTercerosRepository;
 
 
-    @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
-                   // luego desde el controlador devuelva el perro creado
-    public ServicioDeTerceros crearServicioDeTerceros(ServicioDeTerceros cuidador_paseador) throws MiException {
+    @Transactional
+    public ServicioDeTerceros crearServicioDeTerceros(RegisterServicioDeTercerosRequest cuidador_paseador) throws MiException {
 
         this.validarDatos(cuidador_paseador.getNombre(), cuidador_paseador.getApellido(), cuidador_paseador.getTelefono(),
-            cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangohorario(), cuidador_paseador.getDias());
+            cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangoHorario(), cuidador_paseador.getDias());
 
-        servicioDeTercerosRepository.save(cuidador_paseador);
-        return cuidador_paseador;
+        var aux = ServicioDeTerceros.builder()
+                .nombre(cuidador_paseador.getNombre())
+                .apellido(cuidador_paseador.getApellido())
+                .telefono(cuidador_paseador.getTelefono())
+                .rangoHorario(cuidador_paseador.getRangoHorario())
+                .email(cuidador_paseador.getEmail())
+                .tipo(cuidador_paseador.getTipo())
+                .dias(cuidador_paseador.getDias())
+                .disponible(cuidador_paseador.getDisponible())
+                .build();
+
+        return servicioDeTercerosRepository.save(aux);
+
     }
 
-    // @Transactional
-    // public ServicioDeTerceros crearServicioDeTerceros(@RequestBody ServicioDeTerceros servicioDeTerceros) throws MiException {
 
-    //     this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
-
-    //     ServicioDeTerceros cuidador_paseador = new ServicioDeTerceros();
-
-    //     cuidador_paseador.setNombre(nombre);
-    //     cuidador_paseador.setApellido(apellido);
-    //     cuidador_paseador.setTelefono(telefono);
-    //     cuidador_paseador.setEmail(email);
-    //     cuidador_paseador.setTipo(tipo);
-    //     cuidador_paseador.setRangohorario(rangoHorario);
-    //     cuidador_paseador.setDias(dias);
-    //     cuidador_paseador.setDisponible(true);
-
-    //     servicioDeTercerosRepository.save(cuidador_paseador);
-
-    //     return cuidador_paseador;
-    // }
 
     @Transactional
-    public void modificarServicioDeTerceros(Long id, String nombre, String apellido, String telefono,
-            String email, TipoServicio tipo, String rangoHorario, List<String> dias, Boolean disponible)
+    public ServicioDeTerceros modificarServicioDeTerceros(EditServicioDeTerceroRequest cuidador_paseador)
             throws MiException {
 
-        this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
+        this.validarDatos(cuidador_paseador.getNombre(), cuidador_paseador.getApellido(), cuidador_paseador.getTelefono(),
+                cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangoHorario(), cuidador_paseador.getDias());
 
-        Optional<ServicioDeTerceros> respuesta = servicioDeTercerosRepository.findById(id);
 
-        if (respuesta.isPresent()) {
-            ServicioDeTerceros cuidador_paseador = respuesta.get();
-
-            cuidador_paseador.setNombre(nombre);
-            cuidador_paseador.setApellido(apellido);
-            cuidador_paseador.setTelefono(telefono);
-            cuidador_paseador.setEmail(email);
-            cuidador_paseador.setTipo(tipo);
-            cuidador_paseador.setRangohorario(rangoHorario);
-            cuidador_paseador.setDias(dias);
-            cuidador_paseador.setDisponible(disponible);
+        var servicio = ServicioDeTerceros.builder()
+                .id(cuidador_paseador.getId())
+                .nombre(cuidador_paseador.getNombre())
+                .apellido(cuidador_paseador.getApellido())
+                .telefono(cuidador_paseador.getTelefono())
+                .email(cuidador_paseador.getEmail())
+                .tipo(cuidador_paseador.getTipo())
+                .rangoHorario(cuidador_paseador.getRangoHorario())
+                .dias(cuidador_paseador.getDias())
+                .disponible(cuidador_paseador.getDisponible())
+                .build();
             
-            servicioDeTercerosRepository.save(cuidador_paseador);
+            return servicioDeTercerosRepository.save(servicio);
 
-        }
+
 
     }
 
@@ -118,7 +113,7 @@ public class ServicioDeTercerosService {
     
 
     private void validarDatos(String nombre, String apellido, String telefono, String email, TipoServicio tipo,
-            String rangoHorario, List<String> dias) throws MiException {
+            String rangoHorario, DisponibilidadSemana dias) throws MiException {
 
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
@@ -138,7 +133,7 @@ public class ServicioDeTercerosService {
         if (rangoHorario == null || rangoHorario.isEmpty()) {
             throw new MiException("El rango horario ingresado no puede ser nulo o Posterior al dia de la fecha actual");
         }
-        if (dias == null || dias.isEmpty()) {
+        if (dias == null || dias.toString().isEmpty()) {
             throw new MiException("Los dias ingresados de disponibilidad no pueden ser nulos o estar vacios");
         }
 

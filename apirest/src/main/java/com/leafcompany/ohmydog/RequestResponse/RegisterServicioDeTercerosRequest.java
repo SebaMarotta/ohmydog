@@ -1,26 +1,19 @@
-package com.leafcompany.ohmydog.entity;
-
-
-import java.util.List;
+package com.leafcompany.ohmydog.RequestResponse;
 
 import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
 import com.leafcompany.ohmydog.enumerations.TipoServicio;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServicioDeTerceros{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RegisterServicioDeTercerosRequest {
 
     private String nombre;
     private String apellido;
@@ -31,10 +24,4 @@ public class ServicioDeTerceros{
     @Enumerated(EnumType.STRING)
     private DisponibilidadSemana dias;
     private Boolean disponible;
-
-
-
-    
-
-
 }
