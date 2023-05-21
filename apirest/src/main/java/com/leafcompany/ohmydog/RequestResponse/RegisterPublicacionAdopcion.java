@@ -27,6 +27,5 @@ public class RegisterPublicacionAdopcion {
     private Sexo sexo;
     private String fecha;
     private String origen;
-    private Boolean visible;
 
 }

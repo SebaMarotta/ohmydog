@@ -42,14 +42,14 @@ public class PublicacionAdopcionService {
 
         var aux = PublicacionAdopcion.builder()
                 .cliente(cliente)
-                .nombrePerro(publicacion.getNombrePerro())
-                .edad(publicacion.getEdad())
-                .raza(publicacion.getRaza())
-                .color(publicacion.getColor())
-                .sexo(publicacion.getSexo())
-                .fecha(LocalDate.parse(publicacion.getFecha(),formatter))
-                .origen(publicacion.getOrigen())
-                .visible(publicacion.getVisible())
+                .nombrePerro(publicacionAdopcion.getNombrePerro())
+                .edad(publicacionAdopcion.getEdad())
+                .raza(publicacionAdopcion.getRaza())
+                .color(publicacionAdopcion.getColor())
+                .sexo(publicacionAdopcion.getSexo())
+                .fecha(LocalDate.parse(publicacionAdopcion.getFecha(),formatter))
+                .origen(publicacionAdopcion.getOrigen())
+                .visible(true)
                 .build();
 
         return publicacionAdopcionRepository.save(aux);

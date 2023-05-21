@@ -1,16 +1,15 @@
 package com.leafcompany.ohmydog.controller;
 
-
-import com.leafcompany.ohmydog.RequestResponse.EditPublicacionAdopcionRequest;
-
-import com.leafcompany.ohmydog.RequestResponse.RegisterPublicacionAdopcion;
-
-import com.leafcompany.ohmydog.entity.PublicacionAdopcion;
-
+import com.leafcompany.ohmydog.RequestResponse.*;
+import com.leafcompany.ohmydog.entity.*;
 import com.leafcompany.ohmydog.exceptions.MiException;
+import com.leafcompany.ohmydog.service.EmailService;
 import com.leafcompany.ohmydog.service.PublicacionAdopcionService;
-
+import com.leafcompany.ohmydog.service.UserService;
+import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +24,37 @@ public class PublicacionAdopcionController {
 
     @Autowired
     private PublicacionAdopcionService publicacionAdopcionService;
+
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private EmailService emailService;
+
+    @Value("${spring.mail.username}")
+    private String emailUsername;
+
+    @PostMapping("/solicitud")
+    public ResponseEntity<Boolean> solicitudAdopcion(@RequestBody SolicitudContactoAdopcion request) throws MiException {
+
+        PublicacionAdopcion publicacion = this.publicacionAdopcionService.findById(request.getIdAdopcion()).get();
+        User user = this.userService.findById(request.getIdDueño()).get();
+
+            String titulo = "Hay una persona interesada en " + publicacion.getNombrePerro() + "!";
+            String cuerpo =
+                            "Una persona está interesada en adoptar a "+ publicacion.getNombrePerro() + "!\n\n"
+                            + "Detalles:\n\n"
+                            + "Nombre: " + request.getNombre() + "\n"
+                            + "Telefono: " + request.getTelefono()  + "\n"
+                            + "Email: " + request.getEmail() + "\n\n"
+
+
+                            + "Gracias por elegir nuestra veterinaria, estamos complacidos de ayudar a la comunidad\n\n"
+                            + "Saludos cordiales,\n"
+                            + "Veterinaria 'Oh My Dog!'";
+            emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
+
+            return ResponseEntity.ok(true);
+    }
 
     @PostMapping("/registro/{idCliente}")
     public ResponseEntity<PublicacionAdopcion> crearPublicacion(@RequestBody RegisterPublicacionAdopcion publicacion,
