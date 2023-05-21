@@ -9,6 +9,7 @@ import com.leafcompany.ohmydog.exceptions.MiException;
 
 import io.jsonwebtoken.io.IOException;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import com.leafcompany.ohmydog.repository.MascotaRepository;
@@ -36,9 +37,10 @@ public class MascotaService {
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
-
-        User dueño = userRepository.findById(idDueño).get();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
+        User dueño = userRepository.findById(idDueño).get();
+
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         var aux = Mascota.builder()
         .nombre(mascota.getNombre())
@@ -124,7 +126,7 @@ public class MascotaService {
 
 
 
-    private void validarDatos(String nombre, String raza, String color, Sexo sexo, Date fechaNac, Long idDueño) throws MiException {
+    private void validarDatos(String nombre, String raza, String color, Sexo sexo, LocalDate fechaNac, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
         }
@@ -136,6 +138,9 @@ public class MascotaService {
         }
         if (sexo == null) {
             throw new MiException("El sexo ingresado no puede ser nulo o estar vacio");
+        }
+        if(fechaNac.isAfter(LocalDate.now())){
+            throw new MiException("La fecha de nacimiento ingresada no puede ser posterior a la del dia de hoy");
         }
 
         if(idDueño == null){
