@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.leafcompany.ohmydog.RequestResponse.EditServicioDeTerceroRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterServicioDeTercerosRequest;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class ServicioDeTercerosService {
 
 
     @Transactional
-    public ServicioDeTerceros crearServicioDeTerceros(ServicioDeTerceros cuidador_paseador) throws MiException {
+    public ServicioDeTerceros crearServicioDeTerceros(RegisterServicioDeTercerosRequest cuidador_paseador) throws MiException {
 
         this.validarDatos(cuidador_paseador.getNombre(), cuidador_paseador.getApellido(), cuidador_paseador.getTelefono(),
             cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangoHorario(), cuidador_paseador.getDias());
@@ -47,29 +49,28 @@ public class ServicioDeTercerosService {
 
 
     @Transactional
-    public void modificarServicioDeTerceros(Long id, String nombre, String apellido, String telefono,
-            String email, TipoServicio tipo, String rangoHorario, List<String> dias, Boolean disponible)
+    public ServicioDeTerceros modificarServicioDeTerceros(EditServicioDeTerceroRequest cuidador_paseador)
             throws MiException {
 
-        this.validarDatos(nombre, apellido, telefono, email, tipo, rangoHorario, dias);
+        this.validarDatos(cuidador_paseador.getNombre(), cuidador_paseador.getApellido(), cuidador_paseador.getTelefono(),
+                cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangoHorario(), cuidador_paseador.getDias());
 
-        Optional<ServicioDeTerceros> respuesta = servicioDeTercerosRepository.findById(id);
 
-        if (respuesta.isPresent()) {
-            ServicioDeTerceros cuidador_paseador = respuesta.get();
-
-            cuidador_paseador.setNombre(nombre);
-            cuidador_paseador.setApellido(apellido);
-            cuidador_paseador.setTelefono(telefono);
-            cuidador_paseador.setEmail(email);
-            cuidador_paseador.setTipo(tipo);
-            cuidador_paseador.setRangohorario(rangoHorario);
-            cuidador_paseador.setDias(dias);
-            cuidador_paseador.setDisponible(disponible);
+        var servicio = ServicioDeTerceros.builder()
+                .id(cuidador_paseador.getId())
+                .nombre(cuidador_paseador.getNombre())
+                .apellido(cuidador_paseador.getApellido())
+                .telefono(cuidador_paseador.getTelefono())
+                .email(cuidador_paseador.getEmail())
+                .tipo(cuidador_paseador.getTipo())
+                .rangoHorario(cuidador_paseador.getRangoHorario())
+                .dias(cuidador_paseador.getDias())
+                .disponible(cuidador_paseador.getDisponible())
+                .build();
             
-            servicioDeTercerosRepository.save(cuidador_paseador);
+            return servicioDeTercerosRepository.save(servicio);
 
-        }
+
 
     }
 

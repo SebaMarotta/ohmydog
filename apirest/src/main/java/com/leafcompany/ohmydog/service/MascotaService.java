@@ -36,7 +36,7 @@ public class MascotaService {
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
-    public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException, java.io.IOException {
+    public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
         User dueño = userRepository.findById(idDueño).get();
@@ -58,9 +58,12 @@ public class MascotaService {
     }
 
     @Transactional
-    public Mascota modificarMascota(EditMascotaRequest mascota){
+    public Mascota modificarMascota(EditMascotaRequest mascota) throws MiException{
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),
+                LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
+
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         var user = this.userRepository.findById(mascota.getDuenio()).get();
         Mascota aux = Mascota
@@ -126,7 +129,8 @@ public class MascotaService {
 
 
 
-    private void validarDatos(String nombre, String raza, String color, Sexo sexo, LocalDate fechaNac, Long idDueño) throws MiException {
+    private void validarDatos(String nombre, String raza, String color, Sexo sexo,
+                              LocalDate fechaNac, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
         }

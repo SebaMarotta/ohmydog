@@ -3,21 +3,20 @@ package com.leafcompany.ohmydog.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.leafcompany.ohmydog.RequestResponse.EditServicioDeTerceroRequest;
+import com.leafcompany.ohmydog.RequestResponse.RegisterServicioDeTercerosRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
 import com.leafcompany.ohmydog.enumerations.TipoServicio;
 import com.leafcompany.ohmydog.exceptions.MiException;
 import com.leafcompany.ohmydog.service.ServicioDeTercerosService;
+
+import javax.swing.text.html.Option;
 
 @Controller
 @RequestMapping("/servicioDeTerceros")
@@ -27,7 +26,7 @@ public class ServicioDeTercerosController {
     ServicioDeTercerosService servicioDeTercerosService;
 
     @PostMapping("/registro")
-    public ResponseEntity<ServicioDeTerceros> guardarServicio(@RequestBody ServicioDeTerceros cuidador_paseador) throws MiException {
+    public ResponseEntity<ServicioDeTerceros> guardarServicio(@RequestBody RegisterServicioDeTercerosRequest cuidador_paseador) throws MiException {
 
      
         try {
@@ -40,26 +39,29 @@ public class ServicioDeTercerosController {
     }
 
     @GetMapping("/modificacion/{id}")
-    public ResponseEntity<Optional<ServicioDeTerceros>> modificarServicio(@PathVariable Long id) {
+    public ResponseEntity<ServicioDeTerceros> modificarServicio(@PathVariable Long id) {
         Optional<ServicioDeTerceros> cuidador_paseador = servicioDeTercerosService.findById(id);
         if (cuidador_paseador.isPresent()) {
-            return ResponseEntity.ok(cuidador_paseador);
+            return ResponseEntity.ok(cuidador_paseador.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/modificar/{id}")
-    public ResponseEntity<Optional<ServicioDeTerceros>> modificar(@PathVariable long id, @RequestParam("nombre") String nombre,
-            @RequestParam("apellido") String apellido, @RequestParam("telefono") String telefono,@RequestParam("email") String email,
-            @RequestParam("tipo") TipoServicio tipo,@RequestParam("rangoHorario") String rangoHorario,
-            @RequestParam("dias")List<String> dias,@RequestParam("disponible") Boolean disponible) throws MiException {
+    @PutMapping("/modificar/{id}")
+    public ResponseEntity<ServicioDeTerceros> modificar(@RequestBody EditServicioDeTerceroRequest cuidador_paseador,
+                                                        @PathVariable Long id) throws MiException {
+        Optional<ServicioDeTerceros> respuesta = servicioDeTercerosService.findById(id);
         try {
-            servicioDeTercerosService.modificarServicioDeTerceros(id, nombre, apellido, telefono, email, tipo, rangoHorario, dias, disponible);;
-            return ResponseEntity.ok().body(servicioDeTercerosService.findById(id));
-        } catch (MiException ex) {
+            if(respuesta.isPresent() && cuidador_paseador.getId().equals(id)){
+                return ResponseEntity.ok(servicioDeTercerosService.modificarServicioDeTerceros(cuidador_paseador));
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
 
-            return ResponseEntity.badRequest().body(servicioDeTercerosService.findById(id));
+        } catch (MiException ex) {
+            return ResponseEntity.notFound().build();
         }
     }
 

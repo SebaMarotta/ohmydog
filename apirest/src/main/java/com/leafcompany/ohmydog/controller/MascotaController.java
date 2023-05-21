@@ -69,9 +69,13 @@ public class MascotaController {
 
     @PutMapping("/modificacion/{id}")
     public ResponseEntity<Mascota> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
-        if (mascota.getDuenio().equals(id)) {
-            return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
-        } else {
+        try{
+            if (mascota.getDuenio().equals(id)) {
+                return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch(MiException ex){
             return ResponseEntity.notFound().build();
         }
     }
