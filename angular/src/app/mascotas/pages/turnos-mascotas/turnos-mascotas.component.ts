@@ -24,6 +24,7 @@ import {
   filter,
   forkJoin,
   map,
+  of,
   takeWhile,
   tap,
   throwError,
@@ -61,6 +62,7 @@ export class TurnosMascotasComponent {
   @Input() idMascota: number;
   @Input() idUser: number;
 
+  ok: boolean = true;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -153,7 +155,6 @@ export class TurnosMascotasComponent {
     this.solicitud.horario = this.solicitud.horario['horario'];
     this.solicitud.motivo = this.solicitud.motivo['motivo'];
 
-
     forkJoin({
       solicitudTurno: solicitudTurno$,
       turnos: turnos$,
@@ -207,12 +208,14 @@ export class TurnosMascotasComponent {
             turnoEstablecido ||
             solicitudEstablecida ||
             menor2meses ||
-            menor4meses
+            menor4meses ||
+            true
           );
         })
       )
       .subscribe((result) => {
         // El usuario ya hizo una solicitud de turno o tiene un turno asignado
+        this.ok = false;
         this.cerrar();
         if (menor2meses) {
           return this.messageService.add({
@@ -248,42 +251,42 @@ export class TurnosMascotasComponent {
             closable: false,
           });
         }
-      });
-    return this.turnoService
-      .setSolicitudTurno(this.solicitud)
-      .pipe(
-        map((resp: any) => resp as SolicitudTurno),
-        catchError((e: any) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
-            closable: false,
+        return this.turnoService
+          .setSolicitudTurno(this.solicitud)
+          .pipe(
+            map((resp: any) => resp as SolicitudTurno),
+            catchError((e: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: `${e.error.mensaje}`,
+                detail: `${e.error.error}`,
+                closable: false,
+              });
+              return throwError(e);
+            }),
+            takeWhile(
+              () =>
+                !menor2meses &&
+                !menor4meses &&
+                !solicitudEstablecida &&
+                !turnoEstablecido
+            )
+          )
+          .subscribe((resp) => {
+            const url = this.router.url;
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigateByUrl(url);
+              });
+            this.solicitudModal.emit(false);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Operacion completada',
+              detail: `La solicitud fue enviada correctamente, espere la respuesta de la administracion`,
+              closable: false,
+            });
           });
-          return throwError(e);
-        }),
-        takeWhile(
-          () =>
-            !menor2meses &&
-            !menor4meses &&
-            !solicitudEstablecida &&
-            !turnoEstablecido
-        )
-      )
-      .subscribe((resp) => {
-        const url = this.router.url;
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() => {
-            this.router.navigateByUrl(url);
-          });
-        this.solicitudModal.emit(false);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Operacion completada',
-          detail: `La solicitud fue enviada correctamente, espere la respuesta de la administracion`,
-          closable: false,
-        });
       });
   }
 

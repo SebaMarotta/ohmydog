@@ -18,6 +18,8 @@ export function fechaValidator(
   const [day, month, year] = value.split('/').map(Number);
   const maxDay = 31;
   const maxMonth = 12;
+  const aux = new Date(Date.now());
+  const maxYear = aux.getFullYear();
 
   if (day > maxDay) {
     return {
@@ -30,6 +32,16 @@ export function fechaValidator(
       customDate: { valid: false, message: 'El mes no puede ser mayor a 12' },
     };
   }
+
+  if (year > maxYear) {
+    return {
+      customDate: {
+        valid: false,
+        message: 'El año no puede ser mayor al actual',
+      },
+    };
+  }
+
 
   return null;
 }

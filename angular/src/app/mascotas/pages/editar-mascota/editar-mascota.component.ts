@@ -52,6 +52,8 @@ export class EditarMascotaComponent implements OnInit {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idMascota: number;
 
+  sexo: any; //Sirve para la validacion
+
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -115,6 +117,12 @@ export class EditarMascotaComponent implements OnInit {
   }
 
   guardar() {
+    if (
+      this.formulario.value.sexo['sexo'] != undefined &&
+      this.formulario.value.sexo['sexo'] != null
+    ) {
+      this.sexo = this.formulario.value.sexo['sexo'];
+    }
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;
     if (this.formulario.invalid) {
@@ -125,7 +133,7 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada = this.mascotaActual;
     this.mascotaEditada.nombre = this.formulario.value.nombre;
     this.mascotaEditada.raza = this.formulario.value.raza;
-    this.mascotaEditada.sexo = this.formulario.value.sexo['sexo'];
+    this.mascotaEditada.sexo = this.sexo;
     this.mascotaEditada.color = this.formulario.value.color;
     this.mascotaEditada.observaciones = this.formulario.value.observaciones;
     this.mascotaEditada.imagen = this.formulario.value.imagen;

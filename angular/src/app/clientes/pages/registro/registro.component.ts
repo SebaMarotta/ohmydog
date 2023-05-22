@@ -45,7 +45,10 @@ export class RegistroComponent {
   formulario: FormGroup = this.fb.group({
     nombre: ['', Validators.required],
     apellido: ['', Validators.required],
-    dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    dni: [
+      '',
+      [Validators.required, Validators.pattern('[0-9]*'), Validators.maxLength],
+    ],
     email: ['', [Validators.required, Validators.email]],
     telefono: ['', Validators.required],
   });
@@ -87,6 +90,8 @@ export class RegistroComponent {
       .pipe(
         map((resp: any) => resp as User),
         catchError((e: any) => {
+          this.isButtonDisabled = false;
+
           const error: string = 'Duplicate entry';
           const mensaje: string = e.error.error;
           if (mensaje.startsWith(error)) {

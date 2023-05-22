@@ -41,3 +41,7 @@ p-table th:last-child{
   width: 70vw;
   box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
 }
+
+p-dropdown-open{
+  position: absolute;
+}

@@ -39,6 +39,7 @@ export class RegistroMascotaComponent {
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idDuenio: number;
 
+  sexo: any; //Sirve para la validacion
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -74,7 +75,6 @@ export class RegistroMascotaComponent {
     const errors = this.formulario.controls[field].errors || {};
 
     for (const key of Object.keys(errors)) {
-      console.log(key);
       switch (key) {
         case 'required':
           return 'Este campo es requerido';
@@ -88,6 +88,12 @@ export class RegistroMascotaComponent {
   }
 
   guardar() {
+    if (
+      this.formulario.value.sexo['sexo'] != undefined &&
+      this.formulario.value.sexo['sexo'] != null
+    ) {
+      this.sexo = this.formulario.value.sexo['sexo'];
+    }
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;
     if (this.formulario.invalid) {
@@ -96,7 +102,7 @@ export class RegistroMascotaComponent {
     }
 
     this.mascota = this.formulario.value;
-    this.mascota.sexo = this.mascota.sexo['sexo'];
+    this.mascota.sexo = this.sexo;
 
     return this.mascotaService
       .register(this.mascota, this.idDuenio)

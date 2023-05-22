@@ -96,13 +96,11 @@ export class TurnoPendienteModalComponent implements OnInit {
       this.isButtonDisabled = false;
       return null;
     }
-
     this.turno.idMascota = this.solicitud.mascota.id;
     this.turno.idUser = this.solicitud.user.id;
     this.turno.idSolicitud = this.solicitud.id;
     this.turno.motivo = this.solicitud.motivo;
     this.turno.fecha = this.formulario.value['fecha'];
-
     return this.turnoService
       .setTurno(this.turno)
       .pipe(
