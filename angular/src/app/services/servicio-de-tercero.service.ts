@@ -67,7 +67,6 @@ export class ServicioDeTerceroService {
   }
 
   editarServicio(servicio: ServicioTercero): Observable<ServicioTercero> {
-    console.log(servicio);
     const url = `${this.baseUrl}/servicioDeTerceros/modificar/${servicio.id}`;
     return this.http.put<ServicioTercero>(url, servicio).pipe(
       tap(() => {

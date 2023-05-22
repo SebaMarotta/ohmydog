@@ -6,7 +6,7 @@
     <p><strong>Edad aproximada:</strong> {{ adopcion.edad }}</p>
     <p><strong>Raza:</strong> {{ adopcion.raza }}</p>
     <p><strong>Color:</strong> {{ adopcion.color }}</p>
-    <p><strong>Sexo:</strong> {{ adopcion.sexo }}</p>
+    <p><strong>Sexo:</strong> {{ adopcion.sexo | titlecase}}</p>
     <p><strong>Fecha de la publicacion:</strong> {{ adopcion.fecha | date:'dd/MM/yyyy' }}</p>
     <p><strong>Origen:</strong> {{ adopcion.origen }}</p>
     <!-- Agrega más información de la mascota según tus necesidades -->

@@ -64,9 +64,11 @@
               </div></span>
 
             </td>
+            <div *ngIf="solicitudModal">
             <p-dialog header="Solicitud de servicio" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '70vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
               <app-solicitud  (solicitudModal)="toggleSolicitud(servicio)" [servicio]="servicioIndividual"></app-solicitud>
             </p-dialog>
+          </div>
               </tr>
           </ng-template>
 

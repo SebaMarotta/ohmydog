@@ -190,7 +190,7 @@ export class EditarComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `El servicio se agregó correctamente`,
+          detail: `El servicio se editó correctamente`,
           closable: false,
         });
       });

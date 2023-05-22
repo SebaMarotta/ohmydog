@@ -33,6 +33,7 @@ export class PerfilMascotaComponent {
 
   protected idUser: number;
   protected observaciones: string[];
+  protected fechaNacimientoDate: Date = new Date();
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -109,7 +109,6 @@ export class SolicitudComponent {
 
     this.formularioServicio = this.formulario.value;
     this.formularioServicio.idServicio = this.servicio.id;
-    console.log(this.formularioServicio);
 
     return this.servicioTercerosService
       .enviarFormularioInteres(this.formularioServicio)

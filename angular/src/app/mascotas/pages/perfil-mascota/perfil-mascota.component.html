@@ -1,5 +1,5 @@
 <div *ngIf="solicitudModal">
-  <p-dialog  header="Solicitud de turno" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+  <p-dialog  header="Solicitud de turno" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '25vw'}"  [draggable]="false" [resizable]="false" [closable]="true">
     <app-turnos-mascotas (solicitudModal)="toggleSolicitud()" [idMascota]="mascota.id" [idUser]="idUser"></app-turnos-mascotas>
   </p-dialog>
   </div>
@@ -21,7 +21,7 @@
               <small id="username-help" class='label-perfil'>Sexo</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.sexo }}" readonly disabled />
               <small id="username-help" class='label-perfil'>Fecha de nacimiento</small>
-              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento }}" readonly disabled />
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento}}" readonly disabled />
             </div>
           </div>
           <div class="col-md-6">
@@ -40,7 +40,7 @@
 <div class="parent">
 
   <div *ngIf="rolSession == 'USER'" class="mx-auto" style="width: 70vw;">
-    <button pButton  pRipple label="Para solicitar un TURNO haga click aquí" (click)="toggleSolicitud()" class="w-full font-bold text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-lg" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"></button>
+    <button pButton  pRipple label="Para solicitar un TURNO haga click aquí" (click)="toggleSolicitud()" class="w-full font-bold text-0 p-button-veterinariaOrange p-button-raised p-button-outlined" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"></button>
   </div>
 
 <div class="mx-auto lista">

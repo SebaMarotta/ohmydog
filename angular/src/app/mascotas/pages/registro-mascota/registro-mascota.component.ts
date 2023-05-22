@@ -22,6 +22,7 @@ import {
 import { catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { MascotaService } from 'src/app/services/mascota.service';
+import { fechaValidator } from '../../validators/fecha.validator';
 
 @Component({
   selector: 'app-registro-mascota',
@@ -49,9 +50,12 @@ export class RegistroMascotaComponent {
       raza: ['', Validators.required],
       color: ['', [Validators.required]],
       sexo: ['', Validators.required],
-      fechaDeNacimiento: ['', [Validators.required]],
+      fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      imagen: [null],
+      // imagen: [
+      //   { value: '', disabled: true },
+      //   [Validators.required, Validators.min(0)],
+      // ],
       cruza: [false],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
@@ -70,11 +74,14 @@ export class RegistroMascotaComponent {
     const errors = this.formulario.controls[field].errors || {};
 
     for (const key of Object.keys(errors)) {
+      console.log(key);
       switch (key) {
         case 'required':
           return 'Este campo es requerido';
         case 'email':
           return 'Formato de email inválido';
+        case 'customDate':
+          return 'No se permite la fecha con estos valores';
       }
     }
     return null;
@@ -98,10 +105,11 @@ export class RegistroMascotaComponent {
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
+            summary: `Error`,
+            detail: `${e.error.mensaje}`,
             closable: false,
           });
+          this.isButtonDisabled = false;
           return throwError(e);
         })
       )

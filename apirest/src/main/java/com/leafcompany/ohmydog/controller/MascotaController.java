@@ -1,7 +1,9 @@
 package com.leafcompany.ohmydog.controller;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
@@ -50,11 +52,11 @@ public class MascotaController {
                               // hay un nulo
                               // o vacio , entre igual y manejemos el error desde la excepcion creada en el
                               // servicio
-    public ResponseEntity<Mascota> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
+    public ResponseEntity<?> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
+        Map<String,Object> errores = new HashMap<String,Object>();
 
         try {
-
             Mascota aux = mascotaService.crearMascota(mascota, idDuenio);
             // apartado para simular que devuelvo el perro que acabo de crear//
             // Mascota perro = mascotaService.findByName(nombre);
@@ -62,13 +64,15 @@ public class MascotaController {
             // estado HTTP 201 (creado)
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         } catch (MiException ex) {
-            throw ex;
+            errores.put("mensaje", ex.getLocalizedMessage());
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(errores);
         }
 
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<Mascota> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
+    public ResponseEntity<?> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
+        Map<String,Object> errores = new HashMap<String,Object>();
         try{
             if (mascota.getDuenio().equals(id)) {
                 return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
@@ -76,7 +80,8 @@ public class MascotaController {
                 return ResponseEntity.notFound().build();
             }
         } catch(MiException ex){
-            return ResponseEntity.notFound().build();
+            errores.put("mensaje", ex.getLocalizedMessage());
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(errores);
         }
     }
 

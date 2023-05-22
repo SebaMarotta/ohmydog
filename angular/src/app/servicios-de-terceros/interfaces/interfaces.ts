@@ -54,14 +54,3 @@ export interface Tipo {
   tipo: String;
 }
 
-export interface EditServicioTerceroRequest {
-  id: number;
-  nombre: string;
-  apellido: string;
-  telefono: string;
-  email: string;
-  tipo: string;
-  rangoHorario: string;
-  dias: string;
-  disponible: boolean;
-}

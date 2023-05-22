@@ -6,6 +6,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PerfilMascotaComponent } from '../mascotas/pages/perfil-mascota/perfil-mascota.component';
 import { isAdminGuard } from '../auth/guards/is-admin.guard';
 import { isPerfilDelClienteGuard } from '../auth/guards/is-perfil-del-cliente.guard';
+import { isMascotaDelClienteGuard } from '../auth/guards/is-mascota-del-cliente.guard';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
     path: 'clientes/:id/:idMascota',
     component: BackgroundComponent,
     children: [{ path: '', component: PerfilMascotaComponent }],
+    canActivate: [isMascotaDelClienteGuard],
   },
 ];
 

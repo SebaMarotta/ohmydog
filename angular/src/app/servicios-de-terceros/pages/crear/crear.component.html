@@ -55,7 +55,9 @@
         <ng-template pTemplate="item" let-zona>
           {{ zona.zona | motivoPipe | titlecase }}
         </ng-template>
-
+        <ng-template pTemplate="selectedItem" let-zona>
+          {{ zona.zona | motivoPipe | titlecase }}
+        </ng-template>
       </p-dropdown>
       <span *ngIf="isValidField('zona')" class="form-text text-danger">
         {{ getFieldError('zona') }}

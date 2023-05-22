@@ -23,6 +23,7 @@ import {
 import { catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { MascotaService } from 'src/app/services/mascota.service';
+import { fechaValidator } from '../../validators/fecha.validator';
 
 @Component({
   selector: 'app-editar-mascota',
@@ -62,9 +63,9 @@ export class EditarMascotaComponent implements OnInit {
       raza: ['', Validators.required],
       color: ['', [Validators.required]],
       sexo: ['', Validators.required],
-      fechaDeNacimiento: ['', [Validators.required]],
+      fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      imagen: [],
+      // imagen: [],
       cruza: [''],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
@@ -106,6 +107,8 @@ export class EditarMascotaComponent implements OnInit {
           return 'Este campo es requerido';
         case 'email':
           return 'Formato de email inválido';
+        case 'customDate':
+          return 'No se permite una fecha con estos valores';
       }
     }
     return null;
@@ -131,7 +134,6 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.fechaDeNacimiento =
       this.formulario.value.fechaDeNacimiento;
 
-
     return this.mascotaService
       .editar(this.mascotaEditada)
       .pipe(
@@ -139,10 +141,11 @@ export class EditarMascotaComponent implements OnInit {
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
+            summary: `Error`,
+            detail: `${e.error.mensaje}`,
             closable: false,
           });
+          this.isButtonDisabled = false;
           return throwError(e);
         })
       )

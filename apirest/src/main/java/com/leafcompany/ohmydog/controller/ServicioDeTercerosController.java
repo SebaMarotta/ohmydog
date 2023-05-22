@@ -46,8 +46,8 @@ public class ServicioDeTercerosController {
         ServicioDeTerceros publicacion = this.servicioDeTercerosService.findById(request.getIdServicio()).get();
 
         String titulo = "Hay una persona interesada en tu servicio de " + publicacion.getTipo() + "!";
-        String cuerpo =
-                        "La persona es: \n\n"
+        String cuerpo = "Buenas noticias " + publicacion.getNombre() + "!. Una persona esta interesada en tus servicios de " + publicacion.getTipo() + "\n\n"
+                        + "Su informacion es:\n\n"
                         + "Nombre: " + request.getNombre() + "\n"
                         + "Telefono: " + request.getTelefono()  + "\n"
                         + "Email: " + request.getEmail() + "\n\n"

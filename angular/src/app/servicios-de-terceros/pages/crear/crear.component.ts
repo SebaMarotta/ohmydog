@@ -87,7 +87,7 @@ export class CrearComponent {
       apellido: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
       zona: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       tipo: ['', [Validators.required]],
       rangoHorario: ['', [Validators.required]],
       dias: ['', [Validators.required]],
@@ -132,6 +132,8 @@ export class CrearComponent {
       switch (key) {
         case 'required':
           return 'Este campo es requerido';
+        case 'email':
+          return 'Formato de email inválido';
       }
     }
     return null;

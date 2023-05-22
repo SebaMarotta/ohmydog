@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                         "/adopciones/listar",
                         "/adopciones/solicitud",
                         "/servicioDeTerceros/listar/**",
-                        "/servicios/solicitud"
+                        "/servicioDeTerceros/solicitud"
                 )
                 .permitAll()
                 .anyRequest()
