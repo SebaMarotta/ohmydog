@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
 import com.leafcompany.ohmydog.enumerations.TipoServicio;
+import com.leafcompany.ohmydog.enumerations.Zona;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,8 @@ public class ServicioDeTerceros{
     private String email;
     private TipoServicio tipo;
     private String rangoHorario;
+
+    private Zona zona;
     @Enumerated(EnumType.STRING)
     private DisponibilidadSemana dias;
     private Boolean disponible;

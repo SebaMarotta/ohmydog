@@ -1,0 +1,80 @@
+<div class="container mx-auto">
+  <div *ngIf="rolSession == 'ADMIN'">
+  <button pButton  pRipple label="Agregar servicio +" (click)="toggleCrear()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+</div>
+<div *ngIf="crearModal">
+<p-dialog header="Registro de publicacion" [(visible)]="crearModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+    <app-crear (crearModal)="toggleCrear()"></app-crear>
+  </p-dialog>
+</div>
+<div *ngIf="editarModal">
+  <p-dialog header="Edicion de publicacion" [(visible)]="editarModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+      <app-editar (editarModal)="toggleEditar($event)" [servicio]="servicioIndividual"></app-editar>
+    </p-dialog>
+</div>
+
+  <div *ngIf="servicios.length > 0">
+  <p-table
+          responsiveLayout="scroll"
+          [value]="servicios"
+          [scrollable]="true"
+          scrollHeight="flex">
+
+          <ng-template pTemplate="header">
+              <tr>
+
+                  <th>Nombre</th>
+                  <th>Servicio</th>
+
+                  <th>Zona</th>
+                  <th>Rango horario</th>
+                  <th>Dias</th>
+                  <th>Opciones</th>
+
+              </tr>
+          </ng-template>
+
+          <ng-template
+              pTemplate="body"
+              let-rowData="rowData"
+              let-servicio sortMode="multiple">
+
+              <tr>
+                  <td>
+                      {{ servicio.nombre }} {{servicio.apellido}}
+                  </td>
+                   <td>
+                    {{ servicio.tipo | motivoPipe | titlecase }}
+                   </td>
+
+                    <td>
+                       {{ servicio.zona | motivoPipe | titlecase}}
+                    </td>
+              <td>
+                {{ servicio.rangoHorario }}
+              </td>
+              <td>
+                {{ servicio.dias | motivoPipe | titlecase}}
+              </td>
+
+            <td>
+              <span><p-button (click)="toggleSolicitud(servicio)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button></span>
+            <span><div *ngIf="rolSession == 'ADMIN'">
+              <p-button (click)="toggleEditar(servicio)" icon="pi pi-pencil" title="Editar" styleClass="p-button-rounded p-button-text"></p-button>
+              </div></span>
+
+            </td>
+            <p-dialog header="Solicitud de servicio" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '70vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+              <app-solicitud  (solicitudModal)="toggleSolicitud(servicio)" [servicio]="servicioIndividual"></app-solicitud>
+            </p-dialog>
+              </tr>
+          </ng-template>
+
+        </p-table>
+    </div>
+    <div *ngIf="servicios.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+      <div style="padding-top: 0.8vw;">
+      No hay ningun servicio registrado
+      </div>
+    </div>
+    </div>

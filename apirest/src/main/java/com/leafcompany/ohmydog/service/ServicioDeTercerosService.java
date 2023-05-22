@@ -8,6 +8,7 @@ import com.leafcompany.ohmydog.RequestResponse.EditServicioDeTerceroRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterServicioDeTercerosRequest;
 import com.leafcompany.ohmydog.entity.Mascota;
 import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
+import com.leafcompany.ohmydog.enumerations.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class ServicioDeTercerosService {
                 .email(cuidador_paseador.getEmail())
                 .tipo(cuidador_paseador.getTipo())
                 .dias(cuidador_paseador.getDias())
+                .zona(cuidador_paseador.getZona())
                 .disponible(cuidador_paseador.getDisponible())
                 .build();
 
@@ -65,6 +67,7 @@ public class ServicioDeTercerosService {
                 .tipo(cuidador_paseador.getTipo())
                 .rangoHorario(cuidador_paseador.getRangoHorario())
                 .dias(cuidador_paseador.getDias())
+                .zona(cuidador_paseador.getZona())
                 .disponible(cuidador_paseador.getDisponible())
                 .build();
             
@@ -104,6 +107,21 @@ public class ServicioDeTercerosService {
 
     public List<ServicioDeTerceros> findAll(){
         return servicioDeTercerosRepository.findAll();
+    }
+    public List<ServicioDeTerceros> findAllByZona(){
+        return servicioDeTercerosRepository.findAll();
+    }
+
+    public Zona[] listarZonas(){
+        return Zona.values();
+    }
+
+    public TipoServicio[] listarTipos(){
+        return TipoServicio.values();
+    }
+
+    public DisponibilidadSemana[] listarDias(){
+        return DisponibilidadSemana.values();
     }
 
 

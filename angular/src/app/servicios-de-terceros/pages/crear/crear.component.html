@@ -1,0 +1,94 @@
+
+  <div>
+    <form [formGroup]="formulario" >
+
+      <span class="p-float-label" >
+        <input pInputText id="nombre" formControlName="nombre" />
+        <label htmlFor="nombre">Nombre</label>
+      </span>
+      <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+        {{ getFieldError('nombre') }}
+      </span>
+
+
+      <span class="p-float-label">
+        <input pInputText id="apellido" formControlName="apellido" />
+        <label htmlFor="apellido">Apellido</label>
+      </span>
+      <span *ngIf="isValidField('apellido')" class="form-text text-danger">
+        {{ getFieldError('apellido') }}
+      </span>
+
+
+      <p-dropdown styleClass="w-full mt-4" formControlName="tipo" [options]="tipos" placeholder="Tipo" [editable]="false" optionLabel="tipo">
+        <ng-template pTemplate="item" let-tipo>
+          {{ tipo.tipo | motivoPipe | titlecase }}
+        </ng-template>
+        <ng-template pTemplate="selectedItem" let-tipo>
+          {{ tipo.tipo | motivoPipe | titlecase }}
+        </ng-template>
+      </p-dropdown>
+      <span *ngIf="isValidField('tipo')" class="form-text text-danger">
+        {{ getFieldError('tipo') }}
+      </span>
+
+
+      <span class="p-float-label">
+        <input pInputText id="email" formControlName="email" type="email"/>
+        <label htmlFor="email">Email</label>
+      </span>
+      <span *ngIf="isValidField('email')" class="form-text text-danger">
+        {{ getFieldError('email') }}
+      </span>
+
+
+      <span class="p-float-label">
+        <input pInputText id="telefono" formControlName="telefono" type="number"/>
+        <label htmlFor="telefono">Telefono</label>
+      </span>
+      <span *ngIf="isValidField('telefono')" class="form-text text-danger">
+        {{ getFieldError('telefono') }}
+      </span>
+
+
+      <p-dropdown styleClass="w-full mt-4" formControlName="zona" [options]="zonas" placeholder="Zona" [editable]="false" optionLabel="zona">
+        <ng-template pTemplate="item" let-zona>
+          {{ zona.zona | motivoPipe | titlecase }}
+        </ng-template>
+
+      </p-dropdown>
+      <span *ngIf="isValidField('zona')" class="form-text text-danger">
+        {{ getFieldError('zona') }}
+      </span>
+
+
+      <p-dropdown styleClass="w-full mt-4" formControlName="dias" [options]="diass" placeholder="Dia" [editable]="false" optionLabel="dias">
+        <ng-template pTemplate="item" let-dias>
+          {{ dias.dias | motivoPipe | titlecase }}
+        </ng-template>
+        <ng-template pTemplate="selectedItem" let-dias>
+          {{ dias.dias | motivoPipe | titlecase }}
+        </ng-template>
+      </p-dropdown>
+      <span *ngIf="isValidField('dias')" class="form-text text-danger">
+        {{ getFieldError('dias') }}
+      </span>
+
+      <span class="p-float-label">
+        <input pInputText id="rangoHorario" formControlName="rangoHorario" />
+        <label htmlFor="rangoHorario">Rango horario</label>
+      </span>
+      <span *ngIf="isValidField('rangoHorario')" class="form-text text-danger">
+        {{ getFieldError('rangoHorario') }}
+      </span>
+
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Crear publicacion" class="p-button-success p-button-text text-center"></button>
+      </div>
+
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
+    </form>
+    </div>
+

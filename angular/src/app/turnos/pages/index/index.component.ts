@@ -6,9 +6,7 @@ import { Component, DoCheck, OnInit } from '@angular/core';
   styleUrls: ['./index.component.css'],
 })
 export class IndexComponent implements OnInit {
-  ngOnInit(): void {
-    console.log();
-  }
+  ngOnInit(): void {}
   public value: string;
   public activeIndex: number = JSON.parse(localStorage.getItem('index'));
 

@@ -19,44 +19,61 @@ import {
   RegisterUserRequest,
   User,
 } from 'src/app/clientes/interfaces/interfaces';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
-import { RegisterAdopcionRequest } from '../../interfaces/interfaces';
+import {
+  FormularioServicioTerceroRequest,
+  ServicioTercero,
+} from '../../interfaces/interfaces';
 import { AdopcionService } from 'src/app/services/adopcion.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
 
 @Component({
-  selector: 'app-crear',
-  templateUrl: './crear.component.html',
-  styleUrls: ['./crear.component.css'],
+  selector: 'app-solicitud',
+  templateUrl: './solicitud.component.html',
+  styleUrls: ['./solicitud.component.css'],
 })
-export class CrearComponent implements OnInit {
-  formularioAdopcion: RegisterAdopcionRequest;
+export class SolicitudComponent {
+  @Input() servicio: ServicioTercero;
+  formularioServicio: FormularioServicioTerceroRequest;
   validador: Boolean;
   isButtonDisabled: Boolean = false;
-  protected sexos: any;
+  protected user$: BehaviorSubject<User> = this.authService.userSession;
+  protected rolSession: string = '';
+  protected idUser: number = 0;
+
   formulario: FormGroup = this.fb.group({
-    nombrePerro: ['', Validators.required],
-    edad: ['', Validators.required],
-    raza: ['', Validators.required],
-    color: ['', Validators.required],
-    sexo: ['', Validators.required],
-    origen: ['', Validators.required],
+    nombre: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    telefono: ['', Validators.required],
+    fechaYhora: ['', Validators.required],
   });
 
-  @Output() crearModal: EventEmitter<Boolean> = new EventEmitter();
+  @Output() solicitudModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() idUser: number;
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private userService: UserService,
     private adopcionService: AdopcionService,
-    private router: Router
+    private authService: AuthService,
+    private router: Router,
+    private servicioTercerosService: ServicioDeTerceroService
   ) {}
   ngOnInit(): void {
-    this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+    if (Object.keys(this.user$.value).length != 0) {
+      this.user$.subscribe((resp) => {
+        this.rolSession = resp.role;
+        this.idUser = resp.id;
+        this.formulario.patchValue({
+          nombre: this.user$.value.nombre + ` ` + this.user$.value.apellido,
+          email: this.user$.value.email,
+          telefono: this.user$.value.telefono,
+        });
+      });
+    }
   }
 
   isValidField(field: string) {
@@ -90,18 +107,22 @@ export class CrearComponent implements OnInit {
       return null;
     }
 
-    this.formularioAdopcion = this.formulario.value;
-    this.formularioAdopcion.sexo = this.formularioAdopcion.sexo['sexo'];
+    this.formularioServicio = this.formulario.value;
+    this.formularioServicio.idServicio = this.servicio.id;
+    console.log(this.formularioServicio);
 
-    return this.adopcionService
-      .register(this.formularioAdopcion, this.idUser)
+    return this.servicioTercerosService
+      .enviarFormularioInteres(this.formularioServicio)
       .pipe(
-        map((resp: any) => resp as User),
+        map((resp: any) => resp as FormularioServicioTerceroRequest),
         catchError((e: any) => {
+          const error: string = 'Duplicate entry';
+          const mensaje: string = e.error.error;
+
           this.messageService.add({
             severity: 'error',
-            summary: `${e}`,
-            detail: `${e}`,
+            summary: `${e.error.mensaje}`,
+            detail: `${e.error.error}`,
             closable: false,
           });
           return throwError(e);
@@ -117,7 +138,7 @@ export class CrearComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `La publicacion de adopcion fue creada correctamente`,
+          detail: `Se envió un email correctamente con tu información al responsable del servicio`,
           closable: false,
         });
       });
@@ -125,6 +146,6 @@ export class CrearComponent implements OnInit {
 
   cerrar(): void {
     setTimeout(() => this.formGroupDirective.resetForm(), 200);
-    this.crearModal.emit(false);
+    this.solicitudModal.emit(false);
   }
 }

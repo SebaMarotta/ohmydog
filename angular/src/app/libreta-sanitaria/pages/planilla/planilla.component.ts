@@ -72,7 +72,6 @@ export class PlanillaComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    console.log(this.turno);
     this.turnoService.getMotivosTurno().subscribe((resp) => {
       resp.forEach((resp) => {
         this.motivos.push({ motivo: resp });

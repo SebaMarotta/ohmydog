@@ -128,11 +128,9 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.imagen = this.formulario.value.imagen;
     this.mascotaEditada.cruza = this.formulario.value.cruza;
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
+    this.mascotaEditada.fechaDeNacimiento =
+      this.formulario.value.fechaDeNacimiento;
 
-    const [year, month, day] = this.mascotaEditada.fechaDeNacimiento.split('-');
-    const fechaFormateada = `${day}-${month}-${year}`;
-
-    this.mascotaEditada.fechaDeNacimiento = fechaFormateada;
 
     return this.mascotaService
       .editar(this.mascotaEditada)

@@ -1,0 +1,43 @@
+
+body{
+  width: 70vw;
+}
+p-table th:first-child{
+  border-radius:0px 0 0 0px;
+}
+
+p-table th:last-child{
+  border-radius:0px 0px 0px 0;
+}
+
+.buttonAcciones {
+  border-color: var(--blue-veterinaria);
+  background-color: var(--orange-veterinaria);
+  border-radius: 20px;
+
+}
+
+.iconosAcciones {
+  font-size: 1.5rem;
+}
+
+.p-button-veterinariaOrange {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 100%;
+  background: transparent
+  ;
+}
+
+
+.container {
+  background: transparent;
+  padding: 0cm;
+  border-width: 1cm;
+  border-radius: 20px;
+  margin-top: 1rem;
+  width: 80vw;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+}

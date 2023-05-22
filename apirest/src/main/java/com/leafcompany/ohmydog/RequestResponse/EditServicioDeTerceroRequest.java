@@ -2,6 +2,7 @@ package com.leafcompany.ohmydog.RequestResponse;
 
 import com.leafcompany.ohmydog.enumerations.DisponibilidadSemana;
 import com.leafcompany.ohmydog.enumerations.TipoServicio;
+import com.leafcompany.ohmydog.enumerations.Zona;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class EditServicioDeTerceroRequest {
     private String telefono;
     private String email;
     private TipoServicio tipo;
+    private Zona zona;
     private String rangoHorario;
     @Enumerated(EnumType.STRING)
     private DisponibilidadSemana dias;

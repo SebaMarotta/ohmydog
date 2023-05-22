@@ -36,7 +36,6 @@ public class Mascota{
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaDeNacimiento;
 
     @Lob

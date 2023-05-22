@@ -4,6 +4,7 @@ import com.leafcompany.ohmydog.entity.ServicioDeTerceros;
 
 import java.util.List;
 
+import com.leafcompany.ohmydog.enumerations.Zona;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,7 @@ public interface ServicioDeTercerosRepository extends JpaRepository<ServicioDeTe
 
     @Query("SELECT s FROM ServicioDeTerceros s WHERE s.tipo = :tipo")
     public List<ServicioDeTerceros> findByType(@Param("tipo") String tipo);
+
+    public  List<ServicioDeTerceros> findAllByZona(Zona zona);
 
 }

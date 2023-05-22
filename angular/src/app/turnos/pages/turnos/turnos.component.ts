@@ -34,7 +34,6 @@ export class TurnosComponent {
   constructor(private turnoService: TurnoService, private router: Router) {}
 
   ngOnInit() {
-    console.log(new Date().toUTCString);
     this.turnoService
       .getTurnos()
       .pipe(map((resp) => resp.filter((resp2) => resp2.activo == true)))

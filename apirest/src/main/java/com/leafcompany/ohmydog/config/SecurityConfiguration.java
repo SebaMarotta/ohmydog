@@ -27,7 +27,13 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/noauth/**","/adopciones/listar","/adopciones/solicitud")
+                .requestMatchers(
+                        "/noauth/**",
+                        "/adopciones/listar",
+                        "/adopciones/solicitud",
+                        "/servicioDeTerceros/listar/**",
+                        "/servicios/solicitud"
+                )
                 .permitAll()
                 .anyRequest()
                 .authenticated()

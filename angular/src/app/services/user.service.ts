@@ -39,7 +39,6 @@ export class UserService implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       const username = jwt_decode(token)['sub'];
       this.getSession(username);
