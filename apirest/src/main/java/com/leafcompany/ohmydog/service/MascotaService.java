@@ -146,7 +146,7 @@ public class MascotaService {
         if(fechaNac.isAfter(LocalDate.now())){
             throw new MiException("La fecha de nacimiento ingresada no puede ser posterior a la del dia de hoy");
         }
-        
+
 
         if(idDueño == null){
             throw new MiException("El id del dueño de la mascota no puede ser nulo");

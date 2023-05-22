@@ -30,8 +30,6 @@ public class Mascota{
     private String nombre;
     private String raza;
     private String color;
-    @Lob
-    @Column(columnDefinition = "CLOB")
     private String observaciones;
     @ManyToOne
     private User duenio;
