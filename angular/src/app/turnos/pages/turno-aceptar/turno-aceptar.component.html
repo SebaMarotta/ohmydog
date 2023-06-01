@@ -1,0 +1,25 @@
+
+<div *ngIf="planillaModal">
+  <p-dialog  header="Rellenar planilla" [(visible)]="planillaModal" [modal]="true" [style]="{ width: '30vw',height: '55vh', maxHeight: '100vh' }"  [draggable]="false" [resizable]="true" [closable]="true">
+    <app-planilla (planillaModal)="togglePlanilla()" [turno]="turnoAceptado"></app-planilla>
+  </p-dialog>
+  </div>
+
+
+
+<div class="text-center justify-content-center">
+  <h6>Mascota</h6>
+  <h5>{{turnoAceptado.mascota.nombre}}</h5><br>
+  <h6>Dueño</h6>
+  <h5>{{turnoAceptado.cliente.nombre}} {{turnoAceptado.cliente.apellido}}</h5><br>
+  <h6>Motivo</h6>
+  <h5>{{turnoAceptado.motivo}}</h5><br>
+  <h6>Turno</h6>
+  <h5>{{turnoAceptado.fecha | date:'d MMM, h:mm '}}</h5><br>
+</div>
+
+
+<div class="d-flex justify-content-center align-items-center">
+  <button pButton style="margin: 0 auto;" (click)="togglePlanilla()" icon="pi pi-check" iconPos="right" label="Rellenar planilla" class="p-button-success p-button-text text-center"></button>
+</div>
+

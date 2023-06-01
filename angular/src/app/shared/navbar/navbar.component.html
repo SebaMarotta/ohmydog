@@ -1,0 +1,61 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="{'custom-navbar-home': _home, 'custom-navbar': !_home}" data-spy="affix" data-offset-top="20">
+  <div class="container">
+      <a *ngIf="!_home"  class="navbar-brand" href="/">
+          <img src="assets/imgs/logo2.png" style="min-width: 80px;" alt="Download free bootstrap 4 landing page, free boootstrap 4 templates, Download free bootstrap 4.1 landing page, free boootstrap 4.1.1 templates, Creative studio Landing page">
+      </a>
+
+
+      <div *ngIf="_role == null "class="collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+              <!-- <li class="nav-item">
+                  <a class="nav-link" routerLink="contacto" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Contacto</a>
+              </li> -->
+              <li *ngIf="!_login" class="nav-item">
+                <a class="nav-link" routerLink="login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Iniciar sesion</a>
+            </li>
+          </ul>
+      </div>
+
+      <div *ngIf="_role == 'USER'" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto justify-content-center" [ngClass]="{'': _home, 'flex-grow-1': !_home}">
+          <!-- <li class="nav-item">
+            <a class="nav-link" routerLink="turnos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Mis turnos</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="cartelera" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cartelera</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="donaciones" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Donaciones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  routerLink="clientes/{{user$.value.id}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Mi perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="logout()"  href="">Cerrar sesión</a>
+          </li>
+        </ul>
+    </div>
+
+    <div *ngIf="_role == 'ADMIN'" class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto justify-content-center" [ngClass]="{'': _home, 'flex-grow-1': !_home}">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="clientes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="turnos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Turnos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="cartelera" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cartelera</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="donaciones" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Donaciones</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()"  href="">Cerrar sesión</a>
+        </li>
+      </ul>
+  </div>
+  </div>
+</nav>

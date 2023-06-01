@@ -1,0 +1,48 @@
+<div>
+<form [formGroup]="formulario" >
+  <span class="p-float-label" >
+    <input pInputText id="nombre" formControlName="nombre" />
+    <label htmlFor="nombre">Nombre</label>
+  </span>
+  <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+    {{ getFieldError('nombre') }}
+  </span>
+  <span class="p-float-label">
+    <input pInputText id="apellido" formControlName="apellido" />
+    <label htmlFor="apellido">Apellido</label>
+  </span>
+  <span *ngIf="isValidField('apellido')" class="form-text text-danger">
+    {{ getFieldError('apellido') }}
+  </span>
+  <span class="p-float-label">
+    <input pInputText id="dni" formControlName="dni" type="number" />
+    <label htmlFor="dni">Dni</label>
+  </span>
+  <span *ngIf="isValidField('dni')" class="form-text text-danger">
+    {{ getFieldError('dni') }}
+  </span>
+  <span class="p-float-label">
+    <input pInputText id="email" formControlName="email" type="email"/>
+    <label htmlFor="email">Email</label>
+  </span>
+  <span *ngIf="isValidField('email')" class="form-text text-danger">
+    {{ getFieldError('email') }}
+  </span>
+  <span class="p-float-label">
+    <input pInputText id="telefono" formControlName="telefono" type="number"/>
+    <label htmlFor="telefono">Telefono</label>
+  </span>
+  <span *ngIf="isValidField('telefono')" class="form-text text-danger">
+    {{ getFieldError('telefono') }}
+  </span>
+
+  <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+    <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar cliente" class="p-button-success p-button-text text-center"></button>
+  </div>
+
+  <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+  <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+  </div>
+</form>
+</div>
+

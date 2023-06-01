@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.column-left {
+  flex: 1;
+  padding: 16px;
+}
+
+.column-left h3 {
+  color: #ff9800; /* Cambia el color según tus preferencias */
+}
+
+.column-left p {
+  margin-bottom: 8px;
+}
+
+.column-left p strong {
+  font-weight: bold;
+  color: #ff9800; /* Cambia el color según tus preferencias */
+}
+
+.column-right {
+  flex: 1;
+  padding: 16px;
+}
+
+/* Estilos adicionales para el formulario */
+form {
+  margin-top: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.p-float-label {
+  margin-top: 0.6cm;
+}
+.p-button-veterinariaOrange {
+  margin-top: 0.6cm;
+}
+
+input, button {
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+p-calendar {
+  position: absolute;
+  z-index: 1;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  width: 15rem;
+}
+
+  textarea{
+    white-space:pre;
+  }
+
+  .custom-modal {
+    width: 40vh; /* Tamaño inicial del modal */
+    height: auto; /* Altura automática */
+    max-height: 80vh; /* Altura máxima del modal */
+    overflow-y: auto; /* Agregar barra de desplazamiento vertical si el contenido es más largo que la altura máxima */
+  }

@@ -1,0 +1,91 @@
+<div *ngIf="solicitudModal">
+  <p-dialog  header="Solicitud de turno" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '35vw'}"  [draggable]="false" [resizable]="false" [closable]="true">
+    <app-turnos-mascotas (solicitudModal)="toggleSolicitud()" [idMascota]="mascota.id" [idUser]="idUser"></app-turnos-mascotas>
+  </p-dialog>
+  </div>
+
+  <div class="container-fluid div1 justify-content-center mx-auto py-3 contenedor-perfil">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 13vw;" class="rounded">
+
+          </div>
+          <div class="col-md-3">
+            <div class="flex flex-column gap-0 text-center">
+              <small id="username-help" class='label-perfil'>Nombre</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.nombre }}" readonly disabled />
+              <small id="username-help" class='label-perfil'>Raza</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.raza }}" readonly disabled />
+              <small id="username-help" class='label-perfil'>Sexo</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.sexo }}" readonly disabled />
+              <small id="username-help" class='label-perfil'>Fecha de nacimiento</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento}}" readonly disabled />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <p class="text-center lead font-bold">
+              Observaciones<br>
+            </p>
+            <p-scrollPanel class="observaciones" [style]="{ width: '100%', height: '120px' }">
+
+              {{mascota.observaciones}}
+          </p-scrollPanel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="parent">
+
+  <div *ngIf="rolSession == 'USER'" class="mx-auto" style="width: 70vw;">
+    <button pButton  pRipple label="Para solicitar un TURNO haga click aquí" (click)="toggleSolicitud()" class="w-full font-bold text-0 p-button-veterinariaOrange p-button-raised p-button-outlined" style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"></button>
+  </div>
+
+<div class="mx-auto lista">
+  <div *ngIf="libretaSanitaria.length > 0">
+    <p-table
+            responsiveLayout="scroll"
+            [value]="libretaSanitaria"
+            [scrollable]="true"
+            scrollHeight="flex">
+
+            <ng-template pTemplate="header">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Motivo</th>
+                    <th>ACCIONES</th>
+
+                </tr>
+            </ng-template>
+
+            <ng-template
+                pTemplate="body"
+                let-rowData="rowData"
+                let-mascota sortMode="multiple">
+
+                <tr>
+                    <td>
+                        {{ mascota.fecha | date:'d MMM yy, HH:mm' }}
+                    </td>
+                    <td>
+                        {{ mascota.motivo }}
+                    </td>
+                    <td>
+                      <p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-text"></p-button>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+      </div>
+      <div *ngIf="libretaSanitaria.length == 0" class="lista2 w-full  font-bold text-center" style="background-color: rgb(255,255,255,1);height: 2rem;">
+        No se encuentra ninguna practica registrada de {{mascota.nombre}}
+        </div>
+
+      </div>
+    <!-- </div> -->
+  </div>
+
+

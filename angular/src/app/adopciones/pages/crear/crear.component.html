@@ -1,0 +1,53 @@
+<div>
+  <form [formGroup]="formulario" >
+
+    <span class="p-float-label" >
+      <input pInputText id="nombrePerro" formControlName="nombrePerro" />
+      <label htmlFor="nombrePerro">Nombre Perro</label>
+    </span>
+    <span *ngIf="isValidField('nombrePerro')" class="form-text text-danger">
+      {{ getFieldError('nombrePerro') }}
+    </span>
+    <span class="p-float-label">
+      <input pInputText id="edad" formControlName="edad" />
+      <label htmlFor="edad">Edad aproximada</label>
+    </span>
+    <span *ngIf="isValidField('edad')" class="form-text text-danger">
+      {{ getFieldError('edad') }}
+    </span>
+    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo" [editable]="false" optionLabel="sexo"></p-dropdown>
+    <span *ngIf="isValidField('sexo')" class="form-text text-danger">
+      {{ getFieldError('sexo') }}
+    </span>
+    <span class="p-float-label">
+      <input pInputText id="raza" formControlName="raza" />
+      <label htmlFor="raza">Raza</label>
+    </span>
+    <span *ngIf="isValidField('raza')" class="form-text text-danger">
+      {{ getFieldError('raza') }}
+    </span>
+    <span class="p-float-label">
+      <input pInputText id="color" formControlName="color"/>
+      <label htmlFor="color">Color</label>
+    </span>
+    <span *ngIf="isValidField('color')" class="form-text text-danger">
+      {{ getFieldError('color') }}
+    </span>
+    <span class="p-float-label">
+      <input pInputText id="origen" formControlName="origen"/>
+      <label htmlFor="origen">Origen</label>
+    </span>
+    <span *ngIf="isValidField('origen')" class="form-text text-danger">
+      {{ getFieldError('origen') }}
+    </span>
+
+    <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+      <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Crear publicacion" class="p-button-success p-button-text text-center"></button>
+    </div>
+
+    <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+    <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+    </div>
+  </form>
+  </div>
+

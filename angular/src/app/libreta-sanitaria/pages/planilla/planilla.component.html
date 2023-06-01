@@ -1,0 +1,63 @@
+
+  <form [formGroup]="formulario" >
+
+    <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo">
+        <ng-template pTemplate="item" let-motivo>
+          {{ motivo.motivo | motivoPipe | titlecase }}
+        </ng-template>
+        <ng-template pTemplate="selectedItem" let-motivo>
+          {{ motivo.motivo | motivoPipe | titlecase }}
+        </ng-template>
+      <span *ngIf="isValidField('motivo')" class="form-text text-danger">
+        {{ getFieldError('motivo') }}
+      </span>
+    </p-dropdown>
+    <span *ngIf="isValidField('motivo')" class="form-text text-danger">
+      {{ getFieldError('motivo') }}
+    </span>
+
+    <div [hidden]="inputHidden">
+      <div class="p-inputgroup mt-4">
+        <input formControlName="peso" type="text" pInputText placeholder="Peso" />
+        <span class="p-inputgroup-addon">Kg</span>
+      </div>
+      <span *ngIf="isValidField('peso')" class="form-text text-danger">
+        {{ getFieldError('peso') }}
+      </span>
+
+      <div class="p-inputgroup mt-4">
+        <input formControlName="cantidad" type="number" pInputText placeholder="Cantidad" />
+      </div>
+      <span *ngIf="isValidField('cantidad')" class="form-text text-danger">
+        {{ getFieldError('cantidad') }}
+      </span>
+    </div>
+
+    <span class="p-float-label mt-4">
+      <textarea styleClass="w-full" rows="5" cols="34" pInputTextarea formControlName="observaciones"></textarea>
+      <label htmlFor="observaciones">Observaciones</label>
+    </span>
+    <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
+      {{ getFieldError('observaciones') }}
+    </span>
+
+    <div class="p-inputgroup mt-4">
+      <span class="p-inputgroup-addon">$</span>
+      <input formControlName="monto" type="number" pInputText placeholder="Precio" />
+      <span class="p-inputgroup-addon"></span>
+  </div>
+    <span *ngIf="isValidField('monto')" class="form-text text-danger">
+      {{ getFieldError('monto') }}
+    </span>
+
+    <p-button (click)="guardar()" icon="pi pi-check" label="Registrar planilla" styleClass="p-button-success p-button-text"></p-button>
+
+  </form>
+
+
+
+
+
+
+
+

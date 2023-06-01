@@ -1,0 +1,70 @@
+<div class="container mx-auto">
+  <div *ngIf="rolSession">
+  <button pButton  pRipple label="Agregar adopcion +" (click)="toggleCrear()" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+</div>
+<div *ngIf="crearModal">
+<p-dialog header="Registro de publicacion" [(visible)]="crearModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+    <app-crear (crearModal)="toggleCrear()" [idUser]="this.user$.value.id"></app-crear>
+  </p-dialog>
+</div>
+
+  <div *ngIf="adopciones.length > 0">
+  <p-table
+          responsiveLayout="scroll"
+          [value]="adopciones"
+          [scrollable]="true"
+          scrollHeight="flex">
+
+          <ng-template pTemplate="header">
+              <tr>
+
+                  <th>Nombre</th>
+                  <th>Raza</th>
+                  <th>Edad aproximada</th>
+                  <th>Sexo</th>
+                  <th>Dueño</th>
+                  <th>Opciones</th>
+
+              </tr>
+          </ng-template>
+
+          <ng-template
+              pTemplate="body"
+              let-rowData="rowData"
+              let-adopcion sortMode="multiple">
+
+              <tr>
+
+                  <td>
+                      {{ adopcion.nombrePerro }}
+                  </td>
+                  <td>
+                      {{ adopcion.raza }}
+                  </td>
+                  <td>
+                    {{ adopcion.edad }}
+                </td>
+                <td>
+                  {{ adopcion.sexo }}
+              </td>
+              <td>
+                {{ adopcion.cliente.nombre }} {{adopcion.cliente.apellido }}
+              </td>
+
+            <td>
+              <p-button (click)="toggleSolicitud(adopcion)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button>
+            </td>
+            <p-dialog header="Solicitud de adopcion" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '70vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+              <app-solicitud  (solicitudModal)="toggleSolicitud(adopcion)" [adopcion]="adopcionIndividual"></app-solicitud>
+            </p-dialog>
+              </tr>
+          </ng-template>
+
+        </p-table>
+    </div>
+    <div *ngIf="adopciones.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+      <div style="padding-top: 0.8vw;">
+      No hay ninguna publicacion de adopción
+      </div>
+    </div>
+    </div>

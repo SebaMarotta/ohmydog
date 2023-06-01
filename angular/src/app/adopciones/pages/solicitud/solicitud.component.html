@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="column-left">
+    <!-- Columna izquierda: Información de la mascota -->
+    <h3>Información de la mascota</h3>
+    <p><strong>Nombre de la mascota:</strong> {{ adopcion.nombrePerro }}</p>
+    <p><strong>Edad aproximada:</strong> {{ adopcion.edad }}</p>
+    <p><strong>Raza:</strong> {{ adopcion.raza }}</p>
+    <p><strong>Color:</strong> {{ adopcion.color }}</p>
+    <p><strong>Sexo:</strong> {{ adopcion.sexo | titlecase}}</p>
+    <p><strong>Fecha de la publicacion:</strong> {{ adopcion.fecha | date:'dd/MM/yyyy' }}</p>
+    <p><strong>Origen:</strong> {{ adopcion.origen }}</p>
+    <!-- Agrega más información de la mascota según tus necesidades -->
+  </div>
+  <div class="column-right">
+    <!-- Columna derecha: Formulario de interés para el contacto -->
+    <h3>Formulario de interés</h3>
+    <form [formGroup]="formulario" >
+
+      <span class="p-float-label" >
+        <input pInputText id="nombre" formControlName="nombre" />
+        <label htmlFor="nombre">Nombre</label>
+      </span>
+      <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+        {{ getFieldError('nombre') }}
+      </span>
+      <span class="p-float-label">
+        <input pInputText id="telefono" formControlName="telefono" />
+        <label htmlFor="telefono">Telefono</label>
+      </span>
+      <span *ngIf="isValidField('telefono')" class="form-text text-danger">
+        {{ getFieldError('telefono') }}
+      </span>
+      <span class="p-float-label">
+        <input pInputText id="email" formControlName="email" />
+        <label htmlFor="email">Email</label>
+      </span>
+      <span *ngIf="isValidField('email')" class="form-text text-danger">
+        {{ getFieldError('email') }}
+      </span>
+
+
+
+        <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+          <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Enviar formulario" class="p-button-success p-button-text text-center"></button>
+        </div>
+
+        <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+        <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+        </div>
+    </form>
+
+
+
+
+  </div>
+</div>
