@@ -27,6 +27,7 @@ public class UserService {
                 .telefono(request.getTelefono())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .cambioContraseña(false)
                 .build();
         return userRepository.save(user);
     }
@@ -50,6 +51,7 @@ public class UserService {
     public User editPassword(String password, Long id) {
         User aux = userRepository.findById(id).get();
         aux.setPassword(passwordEncoder.encode(password));
+        aux.setCambioContraseña(true);
         return userRepository.save(aux);
     }
 }

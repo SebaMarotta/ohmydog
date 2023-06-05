@@ -17,6 +17,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import {
   Mascota,
+  Razas,
   RegisterMascotaRequest,
 } from 'src/app/mascotas/interfaces/interfaces';
 import { catchError, map, tap, throwError } from 'rxjs';
@@ -34,6 +35,7 @@ export class RegistroMascotaComponent {
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  razas: any = [];
   isButtonDisabled: Boolean = false;
   @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -46,6 +48,12 @@ export class RegistroMascotaComponent {
     private mascotaService: MascotaService,
     private router: Router
   ) {
+    mascotaService.getRazas().subscribe((resp) => {
+      resp.forEach((resp) => {
+        this.razas.push({ raza: resp.toString() });
+      });
+    });
+
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       raza: ['', Validators.required],
@@ -87,6 +95,12 @@ export class RegistroMascotaComponent {
     return null;
   }
 
+  get placeholderText(): string {
+    if (this.formulario.value['raza'] == '') return 'Raza (*)';
+
+    return this.formulario.value['raza'];
+  }
+
   guardar() {
     if (
       this.formulario.value.sexo['sexo'] != undefined &&
@@ -103,6 +117,9 @@ export class RegistroMascotaComponent {
 
     this.mascota = this.formulario.value;
     this.mascota.sexo = this.sexo;
+    this.mascota.raza = this.formulario.value.raza['raza'];
+
+    console.log(this.mascota);
 
     return this.mascotaService
       .register(this.mascota, this.idDuenio)

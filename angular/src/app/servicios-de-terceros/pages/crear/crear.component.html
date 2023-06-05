@@ -4,7 +4,7 @@
 
       <span class="p-float-label" >
         <input pInputText id="nombre" formControlName="nombre" />
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="nombre">Nombre (*)</label>
       </span>
       <span *ngIf="isValidField('nombre')" class="form-text text-danger">
         {{ getFieldError('nombre') }}
@@ -13,14 +13,14 @@
 
       <span class="p-float-label">
         <input pInputText id="apellido" formControlName="apellido" />
-        <label htmlFor="apellido">Apellido</label>
+        <label htmlFor="apellido">Apellido (*)</label>
       </span>
       <span *ngIf="isValidField('apellido')" class="form-text text-danger">
         {{ getFieldError('apellido') }}
       </span>
 
 
-      <p-dropdown styleClass="w-full mt-4" formControlName="tipo" [options]="tipos" placeholder="Tipo" [editable]="false" optionLabel="tipo">
+      <p-dropdown styleClass="w-full mt-4" formControlName="tipo" [options]="tipos" placeholder="Tipo (*)" [editable]="false" optionLabel="tipo">
         <ng-template pTemplate="item" let-tipo>
           {{ tipo.tipo | motivoPipe | titlecase }}
         </ng-template>
@@ -35,7 +35,7 @@
 
       <span class="p-float-label">
         <input pInputText id="email" formControlName="email" type="email"/>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email (*)</label>
       </span>
       <span *ngIf="isValidField('email')" class="form-text text-danger">
         {{ getFieldError('email') }}
@@ -44,14 +44,14 @@
 
       <span class="p-float-label">
         <input pInputText id="telefono" formControlName="telefono" type="number"/>
-        <label htmlFor="telefono">Telefono</label>
+        <label htmlFor="telefono">Telefono (*)</label>
       </span>
       <span *ngIf="isValidField('telefono')" class="form-text text-danger">
         {{ getFieldError('telefono') }}
       </span>
 
 
-      <p-dropdown styleClass="w-full mt-4" formControlName="zona" [options]="zonas" placeholder="Zona" [editable]="false" optionLabel="zona">
+      <p-dropdown styleClass="w-full mt-4" formControlName="zona" [options]="zonas" placeholder="Zona (*)" [editable]="false" optionLabel="zona">
         <ng-template pTemplate="item" let-zona>
           {{ zona.zona | motivoPipe | titlecase }}
         </ng-template>
@@ -64,7 +64,7 @@
       </span>
 
 
-      <p-dropdown styleClass="w-full mt-4" formControlName="dias" [options]="diass" placeholder="Dia" [editable]="false" optionLabel="dias">
+      <p-dropdown styleClass="w-full mt-4" formControlName="dias" [options]="diass" placeholder="Dia (*)" [editable]="false" optionLabel="dias">
         <ng-template pTemplate="item" let-dias>
           {{ dias.dias | motivoPipe | titlecase }}
         </ng-template>
@@ -78,7 +78,7 @@
 
       <span class="p-float-label">
         <input pInputText id="rangoHorario" formControlName="rangoHorario" />
-        <label htmlFor="rangoHorario">Rango horario</label>
+        <label htmlFor="rangoHorario">Rango horario (*)</label>
       </span>
       <span *ngIf="isValidField('rangoHorario')" class="form-text text-danger">
         {{ getFieldError('rangoHorario') }}

@@ -11,9 +11,13 @@ import { SharedModule } from '../shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { AdopcionesModule } from '../adopciones/adopciones.module';
 import { ServiciosDeTercerosModule } from '../servicios-de-terceros/servicios-de-terceros.module';
+import { EditarPasswordComponent } from './pages/editar-password/editar-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
-  declarations: [HomeComponent, CarteleraComponent],
+  declarations: [HomeComponent, CarteleraComponent, EditarPasswordComponent],
   imports: [
     CommonModule,
     IndexRoutingModule,
@@ -25,6 +29,9 @@ import { ServiciosDeTercerosModule } from '../servicios-de-terceros/servicios-de
     DialogModule,
     AdopcionesModule,
     ServiciosDeTercerosModule,
+    ReactiveFormsModule,
+    ProgressSpinnerModule,
+    InputTextModule,
   ],
 })
 export class IndexModule {}

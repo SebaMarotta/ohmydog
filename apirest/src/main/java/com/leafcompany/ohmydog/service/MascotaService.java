@@ -2,9 +2,11 @@ package com.leafcompany.ohmydog.service;
 
 import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.entity.Mascota;
+import com.leafcompany.ohmydog.enumerations.Zona;
 import com.leafcompany.ohmydog.exceptions.MiException;
 
 import io.jsonwebtoken.io.IOException;
@@ -38,14 +40,14 @@ public class MascotaService {
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
+        this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
         User dueño = userRepository.findById(idDueño).get();
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         var aux = Mascota.builder()
         .nombre(mascota.getNombre())
         .color(mascota.getColor())
-        .raza(mascota.getRaza())
+        .raza(Razas.valueOf(mascota.getRaza()))
         .cruza(mascota.isCruza())
         .duenio(dueño)
         .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(),formatter))
@@ -57,11 +59,14 @@ public class MascotaService {
         return mascotaRepository.save(aux);
     }
 
+    public Razas[] listarRazas(){
+        return Razas.values();
+    }
     @Transactional
     public Mascota modificarMascota(EditMascotaRequest mascota) throws MiException{
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),
+        this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),
                 LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
@@ -69,7 +74,7 @@ public class MascotaService {
         Mascota aux = Mascota
                 .builder()
                 .duenio(user)
-                .raza(mascota.getRaza())
+                .raza(Razas.valueOf(mascota.getRaza()))
                 .id(mascota.getId())
                 .nombre(mascota.getNombre())
                 .color(mascota.getColor())
@@ -129,13 +134,10 @@ public class MascotaService {
 
 
 
-    private void validarDatos(String nombre, String raza, String color, Sexo sexo,
+    private void validarDatos(String nombre, String color, Sexo sexo,
                               LocalDate fechaNac, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
-        }
-        if (raza == null || raza.isEmpty()) {
-            throw new MiException("LA raza ingresado no puede ser nulo o estar vacio");
         }
         if (color == null || color.isEmpty()) {
             throw new MiException("El color ingresado no puede ser nulo o estar vacio");

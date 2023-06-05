@@ -11,6 +11,7 @@ export interface User {
   role?: string;
   enabled?: boolean;
   username?: string;
+  cambioContraseña?: boolean;
   authorities?: Authority[];
   accountNonExpired?: boolean;
   accountNonLocked?: boolean;

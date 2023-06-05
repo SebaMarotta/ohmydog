@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
 import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -121,6 +122,11 @@ public class MascotaController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/listar-razas")
+    public ResponseEntity<Razas[]> listarRazas() {
+            return ResponseEntity.ok(mascotaService.listarRazas());
     }
 
 //    @GetMapping("/listar/{nombre}")

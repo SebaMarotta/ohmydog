@@ -5,6 +5,7 @@ package com.leafcompany.ohmydog.entity;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class Mascota{
     private Long id;
 
     private String nombre;
-    private String raza;
+    private Razas raza;
     private String color;
     private String observaciones;
     @ManyToOne
