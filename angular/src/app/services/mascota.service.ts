@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
   Mascota,
+  Razas,
   RegisterMascotaRequest,
 } from '../mascotas/interfaces/interfaces';
 import { Observable, Subject, tap } from 'rxjs';
@@ -24,6 +25,11 @@ export class MascotaService {
   getMascotasUser(id: Number): Observable<Mascota[]> {
     const url = `${this.baseUrl}/mascota/listar/${id}`;
     return this.http.get<Mascota[]>(url);
+  }
+
+  getRazas(): Observable<String[]> {
+    const url = `${this.baseUrl}/mascota/listar-razas`;
+    return this.http.get<String[]>(url);
   }
 
   findById(id: Number): Observable<Mascota> {

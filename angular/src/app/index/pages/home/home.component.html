@@ -1,4 +1,15 @@
 
+<div *ngIf="!cambioPassword && idUser != null">
+  <p-dialog  header="" [(visible)]="!cambioPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
+    <div class="text-align">
+    <h4>Bienvenido a OhMyDog!</h4>
+    <p>
+      Por unica vez le pedimos que ingrese una nueva contraseña a elección, esto es para facilitarle a usted el ingreso en futuras visitas
+    </p>
+  </div>
+    <app-editar-password (editarModal)="cambioPassword = $event.valueOf()" [idUser]="idUser"></app-editar-password>
+  </p-dialog>
+</div>
 
     <!-- Page Header -->
     <header class="header">

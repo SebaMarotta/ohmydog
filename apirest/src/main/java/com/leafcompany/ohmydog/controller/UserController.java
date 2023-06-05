@@ -70,8 +70,7 @@ public class UserController {
               + "Hemos generado una contraseña aleatoria para su cuenta que le recomendamos cambiar después de iniciar sesión en nuestro sitio web\n\n"
               + "Contraseña: " + sb.toString() + "\n\n"
 
-              + "Para cambiarla deberá iniciar sesión en la esquina superior derecha de la pantalla al ingresar a nuestro sitio y deberá ir a \n"
-              + "'Mi Perfil', y luego a 'Editar contraseña' "
+              + "Al iniciar sesión por primera vez, se le pedirá que obligatoriamente cambie dicha contraseña por alguna de su elección\n"
               + "Gracias por elegir nuestra veterinaria y esperamos poder atender a sus mascotas en el futuro.\n\n"
               + "Saludos cordiales,\n"
               + "Veterinaria 'Oh my Dog!'";

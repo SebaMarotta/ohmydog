@@ -77,10 +77,6 @@
       <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
     </p-dialog>
   </div>
-  <div *ngIf="editarModalPassword">
-    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
-      <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
-    </p-dialog>
-  </div>
+
 
 

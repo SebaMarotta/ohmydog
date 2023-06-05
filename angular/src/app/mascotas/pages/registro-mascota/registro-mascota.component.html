@@ -2,29 +2,43 @@
 
     <span class="p-float-label" >
       <input pInputText id="nombre" formControlName="nombre" />
-      <label htmlFor="nombre">Nombre</label>
+      <label htmlFor="nombre">Nombre (*)</label>
     </span>
     <span *ngIf="isValidField('nombre')" class="form-text text-danger">
       {{ getFieldError('nombre') }}
     </span>
 
-    <span class="p-float-label">
-      <input pInputText id="raza" formControlName="raza" />
-      <label htmlFor="raza">Raza</label>
-    </span>
+
+    <p-dropdown [filter]="true" filterBy="" styleClass="w-full mt-4" formControlName="raza" [options]="razas" placeholder="{{placeholderText | motivoPipe | titlecase}}" [editable]="false" optionLabel="raza">
+      <ng-template pTemplate="item" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+    </p-dropdown>
     <span *ngIf="isValidField('raza')" class="form-text text-danger">
       {{ getFieldError('raza') }}
     </span>
 
+
+
+
+
+
+
+
+
+
     <span class="p-float-label">
       <input pInputText id="color" formControlName="color" />
-      <label htmlFor="color">Color</label>
+      <label htmlFor="color">Color (*)</label>
     </span>
     <span *ngIf="isValidField('color')" class="form-text text-danger">
       {{ getFieldError('color') }}
     </span>
 
-    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo" [editable]="false" optionLabel="sexo"></p-dropdown>
+    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo (*)" [editable]="false" optionLabel="sexo"></p-dropdown>
     <span *ngIf="isValidField('sexo')" class="form-text text-danger">
       {{ getFieldError('sexo') }}
     </span>
@@ -32,7 +46,7 @@
     <span class="p-float-label">
       <p-inputMask styleClass="w-full"  mask="99/99/9999" slotChar="dd/mm/yyyy" formControlName="fechaDeNacimiento" id="ssn_input"></p-inputMask>
 
-      <label htmlFor="ssn_input">Fecha de nacimiento</label>
+      <label htmlFor="ssn_input">Fecha de nacimiento (*)</label>
    </span>
     <span *ngIf="isValidField('fechaDeNacimiento')" class="form-text text-danger">
       {{ getFieldError('fechaDeNacimiento') }}

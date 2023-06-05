@@ -4,7 +4,7 @@
 
     <span class="p-float-label" >
       <input pInputText id="nombre" formControlName="nombre" />
-      <label htmlFor="nombre">Nombre</label>
+      <label htmlFor="nombre">Nombre (*)</label>
     </span>
     <span *ngIf="isValidField('nombre')" class="form-text text-danger">
       {{ getFieldError('nombre') }}
@@ -13,7 +13,7 @@
 
     <span class="p-float-label">
       <input pInputText id="apellido" formControlName="apellido" />
-      <label htmlFor="apellido">Apellido</label>
+      <label htmlFor="apellido">Apellido (*)</label>
     </span>
     <span *ngIf="isValidField('apellido')" class="form-text text-danger">
       {{ getFieldError('apellido') }}
@@ -35,7 +35,7 @@
 
     <span class="p-float-label">
       <input pInputText id="email" formControlName="email" type="email"/>
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">Email (*)</label>
     </span>
     <span *ngIf="isValidField('email')" class="form-text text-danger">
       {{ getFieldError('email') }}
@@ -44,7 +44,7 @@
 
     <span class="p-float-label">
       <input pInputText id="telefono" formControlName="telefono" type="number"/>
-      <label htmlFor="telefono">Telefono</label>
+      <label htmlFor="telefono">Telefono (*)</label>
     </span>
     <span *ngIf="isValidField('telefono')" class="form-text text-danger">
       {{ getFieldError('telefono') }}
@@ -78,14 +78,14 @@
 
     <span class="p-float-label">
       <input pInputText id="rangoHorario" formControlName="rangoHorario" />
-      <label htmlFor="rangoHorario">Rango horario</label>
+      <label htmlFor="rangoHorario">Rango horario (*)</label>
     </span>
     <span *ngIf="isValidField('rangoHorario')" class="form-text text-danger">
       {{ getFieldError('rangoHorario') }}
     </span>
 
 
-    <label style="margin-right: 1rem;margin-top: 2rem;" htmlFor="cruza">Estado de la publicacion</label>
+    <label style="margin-right: 1rem;margin-top: 2rem;" htmlFor="cruza">Estado de la publicacion (*)</label>
     <p-inputSwitch formControlName="disponible"></p-inputSwitch>
 
 

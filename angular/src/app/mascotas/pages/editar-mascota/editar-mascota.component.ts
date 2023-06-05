@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import {
   Mascota,
+  Razas,
   RegisterMascotaRequest,
 } from 'src/app/mascotas/interfaces/interfaces';
 import { catchError, map, tap, throwError } from 'rxjs';
@@ -47,12 +48,14 @@ export class EditarMascotaComponent implements OnInit {
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  razas: Razas[] = [];
   isButtonDisabled: Boolean = false;
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idMascota: number;
 
   sexo: any; //Sirve para la validacion
+  raza: any; //Tambien
 
   constructor(
     private fb: FormBuilder,
@@ -60,6 +63,11 @@ export class EditarMascotaComponent implements OnInit {
     private mascotaService: MascotaService,
     private router: Router
   ) {
+    this.mascotaService.getRazas().subscribe((resp) => {
+      resp.forEach((resp) => {
+        this.razas.push({ raza: resp });
+      });
+    });
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       raza: ['', Validators.required],
@@ -80,7 +88,7 @@ export class EditarMascotaComponent implements OnInit {
       const fechaFormateada = `${day}/${month}/${year}`;
       this.formulario.patchValue({
         nombre: this.mascotaActual.nombre,
-        raza: this.mascotaActual.raza,
+        raza: { raza: this.mascotaActual.raza },
         color: this.mascotaActual.color,
         sexo: { sexo: this.mascotaActual.sexo },
         fechaDeNacimiento: fechaFormateada,
@@ -116,6 +124,12 @@ export class EditarMascotaComponent implements OnInit {
     return null;
   }
 
+  get placeholderText(): string {
+    if (this.formulario.value['raza'] == '') return 'Raza (*)';
+
+    return this.formulario.value['raza'];
+  }
+
   guardar() {
     if (
       this.formulario.value.sexo['sexo'] != undefined &&
@@ -132,7 +146,7 @@ export class EditarMascotaComponent implements OnInit {
 
     this.mascotaEditada = this.mascotaActual;
     this.mascotaEditada.nombre = this.formulario.value.nombre;
-    this.mascotaEditada.raza = this.formulario.value.raza;
+    this.mascotaEditada.raza = this.formulario.value.raza['raza'];
     this.mascotaEditada.sexo = this.sexo;
     this.mascotaEditada.color = this.formulario.value.color;
     this.mascotaEditada.observaciones = this.formulario.value.observaciones;

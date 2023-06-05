@@ -1,6 +1,7 @@
 package com.leafcompany.ohmydog.RequestResponse;
 
 import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

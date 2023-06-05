@@ -9,7 +9,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-3">
-            <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 13vw;" class="rounded">
+            <img src="assets/imgs/perroMuestra.png" alt="Avatar" style="max-width: 15vw;" class="rounded">
 
           </div>
           <div class="col-md-3">
@@ -17,11 +17,13 @@
               <small id="username-help" class='label-perfil'>Nombre</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.nombre }}" readonly disabled />
               <small id="username-help" class='label-perfil'>Raza</small>
-              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.raza }}" readonly disabled />
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.raza | motivoPipe | titlecase }}" readonly disabled />
               <small id="username-help" class='label-perfil'>Sexo</small>
               <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.sexo }}" readonly disabled />
               <small id="username-help" class='label-perfil'>Fecha de nacimiento</small>
-              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento}}" readonly disabled />
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.fechaDeNacimiento | fecha}}" readonly disabled />
+              <small id="username-help" class='label-perfil'>Cruza</small>
+              <input pInputText type="text" class="info p-inputtext-sm text-center " placeholder="Small" placeholder="{{ mascota.cruza | cruza}}" readonly disabled />
             </div>
           </div>
           <div class="col-md-6">

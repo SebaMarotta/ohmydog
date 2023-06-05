@@ -22,3 +22,7 @@ export interface RegisterMascotaRequest {
   fechaDeNacimiento: String;
   imagen: string;
 }
+
+export interface Razas {
+  raza: String;
+}
