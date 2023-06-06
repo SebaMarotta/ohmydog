@@ -1,5 +1,8 @@
 package com.leafcompany.ohmydog.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,33 +39,29 @@ public class MascotaController {
     @Autowired
     UserService userService;
 
-    // @GetMapping("/registrar") // localhost4200:/mascota/registrar ---> a
-    // confirmar como se va a interactuar con el frontend
-    // public String registrarMascota(ModelMap modelo){
-    // List<String> sexos = new ArrayList<String>();
-    // sexos.add(Sexo.MACHO.toString());
-    // sexos.add(Sexo.HEMBRA.toString());
 
-    // modelo.addAttribute("sexos", sexos);
-    // return "mascota_form";
-    // }
 
-    @PostMapping("/registro/{idDuenio}") // recibe del formulario que tiene este action . Usar el required=false es
-                              // porque si ingresa un valor
-                              // nulo al controlador, ni se ejecuta, entonces de esta manera hacemos que si
-                              // hay un nulo
-                              // o vacio , entre igual y manejemos el error desde la excepcion creada en el
-                              // servicio
+    @PostMapping("/registro/{idDuenio}")
     public ResponseEntity<?> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
         Map<String,Object> errores = new HashMap<String,Object>();
 
         try {
+            if(!mascota.getImagen().isEmpty()) {
+                Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
+                String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+
+                try {
+                    byte[] bytesImg = mascota.getImagen().getBytes();
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + mascota.getImagen().getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImg);
+
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            }
             Mascota aux = mascotaService.crearMascota(mascota, idDuenio);
-            // apartado para simular que devuelvo el perro que acabo de crear//
-            // Mascota perro = mascotaService.findByName(nombre);
-            // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
-            // estado HTTP 201 (creado)
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         } catch (MiException ex) {
             errores.put("mensaje", ex.getLocalizedMessage());
@@ -76,6 +75,20 @@ public class MascotaController {
         Map<String,Object> errores = new HashMap<String,Object>();
         try{
             if (mascota.getDuenio().equals(id)) {
+                if(!mascota.getImagen().isEmpty()) {
+                    Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
+                    String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+
+                    try {
+                        byte[] bytesImg = mascota.getImagen().getBytes();
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + mascota.getImagen().getOriginalFilename());
+                        Files.write(rutaCompleta, bytesImg);
+
+                    } catch (java.io.IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
             } else {
                 return ResponseEntity.notFound().build();

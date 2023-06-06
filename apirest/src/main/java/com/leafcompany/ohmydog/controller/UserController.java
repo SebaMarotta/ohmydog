@@ -24,6 +24,10 @@ import com.leafcompany.ohmydog.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @RestController
@@ -62,6 +66,20 @@ public class UserController {
         sb.append(chars.charAt(index));
       }
       request.setPassword(sb.toString());
+      if(!request.getImagen().isEmpty()) {
+        Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
+        String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+
+        try {
+          byte[] bytesImg = request.getImagen().getBytes();
+          Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + request.getImagen().getOriginalFilename());
+          Files.write(rutaCompleta, bytesImg);
+
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
       var aux = userService.register(request);
 
       String titulo = "Fuiste registrado en la veterinaria Oh My Dog!";
@@ -88,6 +106,19 @@ public class UserController {
   @PutMapping("/edit/{id}")
   public ResponseEntity<User> modificar(@RequestBody EditUserRequest user, @PathVariable Long id) {
     if (user.getId().equals(id)) {
+
+      Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
+      String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+      try {
+        byte[] bytesImg = user.getImagen().getBytes();
+        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + user.getImagen().getOriginalFilename());
+        Files.write(rutaCompleta, bytesImg);
+
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
       return ResponseEntity.ok(userService.editUser(user));
     } else {
       return ResponseEntity.notFound().build();

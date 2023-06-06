@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -21,7 +22,7 @@ public class EditMascotaRequest {
     private Long duenio;
     private Sexo sexo;
     private String fechaDeNacimiento;
-    private byte[] imagen;
+    private MultipartFile imagen;
     private boolean cruza;
 
 }

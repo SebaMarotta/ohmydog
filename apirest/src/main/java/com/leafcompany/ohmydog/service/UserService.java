@@ -27,6 +27,7 @@ public class UserService {
                 .telefono(request.getTelefono())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .imagen(request.getImagen().getOriginalFilename())
                 .cambioContraseña(false)
                 .build();
         return userRepository.save(user);
@@ -45,6 +46,7 @@ public class UserService {
         aux.setApellido(user.getApellido());
         aux.setEmail(user.getEmail());
         aux.setTelefono(user.getTelefono());
+        aux.setImagen(user.getImagen().getOriginalFilename());
         return userRepository.save(aux);
     }
 

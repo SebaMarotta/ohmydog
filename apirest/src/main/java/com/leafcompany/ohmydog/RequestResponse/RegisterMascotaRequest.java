@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -30,7 +31,7 @@ public class RegisterMascotaRequest {
 
     private String fechaDeNacimiento;
 
-    private byte[] imagen;
+    private MultipartFile imagen;
 
     private boolean cruza;
 

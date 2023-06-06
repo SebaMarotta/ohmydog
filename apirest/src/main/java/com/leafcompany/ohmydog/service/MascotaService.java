@@ -51,7 +51,7 @@ public class MascotaService {
         .cruza(mascota.isCruza())
         .duenio(dueño)
         .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(),formatter))
-        .imagen(mascota.getImagen())
+        .imagen(mascota.getImagen().getOriginalFilename())
         .sexo(mascota.getSexo())
         .observaciones(mascota.getObservaciones())
         .build();
@@ -81,7 +81,7 @@ public class MascotaService {
                 .cruza(mascota.isCruza())
                 .duenio(user)
                 .fechaDeNacimiento(fecha)
-                .imagen(mascota.getImagen())
+                .imagen(mascota.getImagen().getOriginalFilename())
                 .observaciones(mascota.getObservaciones())
                 .sexo(mascota.getSexo())
                 .build();

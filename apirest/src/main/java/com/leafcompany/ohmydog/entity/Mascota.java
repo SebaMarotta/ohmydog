@@ -40,9 +40,10 @@ public class Mascota{
 
     private LocalDate fechaDeNacimiento;
 
-    @Lob
-    private byte[] imagen;
+    private String imagen;
 
     private boolean cruza;
+
+
 
 }
