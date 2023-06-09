@@ -66,7 +66,7 @@ public class UserController {
         sb.append(chars.charAt(index));
       }
       request.setPassword(sb.toString());
-      if(!request.getImagen().isEmpty()) {
+      if(request.getImagen() != null && !request.getImagen().isEmpty()) {
         Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
         String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
@@ -98,7 +98,6 @@ public class UserController {
     } catch (DataAccessException e) {
       response.put("mensaje", "Error al crear el usuario");
       response.put("error", e.getMostSpecificCause().getMessage());
-      System.out.println(e.getMostSpecificCause().getMessage());
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
@@ -126,10 +125,10 @@ public class UserController {
   }
 
   @PutMapping("/edit-password/{id}")
-  public ResponseEntity<Boolean> modificarPassword(@RequestBody String password, @PathVariable Long id) {
+  public ResponseEntity<?> modificarPassword(@RequestBody String password, @PathVariable Long id) {
     try{
     userService.editPassword(password, id);
-    return ResponseEntity.ok(true);
+    return ResponseEntity.ok(userService.editPassword(password, id));
   } catch (DataAccessException e){
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
     }

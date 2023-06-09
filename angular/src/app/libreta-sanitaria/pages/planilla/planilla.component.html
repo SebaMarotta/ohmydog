@@ -1,17 +1,9 @@
 
   <form [formGroup]="formulario" >
-
-    <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo">
-        <ng-template pTemplate="item" let-motivo>
-          {{ motivo.motivo | motivoPipe | titlecase }}
-        </ng-template>
-        <ng-template pTemplate="selectedItem" let-motivo>
-          {{ motivo.motivo | motivoPipe | titlecase }}
-        </ng-template>
-      <span *ngIf="isValidField('motivo')" class="form-text text-danger">
-        {{ getFieldError('motivo') }}
-      </span>
-    </p-dropdown>
+    <small htmlFor="motivo">Motivo</small>
+    <div class="p-inputgroup">
+    <input styleClass="w-full" pInputText formControlName="motivo" readonly/>
+    </div>
     <span *ngIf="isValidField('motivo')" class="form-text text-danger">
       {{ getFieldError('motivo') }}
     </span>

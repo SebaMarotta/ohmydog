@@ -38,7 +38,7 @@ public class TurnoService {
 
 
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
-                   // luego desde el controlador devuelva el turno creado
+                   // desde el controlador devuelva el turno creado
     public Turno crearTurno(RegisterTurnoRequest request) throws MiException {
         Mascota mascota = this.mascotaService.findById(request.getIdMascota()).get();
         User user = this.userService.findById(request.getIdUser()).get();

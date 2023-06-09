@@ -19,17 +19,31 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     public User register(RegisterUserRequest request){
-        var user = User.builder()
-                .nombre(request.getNombre())
-                .apellido(request.getApellido())
-                .dni(request.getDni())
-                .email(request.getEmail())
-                .telefono(request.getTelefono())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .imagen(request.getImagen().getOriginalFilename())
-                .cambioContraseña(false)
-                .build();
+        User user;
+        if (request.getImagen() != null) {
+            user = User.builder()
+                    .nombre(request.getNombre())
+                    .apellido(request.getApellido())
+                    .dni(request.getDni())
+                    .email(request.getEmail())
+                    .telefono(request.getTelefono())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.USER)
+                    .imagen(request.getImagen().getOriginalFilename())
+                    .cambioContraseña(false)
+                    .build();
+        } else {
+            user = User.builder()
+                    .nombre(request.getNombre())
+                    .apellido(request.getApellido())
+                    .dni(request.getDni())
+                    .email(request.getEmail())
+                    .telefono(request.getTelefono())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.USER)
+                    .cambioContraseña(false)
+                    .build();
+        }
         return userRepository.save(user);
     }
 

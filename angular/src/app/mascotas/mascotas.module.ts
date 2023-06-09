@@ -28,6 +28,7 @@ import { TurnosMascotasComponent } from './pages/turnos-mascotas/turnos-mascotas
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FechaPipe } from './pipes/fecha.pipe';
 import { CruzaPipe } from './pipes/cruza.pipe';
+import { CastradaPipe } from './pipes/castrada.pipe';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CruzaPipe } from './pipes/cruza.pipe';
     TurnosMascotasComponent,
     FechaPipe,
     CruzaPipe,
+    CastradaPipe,
   ],
   imports: [
     CommonModule,

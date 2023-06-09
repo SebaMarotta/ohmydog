@@ -65,8 +65,16 @@
       <p-fileUpload formControlName="imagen" mode="basic" [disabled]="true" chooseLabel="imagen"></p-fileUpload> -->
 
 
-      <label style="margin-right: 1cm;" htmlFor="cruza">Le gustaría cruzarlo?</label>
-      <p-inputSwitch formControlName="cruza"></p-inputSwitch>
+      <div class="flex-container">
+        <div class="flex-items"><label style="margin-right: 1rem;" htmlFor="cruza">Le gustaría cruzarla?</label></div>
+        <div class="flex-items"><p-inputSwitch formControlName="cruza"></p-inputSwitch></div>
+      </div>
+
+
+      <div class="flex-container">
+        <div class="flex-items"><label style="margin-right: 5rem;" htmlFor="castrada">Esta castrada?</label></div>
+        <div class="flex-items"><p-inputSwitch formControlName="castrada"></p-inputSwitch></div>
+    </div>
 
       <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
         <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar mascota" class="p-button-success p-button-text text-center"></button>

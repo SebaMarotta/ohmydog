@@ -43,6 +43,7 @@ export class EditarMascotaComponent implements OnInit {
     imagen: '',
     duenio: 0,
     cruza: false,
+    castrada: false,
   };
   mascotaEditada: Mascota;
   validador: Boolean;
@@ -77,6 +78,7 @@ export class EditarMascotaComponent implements OnInit {
       observaciones: [''],
       // imagen: [],
       cruza: [''],
+      castrada: [''],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
   }
@@ -95,6 +97,7 @@ export class EditarMascotaComponent implements OnInit {
         observaciones: this.mascotaActual.observaciones,
         imagen: this.mascotaActual.imagen,
         cruza: this.mascotaActual.cruza,
+        castrada: this.mascotaActual.castrada,
       });
     });
   }
@@ -118,7 +121,7 @@ export class EditarMascotaComponent implements OnInit {
         case 'email':
           return 'Formato de email inválido';
         case 'customDate':
-          return 'No se permite una fecha con estos valores';
+          return errors['customDate'].message;
       }
     }
     return null;
@@ -144,6 +147,20 @@ export class EditarMascotaComponent implements OnInit {
       return null;
     }
 
+    if (
+      this.formulario.value.cruza == true &&
+      this.formulario.value.castrada == true
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: `Error`,
+        detail: `La mascota no puede estar castrada y acceder al servicio de cruza`,
+        closable: false,
+      });
+      this.isButtonDisabled = false;
+      return null;
+    }
+
     this.mascotaEditada = this.mascotaActual;
     this.mascotaEditada.nombre = this.formulario.value.nombre;
     this.mascotaEditada.raza = this.formulario.value.raza['raza'];
@@ -152,6 +169,7 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.observaciones = this.formulario.value.observaciones;
     this.mascotaEditada.imagen = this.formulario.value.imagen;
     this.mascotaEditada.cruza = this.formulario.value.cruza;
+    this.mascotaEditada.castrada = this.formulario.value.castrada;
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
     this.mascotaEditada.fechaDeNacimiento =
       this.formulario.value.fechaDeNacimiento;

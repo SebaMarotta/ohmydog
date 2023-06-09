@@ -34,6 +34,7 @@ public class RegisterMascotaRequest {
     private MultipartFile imagen;
 
     private boolean cruza;
+    private boolean castrada;
 
 }
 

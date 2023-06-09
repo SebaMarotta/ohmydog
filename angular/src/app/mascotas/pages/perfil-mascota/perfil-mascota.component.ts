@@ -20,10 +20,11 @@ export class PerfilMascotaComponent {
     color: '',
     observaciones: '',
     sexo: '',
-    fechaDeNacimiento: null,
     imagen: '',
     duenio: 0,
     cruza: false,
+    castrada: false,
+    fechaDeNacimiento: '01/01/2000',
   };
   protected libretaSanitaria: any = {};
   protected planillaModal: Boolean = false;
@@ -32,6 +33,7 @@ export class PerfilMascotaComponent {
   protected rolSession = '';
 
   protected idUser: number;
+  protected idPlanilla: number;
   protected observaciones: string[];
   protected fechaNacimientoDate: Date = new Date();
 
@@ -54,7 +56,7 @@ export class PerfilMascotaComponent {
       this.mascotaService.findById(id).subscribe((resp) => {
         this.mascota = resp;
       });
-      this.turnoService.getPlanilla(id).subscribe((resp) => {
+      this.turnoService.getPlanillaByMascota(id).subscribe((resp) => {
         this.libretaSanitaria = resp;
       });
     });
@@ -62,7 +64,8 @@ export class PerfilMascotaComponent {
   redireccionar(mascota: Number) {
     // this.router.navigateByUrl(`/clientes/${this.user.id}/${mascota}`);
   }
-  togglePlanilla() {
+  togglePlanilla(idPlanilla) {
+    if (this.planillaModal == false) this.idPlanilla = idPlanilla;
     this.planillaModal = !this.planillaModal;
   }
   toggleSolicitud() {

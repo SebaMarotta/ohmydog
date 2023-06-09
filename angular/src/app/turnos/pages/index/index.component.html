@@ -1,6 +1,7 @@
 <div class="container mx-auto">
 <p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex" (onChange)="prueba( $event )">
-  <p-tabPanel >
+
+  <p-tabPanel *ngIf="user.role == 'ADMIN'">
       <ng-template pTemplate="header">
           <i class="pi pi-calendar" style="margin-right: 0.4rem;"></i>
           <span>Turnos del dia</span>
@@ -18,7 +19,7 @@
       <ng-template pTemplate="header">
         <i class="pi pi-clock" style="margin-right: 0.4rem;"></i>
           <span style="margin-right: 0.4rem;">Turnos pendientes</span>
-          <p-badge value="{{value}}"></p-badge>
+          <p-badge *ngIf="user.role == 'ADMIN'" value="{{value}}"></p-badge>
       </ng-template>
       <app-turnos-pendientes  (cantidadSolicitudes)="value = $event " ></app-turnos-pendientes>
   </p-tabPanel>

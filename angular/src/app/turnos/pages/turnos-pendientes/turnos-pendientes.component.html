@@ -12,7 +12,8 @@
                 <th>Mascota</th>
                 <th>Motivo</th>
                 <th>Turno</th>
-                <th>Acciones</th>
+                <th *ngIf="user.role == 'ADMIN'">Acciones</th>
+                <th *ngIf="user.role == 'USER'">Estado</th>
             </tr>
         </ng-template>
 
@@ -29,14 +30,17 @@
                   {{ solicitud.mascota.nombre }}
                 </td>
                 <td>
-                    {{ solicitud.motivo }}
+                    {{ solicitud.motivo | motivoPipe | titlecase }}
                 </td>
                 <td>
                   {{ solicitud.horario }}
               </td>
-                <td>
+                <td *ngIf="user.role == 'ADMIN'">
                   <p-button (click)="toggleSolicitudAceptada(solicitud)" icon="pi pi-check" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
                   <p-button (click)="toggleSolicitudRechazada(solicitud)" icon="pi pi-times"  title="Rechazar" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+                </td>
+                <td *ngIf="user.role == 'USER'">
+                  <span style="border-radius: 20px;" class="uppercase text-base font-semibold px-2 py-1 text-yellow-900 bg-yellow-300 dark:bg-green-700 dark:text-green-100"> Pendiente de aprobacion </span>
                 </td>
 
 

@@ -20,6 +20,9 @@ public class PracticaService {
     public List<PracticaMedica> findByMascota (Long idMascota){
         return practicaRepository.findByMascotaId(idMascota);
     }
+    public Optional<PracticaMedica> findById (Long id){
+        return practicaRepository.findById(id);
+    }
 
     public PracticaMedica crear (PracticaMedica request, Mascota id){
         request.setMascota(id);

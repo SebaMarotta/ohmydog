@@ -76,7 +76,7 @@ export class EditarPasswordComponent {
 
   async guardar() {
     this.formulario.markAllAsTouched();
-
+    if (this.formulario.invalid) return null;
     return this.authService
       .passwordIsValid(this.formulario.value.passwordAntiguo, this.idUser)
       .subscribe(

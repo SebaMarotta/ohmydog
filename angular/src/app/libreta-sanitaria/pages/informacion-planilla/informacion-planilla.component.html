@@ -1,0 +1,20 @@
+
+<div class="text-center justify-content-center">
+  <h6>Motivo</h6>
+  <h5>{{ planilla.motivo.toString()| motivoPipe | titlecase }}</h5><br>
+  <div *ngIf="planilla.motivo == 'DESPARASITACION'">
+    <h6 >Peso</h6>
+    <h5>{{planilla.peso}} Kg</h5><br>
+  </div>
+  <div *ngIf="planilla.motivo == 'DESPARASITACION'">
+    <h6 >Cantidad</h6>
+    <h5>{{planilla.cantidad}}</h5><br>
+  </div>
+
+  <h6>Fecha</h6>
+  <h5>{{ planilla.fecha | date:'dd/MM/yy - HH:mm' }}</h5><br>
+  <h6>Monto</h6>
+  <h5>$ {{ planilla.monto }}</h5><br>
+  <h6>Observaciones</h6>
+  <h5>{{ planilla.observaciones }}</h5><br>
+</div>

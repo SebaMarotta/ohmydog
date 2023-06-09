@@ -43,6 +43,7 @@ public class Mascota{
     private String imagen;
 
     private boolean cruza;
+    private boolean castrada;
 
 
 

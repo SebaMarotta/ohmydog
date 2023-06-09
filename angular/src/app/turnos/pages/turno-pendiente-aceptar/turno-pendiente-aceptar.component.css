@@ -25,7 +25,11 @@ button {
   justify-content: center;
   width: 12rem;
 }
-
+p-inputtext{
+  display: flex;
+  justify-content: center;
+  width: 12rem;
+}
 
 
 

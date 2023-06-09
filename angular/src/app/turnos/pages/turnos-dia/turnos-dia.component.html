@@ -29,7 +29,7 @@
                     {{ turno.mascota.nombre }}
                   </td>
                   <td>
-                      {{ turno.motivo }}
+                      {{ turno.motivo | motivoPipe | titlecase }}
                   </td>
                   <td>
                     {{ turno.fecha | date:'d MMM, HH:mm '}}

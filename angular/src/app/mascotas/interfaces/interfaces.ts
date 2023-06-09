@@ -11,6 +11,7 @@ export interface Mascota {
   imagen: string;
   duenio: number;
   cruza: boolean;
+  castrada: boolean;
 }
 
 export interface RegisterMascotaRequest {

@@ -18,9 +18,10 @@ import {
   RegisterUserRequest,
   User,
 } from 'src/app/clientes/interfaces/interfaces';
-import { catchError, map, tap, throwError } from 'rxjs';
+import { catchError, firstValueFrom, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-editar-password',
@@ -41,10 +42,13 @@ export class EditarPasswordComponent {
     private fb: FormBuilder,
     private messageService: MessageService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
+
   ngOnInit(): void {
     this.formulario = this.fb.group({
+      passwordAntiguo: ['', Validators.required],
       password: ['', Validators.required],
       passwordRepetida: ['', [Validators.required]],
     });
@@ -71,58 +75,71 @@ export class EditarPasswordComponent {
     return null;
   }
 
-  guardar() {
+  async guardar() {
     this.formulario.markAllAsTouched();
     if (this.formulario.invalid) return null;
+    return this.authService
+      .passwordIsValid(this.formulario.value.passwordAntiguo, this.idUser)
+      .subscribe(
+        (data) => {
+          if (this.formulario.invalid) return null;
 
-    if (
-      this.formulario.value.password != this.formulario.value.passwordRepetida
-    ) {
-      this.messageService.add({
-        severity: 'error',
-        summary: `Error`,
-        detail: `Las contraseñas no coinciden`,
-        closable: false,
-      });
-      return null;
-    }
+          if (
+            this.formulario.value.password !=
+            this.formulario.value.passwordRepetida
+          ) {
+            this.messageService.add({
+              severity: 'error',
+              summary: `Error`,
+              detail: `Las contraseñas no coinciden`,
+              closable: false,
+            });
+            return null;
+          }
 
-    return this.userService
-      .editPassword(this.formulario.value.password, this.idUser)
-      .pipe(
-        map((resp: any) => resp as Boolean),
-        catchError((e: any) => {
+          return this.userService
+            .editPassword(this.formulario.value.password, this.idUser)
+            .pipe(
+              map((resp: any) => resp as User),
+              catchError((e: any) => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: `${e.error.mensaje}`,
+                  detail: `${e.error.error}`,
+                  closable: false,
+                });
+                return throwError(e);
+              })
+            )
+            .subscribe((resp) => {
+              this.formulario.markAllAsTouched();
+              this.isButtonDisabled = true;
+              if (this.formulario.invalid) {
+                this.isButtonDisabled = false;
+                return null;
+              }
+
+              this.authService.userSession.next(resp);
+              this.cerrar();
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Operacion completada',
+                detail: `La contraseña ha sido cambiada exitosamente`,
+                closable: false,
+              });
+            });
+        },
+        (error) => {
+          // Manejar un error emitido por el observable (equivalente a onError en RxJS v5)
           this.messageService.add({
             severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
+            summary: `Error`,
+            detail: `La contraseña actual es incorrecta`,
             closable: false,
           });
-          return throwError(e);
-        })
-      )
-      .subscribe((resp) => {
-        this.formulario.markAllAsTouched();
-        this.isButtonDisabled = true;
-        if (this.formulario.invalid) {
-          this.isButtonDisabled = false;
           return null;
         }
-
-        const url = this.router.url;
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() => {
-            this.router.navigateByUrl(url);
-          });
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Operacion completada',
-          detail: `La contraseña ha sido cambiada exitosamente`,
-          closable: false,
-        });
-        this.cerrar();
-      });
+      );
   }
 
   cerrar(): void {
@@ -130,3 +147,8 @@ export class EditarPasswordComponent {
     this.editarModal.emit(true);
   }
 }
+
+
+
+
+

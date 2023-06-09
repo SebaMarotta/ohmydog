@@ -29,6 +29,12 @@ public class PracticaController {
         return ResponseEntity.ok(practicas);
     }
 
+    @GetMapping("/buscar-planilla/{id}")
+    public ResponseEntity<PracticaMedica> findById(@PathVariable Long id){
+       Optional<PracticaMedica> practica = practicaService.findById(id);
+        return ResponseEntity.ok(practica.get());
+    }
+
     @PostMapping("/crear/{id}")
     public ResponseEntity<PracticaMedica> crear(@RequestBody PracticaMedica request, @PathVariable Long id){
 

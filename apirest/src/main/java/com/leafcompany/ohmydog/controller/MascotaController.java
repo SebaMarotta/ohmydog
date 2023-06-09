@@ -47,7 +47,7 @@ public class MascotaController {
         Map<String,Object> errores = new HashMap<String,Object>();
 
         try {
-            if(!mascota.getImagen().isEmpty()) {
+            if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
                 Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
                 String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
@@ -75,7 +75,7 @@ public class MascotaController {
         Map<String,Object> errores = new HashMap<String,Object>();
         try{
             if (mascota.getDuenio().equals(id)) {
-                if(!mascota.getImagen().isEmpty()) {
+                if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
                     Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
                     String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 

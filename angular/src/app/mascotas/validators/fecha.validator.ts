@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { auto } from '@popperjs/core';
 
 export function fechaValidator(
   control: AbstractControl
@@ -33,15 +34,52 @@ export function fechaValidator(
     };
   }
 
+  if (month < 1) {
+    return {
+      customDate: { valid: false, message: 'El mes no puede ser menor a 1' },
+    };
+  }
+
+  if (day < 1) {
+    return {
+      customDate: { valid: false, message: 'El dia no puede ser menor a 1' },
+    };
+  }
+
   if (year > maxYear) {
     return {
       customDate: {
         valid: false,
-        message: 'El año no puede ser mayor al actual',
+        message: 'Se está colocando un año posterior al actual',
       },
     };
   }
-
+  // Los meses van del 0 al 11, por eso el +1
+  if (month > aux.getMonth() + 1 && year == maxYear) {
+    return {
+      customDate: {
+        valid: false,
+        message: 'Se está colocando un mes posterior al actual',
+      },
+    };
+  }
+  // Los dias van del 0 al 30, por eso el +1
+  if (month == aux.getMonth() + 1 && year == maxYear && day > aux.getDate()) {
+    return {
+      customDate: {
+        valid: false,
+        message: 'Se está colocando un dia posterior al actual',
+      },
+    };
+  }
+  if (year < 1980) {
+    return {
+      customDate: {
+        valid: false,
+        message: 'El año no puede ser menor a 1980',
+      },
+    };
+  }
 
   return null;
 }

@@ -137,10 +137,16 @@ export class TurnosMascotasComponent {
     const solicitudTurno$ = this.turnoService.getTurnosPendientes();
     const turnos$ = this.turnoService.getTurnos();
     const mascota$ = this.mascotaService.findById(this.idMascota);
+    const planilla$ = this.turnoService.getPlanillaByMascota(this.idMascota);
     let menor2meses: boolean = false;
     let menor4meses: boolean = false;
     let solicitudEstablecida: boolean = false;
     let turnoEstablecido: boolean = false;
+    let cantidadTipoA: number = 0;
+    let cantidadTipoB: number = 0;
+    let castrado: boolean = false;
+    let tipoA: boolean = false;
+    let tipoB: boolean = false;
 
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;
@@ -155,13 +161,15 @@ export class TurnosMascotasComponent {
     this.solicitud.horario = this.solicitud.horario['horario'];
     this.solicitud.motivo = this.solicitud.motivo['motivo'];
 
+    console.log(this.solicitud);
     forkJoin({
       solicitudTurno: solicitudTurno$,
       turnos: turnos$,
       mascota: mascota$,
+      planillas: planilla$,
     })
       .pipe(
-        filter(({ solicitudTurno, turnos, mascota }) => {
+        filter(({ solicitudTurno, turnos, mascota, planillas }) => {
           // Comprobar si el usuario hizo una solicitud de turno
           solicitudEstablecida = solicitudTurno.some((solicitud) => {
             return (
@@ -204,11 +212,23 @@ export class TurnosMascotasComponent {
             menor4meses = true;
           }
 
+          for (let planilla of planillas) {
+            if (planilla.motivo == 'VACUNA_TIPO_A') cantidadTipoA++;
+            if (planilla.motivo == 'VACUNA_TIPO_B') cantidadTipoB++;
+          }
+
+          if (cantidadTipoA == 2) tipoA = true;
+          if (cantidadTipoB == 2) tipoB = true;
+          if (mascota.castrada) castrado = true;
+
           return (
             turnoEstablecido ||
             solicitudEstablecida ||
             menor2meses ||
             menor4meses ||
+            tipoA ||
+            tipoB ||
+            castrado ||
             true
           );
         })
@@ -251,6 +271,31 @@ export class TurnosMascotasComponent {
             closable: false,
           });
         }
+        if (tipoA) {
+          return this.messageService.add({
+            severity: 'error',
+            summary: 'Solicitud inválida',
+            detail: `La mascota ya tiene las dosis maximas de la vacuna tipo A`,
+            closable: false,
+          });
+        }
+        if (tipoB) {
+          return this.messageService.add({
+            severity: 'error',
+            summary: 'Solicitud inválida',
+            detail: `La mascota ya tiene las dosis maximas de la vacuna tipo B`,
+            closable: false,
+          });
+        }
+        if (castrado) {
+          return this.messageService.add({
+            severity: 'error',
+            summary: 'Solicitud inválida',
+            detail: `Su mascota ya está castrada`,
+            closable: false,
+          });
+        }
+
         return this.turnoService
           .setSolicitudTurno(this.solicitud)
           .pipe(

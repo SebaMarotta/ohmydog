@@ -47,7 +47,6 @@ public class AuthController {
 
        AuthenticationRequest auth = new AuthenticationRequest(user.getDni(),request.getPassword());
        var response = service.authenticate(auth);
-      System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+response);
         if (response.isOk()) return ResponseEntity.status(HttpStatus.ACCEPTED).body(response.isOk());
        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(response.isOk());
   }

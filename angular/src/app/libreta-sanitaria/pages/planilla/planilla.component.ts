@@ -60,7 +60,8 @@ export class PlanillaComponent implements OnInit {
     });
 
     this.formulario.get('motivo').valueChanges.subscribe((value) => {
-      if (value.motivo === 'DESPARACITACION') {
+      console.log(value);
+      if (value == 'DESPARASITACION') {
         this.inputHidden = false;
         this.formulario.get('peso').enable();
         this.formulario.get('cantidad').enable();
@@ -72,10 +73,8 @@ export class PlanillaComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.turnoService.getMotivosTurno().subscribe((resp) => {
-      resp.forEach((resp) => {
-        this.motivos.push({ motivo: resp });
-      });
+    this.formulario.patchValue({
+      motivo: this.turno.motivo,
     });
   }
 
@@ -105,55 +104,55 @@ export class PlanillaComponent implements OnInit {
   }
 
   guardar() {
-    // this.formulario.markAllAsTouched();
-    // if (this.formulario.invalid) return null;
-    // this.planilla = this.formulario.value;
-    // this.planilla.motivo = this.planilla.motivo['motivo'];
-    // return this.turnoService
-    //   .setPlanilla(this.planilla, this.turno.mascota.id)
-    //   .pipe(
-    //     map((resp: any) => resp as RegisterPlanillaRequest),
-    //     catchError((e: any) => {
-    //       this.messageService.add({
-    //         severity: 'error',
-    //         summary: `${e.error.mensaje}`,
-    //         detail: `${e.error.error}`,
-    //         closable: false,
-    //       });
-    //       return throwError(e);
-    //     })
-    //   )
-    //   .subscribe((resp) => {
-    //     this.turnoService
-    //       .setTurnoCompletado(this.turno.id)
-    //       .pipe(
-    //         map((resp: any) => resp as RegisterPlanillaRequest),
-    //         catchError((e: any) => {
-    //           this.messageService.add({
-    //             severity: 'error',
-    //             summary: `${e.error.mensaje}`,
-    //             detail: `${e.error.error}`,
-    //             closable: false,
-    //           });
-    //           return throwError(e);
-    //         })
-    //       )
-    //       .subscribe((resp) => {
-    //         // Lo dejo vacio asi se activa pero no necesito que haga nada porque solo da de baja el turno en la base de datos
-    //       });
-    //     const currentUrl = this.router.url;
-    //     this.router
-    //       .navigateByUrl('/', { skipLocationChange: true })
-    //       .then(() => {
-    //         this.router.navigateByUrl(currentUrl);
-    //       });
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Operacion completada',
-    //       detail: `El turno fue completado correctamente`,
-    //       closable: false,
-    //     });
-    //   });
+    this.formulario.markAllAsTouched();
+    if (this.formulario.invalid) return null;
+    this.planilla = this.formulario.value;
+
+    return this.turnoService
+      .setPlanilla(this.planilla, this.turno.mascota.id)
+      .pipe(
+        map((resp: any) => resp as RegisterPlanillaRequest),
+        catchError((e: any) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: `${e.error.mensaje}`,
+            detail: `${e.error.error}`,
+            closable: false,
+          });
+          return throwError(e);
+        })
+      )
+      .subscribe((resp) => {
+        this.turnoService
+          .setTurnoCompletado(this.turno.id)
+          .pipe(
+            map((resp: any) => resp as RegisterPlanillaRequest),
+            catchError((e: any) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: `${e.error.mensaje}`,
+                detail: `${e.error.error}`,
+                closable: false,
+              });
+              return throwError(e);
+            })
+          )
+          .subscribe((resp) => {
+            // Lo dejo vacio asi se activa pero no necesito que haga nada porque solo da de baja el turno en la base de datos
+          });
+        const currentUrl = this.router.url;
+        this.router
+          .navigateByUrl('/', { skipLocationChange: true })
+          .then(() => {
+            this.router.navigateByUrl(currentUrl);
+          });
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Operacion completada',
+          detail: `El turno fue completado correctamente`,
+          closable: false,
+        });
+      });
   }
 
   cerrar(): void {

@@ -66,6 +66,7 @@ export class RegistroMascotaComponent {
       //   [Validators.required, Validators.min(0)],
       // ],
       cruza: [false],
+      castrada: [false],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
   }
@@ -89,7 +90,7 @@ export class RegistroMascotaComponent {
         case 'email':
           return 'Formato de email inválido';
         case 'customDate':
-          return 'No se permite la fecha con estos valores';
+          return errors['customDate'].message;
       }
     }
     return null;
@@ -115,11 +116,23 @@ export class RegistroMascotaComponent {
       return null;
     }
 
+    if (
+      this.formulario.value.cruza == true &&
+      this.formulario.value.castrada == true
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: `Error`,
+        detail: `La mascota no puede estar castrada y acceder al servicio de cruza`,
+        closable: false,
+      });
+      this.isButtonDisabled = false;
+      return null;
+    }
+
     this.mascota = this.formulario.value;
     this.mascota.sexo = this.sexo;
     this.mascota.raza = this.formulario.value.raza['raza'];
-
-    console.log(this.mascota);
 
     return this.mascotaService
       .register(this.mascota, this.idDuenio)

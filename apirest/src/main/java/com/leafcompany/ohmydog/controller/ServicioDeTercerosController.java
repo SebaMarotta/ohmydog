@@ -87,7 +87,6 @@ public class ServicioDeTercerosController {
     @PutMapping("/modificar/{id}")
     public ResponseEntity<ServicioDeTerceros> modificar(@RequestBody EditServicioDeTerceroRequest cuidador_paseador,
                                                         @PathVariable Long id) throws MiException {
-        System.out.println("cuidador_paseador = " + cuidador_paseador);
         
         Optional<ServicioDeTerceros> respuesta = servicioDeTercerosService.findById(id);
         try {

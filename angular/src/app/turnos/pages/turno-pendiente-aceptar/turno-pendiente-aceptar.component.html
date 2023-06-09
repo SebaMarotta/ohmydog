@@ -11,10 +11,10 @@
 </div>
   <form [formGroup]="formulario">
 
-    <p-calendar formControlName="fecha" panelStyleClass="panel" [minDate]="minDate" [readonlyInput]="true" [showTime]="true" [showIcon]="true" dateFormat="dd-mm-yy" [readonlyInput]="true"></p-calendar>
+    <p-calendar style="margin-left: 1.5rem;"  formControlName="fecha" panelStyleClass="panel" [minDate]="minDate" [readonlyInput]="true" [showTime]="true" [showIcon]="true" dateFormat="dd-mm-yy" [readonlyInput]="true"></p-calendar>
 
   <p><br></p>
-  <span *ngIf="isValidField('fecha')" class="form-text text-danger">
+  <span *ngIf="isValidField('fecha')" class="form-text text-danger" style="margin-left: 1.5rem;">
     {{ getFieldError('fecha') }}
   </span>
   </form>

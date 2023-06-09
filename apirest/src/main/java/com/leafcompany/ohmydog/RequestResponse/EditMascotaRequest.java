@@ -24,5 +24,6 @@ public class EditMascotaRequest {
     private String fechaDeNacimiento;
     private MultipartFile imagen;
     private boolean cruza;
+    private boolean castrada;
 
 }

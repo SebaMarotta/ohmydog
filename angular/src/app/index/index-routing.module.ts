@@ -14,17 +14,11 @@ const routes: Routes = [
   {
     path: 'cartelera',
     component: BackgroundComponent,
-    children: [{ path: '', component: CarteleraComponent }],
-  },
-  {
-    path: 'adopciones',
-    component: BackgroundComponent,
-    children: [{ path: '', component: HomeComponentAdopciones }],
-  },
-  {
-    path: 'servicios',
-    component: BackgroundComponent,
-    children: [{ path: '', component: HomeComponentServicios }],
+    children: [
+      { path: '', component: CarteleraComponent },
+      { path: 'adopciones', component: HomeComponentAdopciones },
+      { path: 'servicios', component: HomeComponentServicios },
+    ],
   },
 ];
 

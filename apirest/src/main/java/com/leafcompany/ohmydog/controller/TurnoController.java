@@ -136,11 +136,8 @@ public class TurnoController {
         LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 0,0);
         LocalDateTime fechaFin = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
 
-        System.out.println("fechaInicio = " + fechaInicio);
-        System.out.println("fechaFin = " + fechaFin);
 
         List<Turno> turnos = turnoService.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
-        System.out.println("turnos" + turnos);
         if (turnos != null) {
             return ResponseEntity.ok(turnos);
         } else {

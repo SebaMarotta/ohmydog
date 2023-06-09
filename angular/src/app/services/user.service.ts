@@ -102,8 +102,8 @@ export class UserService implements OnInit {
     return this.http.put<User>(url, user);
   }
 
-  editPassword(password: string, id: Number): Observable<Boolean> {
+  editPassword(password: string, id: Number): Observable<any> {
     const url = `${this.baseUrl}/user/edit-password/${id}`;
-    return this.http.put<Boolean>(url, password);
+    return this.http.put<any>(url, password).pipe();
   }
 }

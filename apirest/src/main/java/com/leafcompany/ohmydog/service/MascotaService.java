@@ -39,22 +39,40 @@ public class MascotaService {
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException {
+        Mascota aux;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
         User dueño = userRepository.findById(idDueño).get();
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
-        var aux = Mascota.builder()
-        .nombre(mascota.getNombre())
-        .color(mascota.getColor())
-        .raza(Razas.valueOf(mascota.getRaza()))
-        .cruza(mascota.isCruza())
-        .duenio(dueño)
-        .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(),formatter))
-        .imagen(mascota.getImagen().getOriginalFilename())
-        .sexo(mascota.getSexo())
-        .observaciones(mascota.getObservaciones())
-        .build();
+
+        if (mascota.getImagen() != null) {
+            aux = Mascota.builder()
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .cruza(mascota.isCruza())
+                    .duenio(dueño)
+                    .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
+                    .imagen(mascota.getImagen().getOriginalFilename())
+                    .sexo(mascota.getSexo())
+                    .observaciones(mascota.getObservaciones())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        } else {
+            aux = Mascota.builder()
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .cruza(mascota.isCruza())
+                    .duenio(dueño)
+                    .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
+                    .sexo(mascota.getSexo())
+                    .observaciones(mascota.getObservaciones())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        }
 
         return mascotaRepository.save(aux);
     }
@@ -65,27 +83,45 @@ public class MascotaService {
     @Transactional
     public Mascota modificarMascota(EditMascotaRequest mascota) throws MiException{
 
+        Mascota aux;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),
                 LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         var user = this.userRepository.findById(mascota.getDuenio()).get();
-        Mascota aux = Mascota
-                .builder()
-                .duenio(user)
-                .raza(Razas.valueOf(mascota.getRaza()))
-                .id(mascota.getId())
-                .nombre(mascota.getNombre())
-                .color(mascota.getColor())
-                .cruza(mascota.isCruza())
-                .duenio(user)
-                .fechaDeNacimiento(fecha)
-                .imagen(mascota.getImagen().getOriginalFilename())
-                .observaciones(mascota.getObservaciones())
-                .sexo(mascota.getSexo())
-                .build();
-
+        if (mascota.getImagen() != null) {
+            aux = Mascota
+                    .builder()
+                    .duenio(user)
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .id(mascota.getId())
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .cruza(mascota.isCruza())
+                    .duenio(user)
+                    .fechaDeNacimiento(fecha)
+                    .imagen(mascota.getImagen().getOriginalFilename())
+                    .observaciones(mascota.getObservaciones())
+                    .sexo(mascota.getSexo())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        } else {
+             aux = Mascota
+                    .builder()
+                    .duenio(user)
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .id(mascota.getId())
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .cruza(mascota.isCruza())
+                    .duenio(user)
+                    .fechaDeNacimiento(fecha)
+                    .observaciones(mascota.getObservaciones())
+                    .sexo(mascota.getSexo())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        }
 
         return mascotaRepository.save(aux);
         }
