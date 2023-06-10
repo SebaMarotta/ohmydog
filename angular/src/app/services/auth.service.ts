@@ -15,6 +15,7 @@ import {
   of,
   BehaviorSubject,
   Subject,
+  take,
 } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { JsonPipe } from '@angular/common';
@@ -116,7 +117,7 @@ export class AuthService {
   }
 
   private getUserSession(username: String): Observable<User> {
-    return this.userService.getUserSession(username);
+    return this.userService.getUserSession(username).pipe(take(1));
   }
 
   logout() {

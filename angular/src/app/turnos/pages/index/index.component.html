@@ -1,13 +1,13 @@
 <div class="container mx-auto">
 <p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex" (onChange)="prueba( $event )">
 
-  <p-tabPanel *ngIf="user.role == 'ADMIN'">
+  <!-- <p-tabPanel *ngIf="user.role == 'ADMIN'">
       <ng-template pTemplate="header">
           <i class="pi pi-calendar" style="margin-right: 0.4rem;"></i>
           <span>Turnos del dia</span>
       </ng-template>
       <app-turnos-dia ></app-turnos-dia>
-  </p-tabPanel>
+  </p-tabPanel> -->
   <p-tabPanel header="Header II">
       <ng-template pTemplate="header">
           <i class="pi pi-user" style="margin-right: 0.4rem;"></i>

@@ -196,6 +196,16 @@ export class TurnosMascotasComponent {
 
           const edad = this.restaFechaNacimientoYHoy(fechaNacimiento);
 
+          for (let planilla of planillas) {
+            if (planilla.motivo == 'VACUNA_TIPO_A') cantidadTipoA++;
+            if (planilla.motivo == 'VACUNA_TIPO_B') cantidadTipoB++;
+          }
+
+          if (cantidadTipoA == 2 && this.solicitud.motivo == 'VACUNA_TIPO_A')
+            tipoA = true;
+          if (cantidadTipoB == 2 && this.solicitud.motivo == 'VACUNA_TIPO_B')
+            tipoB = true;
+
           if (
             this.solicitud.motivo == 'VACUNA_TIPO_A' &&
             edad.años == 0 &&
@@ -212,14 +222,9 @@ export class TurnosMascotasComponent {
             menor4meses = true;
           }
 
-          for (let planilla of planillas) {
-            if (planilla.motivo == 'VACUNA_TIPO_A') cantidadTipoA++;
-            if (planilla.motivo == 'VACUNA_TIPO_B') cantidadTipoB++;
+          if (this.solicitud.motivo == 'CASTRACION' && mascota.castrada) {
+            castrado = true;
           }
-
-          if (cantidadTipoA == 2) tipoA = true;
-          if (cantidadTipoB == 2) tipoB = true;
-          if (mascota.castrada) castrado = true;
 
           return (
             turnoEstablecido ||
@@ -296,6 +301,7 @@ export class TurnosMascotasComponent {
           });
         }
 
+
         return this.turnoService
           .setSolicitudTurno(this.solicitud)
           .pipe(
@@ -314,7 +320,8 @@ export class TurnosMascotasComponent {
                 !menor2meses &&
                 !menor4meses &&
                 !solicitudEstablecida &&
-                !turnoEstablecido
+                !turnoEstablecido &&
+                !castrado
             )
           )
           .subscribe((resp) => {

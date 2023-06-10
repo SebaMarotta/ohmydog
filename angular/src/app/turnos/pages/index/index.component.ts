@@ -13,7 +13,6 @@ export class IndexComponent implements OnInit {
   user: User;
   ngOnInit(): void {
     this.user = this.authService.userSession.value;
-    console.log(this.authService.userSession.value.dni);
   }
   public value: string;
   public activeIndex: number = JSON.parse(localStorage.getItem('index'));

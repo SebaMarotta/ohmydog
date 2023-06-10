@@ -32,7 +32,7 @@
                       {{ turno.motivo | motivoPipe | titlecase}}
                   </td>
                   <td>
-                    {{ turno.fecha | date:'d MMM, HH:mm '}}
+                    {{ turno.fecha | date:'d MMM yyyy - HH:mm '}}
                 </td>
                   <td *ngIf="user.role == 'ADMIN'">
                     <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-check" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>

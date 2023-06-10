@@ -18,6 +18,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
 import { InformacionPlanillaComponent } from './pages/informacion-planilla/informacion-planilla.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [PlanillaComponent, MotivosPipe, InformacionPlanillaComponent],
@@ -38,6 +39,7 @@ import { InformacionPlanillaComponent } from './pages/informacion-planilla/infor
     InputMaskModule,
     InputSwitchModule,
     ScrollPanelModule,
+    ProgressSpinnerModule,
   ],
   exports: [PlanillaComponent, MotivosPipe, InformacionPlanillaComponent],
 })

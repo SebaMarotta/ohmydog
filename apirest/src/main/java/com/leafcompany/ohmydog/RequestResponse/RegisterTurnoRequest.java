@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -15,7 +17,7 @@ import java.util.Date;
 public class RegisterTurnoRequest {
     private Long idMascota;
     private Long idUser;
-    private Long idSolicitud;
+    private Optional<Long> idSolicitud;
     private LocalDateTime fecha;
     private String motivo;
 

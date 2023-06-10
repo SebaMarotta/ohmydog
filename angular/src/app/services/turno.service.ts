@@ -91,6 +91,11 @@ export class TurnoService {
     return this.http.post<any>(url, solicitud);
   }
 
+  setTurnoAutomatico(solicitud: SolicitudAceptada): Observable<Boolean> {
+    const url = `${this.baseUrl}/turno/crear-automatico`;
+    return this.http.post<any>(url, solicitud);
+  }
+
   getTurnos(): Observable<Turno[]> {
     const url = `${this.baseUrl}/turno/listar`;
     return this.http.get<Turno[]>(url);

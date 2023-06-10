@@ -13,7 +13,7 @@ export interface SolicitudPendiente {
 export interface SolicitudAceptada {
   idMascota: number;
   idUser: number;
-  idSolicitud: number;
+  idSolicitud?: number;
   fecha: Date;
   motivo: string;
 }
