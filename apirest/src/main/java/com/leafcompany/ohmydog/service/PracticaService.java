@@ -30,7 +30,10 @@ public class PracticaService {
     public PracticaMedica crear (PracticaMedica request, Mascota id){
         request.setMascota(id);
         Mascota mascota = mascotaRepository.getReferenceById(id.getId());
-        mascota.setCastrada(true);
+        if (request.getMotivo().equals(MotivosTurnos.CASTRACION)) {
+            mascota.setCastrada(true);
+            mascota.setCruza(false);
+        }
         mascotaRepository.save(mascota);
         return practicaRepository.save(request);
     }

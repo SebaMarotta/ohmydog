@@ -41,8 +41,22 @@ export class MascotaService {
     mascota: RegisterMascotaRequest,
     idDuenio: Number
   ): Observable<Mascota> {
+    const uploadData = new FormData();
+    uploadData.append('nombre', mascota.nombre);
+    uploadData.append('raza', mascota.raza);
+    uploadData.append('sexo', mascota.sexo);
+    uploadData.append(
+      'fechaDeNacimiento',
+      mascota.fechaDeNacimiento.toString()
+    );
+    uploadData.append('imagen', mascota.imagen);
+
+    uploadData.append('observaciones', mascota.observaciones);
+    uploadData.append('color', mascota.color);
+
+    console.log(uploadData);
     const url = `${this.baseUrl}/mascota/registro/${idDuenio}`;
-    return this.http.post<Mascota>(url, mascota).pipe(
+    return this.http.post<Mascota>(url, uploadData).pipe(
       tap(() => {
         this.refresh$.next();
       })
@@ -52,5 +66,12 @@ export class MascotaService {
   editar(mascota: Mascota): Observable<Mascota> {
     const url = `${this.baseUrl}/mascota/modificacion/${mascota.duenio}`;
     return this.http.put<Mascota>(url, mascota);
+  }
+
+  getImage(imagen: string) {
+    console.log(imagen);
+    return this.http.get(`http://localhost:8080/imagenes/${imagen}`, {
+      responseType: 'blob',
+    });
   }
 }

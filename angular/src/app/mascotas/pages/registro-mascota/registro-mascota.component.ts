@@ -61,10 +61,7 @@ export class RegistroMascotaComponent {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      // imagen: [
-      //   { value: '', disabled: true },
-      //   [Validators.required, Validators.min(0)],
-      // ],
+      imagen: [''],
       cruza: [false],
       castrada: [false],
     });
@@ -100,6 +97,10 @@ export class RegistroMascotaComponent {
     if (this.formulario.value['raza'] == '') return 'Raza (*)';
 
     return this.formulario.value['raza'];
+  }
+
+  imageSelected(event) {
+    this.formulario.value['imagen'] = event.target.files[0];
   }
 
   guardar() {

@@ -4,8 +4,10 @@ import { MascotaService } from 'src/app/services/mascota.service';
 import { Mascota } from '../../interfaces/interfaces';
 import { TurnoService } from 'src/app/services/turno.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, mergeMap, switchMap } from 'rxjs';
 import { User } from 'src/app/clientes/interfaces/interfaces';
+import { environment } from 'src/environments/environment';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-perfil-mascota',
@@ -36,13 +38,16 @@ export class PerfilMascotaComponent {
   protected idPlanilla: number;
   protected observaciones: string[];
   protected fechaNacimientoDate: Date = new Date();
+  protected imagenPath: string = environment.imagenPath;
+  protected imagenUrl: SafeUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private mascotaService: MascotaService,
     private turnoService: TurnoService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    protected DomSanitizer: DomSanitizer
   ) {}
   ngOnInit(): void {
     this.user$.subscribe((resp) => {
@@ -53,9 +58,19 @@ export class PerfilMascotaComponent {
     });
     this.activatedRoute.params.subscribe((resp) => {
       const id = resp['idMascota'];
-      this.mascotaService.findById(id).subscribe((resp) => {
-        this.mascota = resp;
-      });
+      this.mascotaService
+        .findById(id)
+        .pipe(
+          switchMap((resp) => {
+            this.mascota = resp;
+            return this.mascotaService.getImage(this.mascota.imagen);
+          })
+        )
+        .subscribe((imagenBlob: Blob) => {
+          let aux = URL.createObjectURL(imagenBlob);
+          this.imagenUrl = this.DomSanitizer.bypassSecurityTrustUrl(aux);
+        });
+
       this.turnoService.getPlanillaByMascota(id).subscribe((resp) => {
         this.libretaSanitaria = resp;
       });

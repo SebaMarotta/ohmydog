@@ -1,5 +1,6 @@
 package com.leafcompany.ohmydog.controller;
 
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,11 +15,16 @@ import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.service.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +35,7 @@ import com.leafcompany.ohmydog.service.MascotaService;
 
 import io.jsonwebtoken.io.IOException;
 
-@Controller
+@RestController
 @RequestMapping("/mascota")
 public class MascotaController {
 
@@ -42,13 +48,15 @@ public class MascotaController {
 
 
     @PostMapping("/registro/{idDuenio}")
-    public ResponseEntity<?> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
+    public ResponseEntity<?> crearPerro(@ModelAttribute RegisterMascotaRequest mascota, BindingResult result, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
         Map<String,Object> errores = new HashMap<String,Object>();
-
         try {
             if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
+
+
                 Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
+                Files.createDirectories(directorioImagenes);
                 String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
 
@@ -136,6 +144,8 @@ public class MascotaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
     @GetMapping("/listar-razas")
     public ResponseEntity<Razas[]> listarRazas() {

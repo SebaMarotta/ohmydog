@@ -41,7 +41,7 @@
     <div class="card-container">
       <div *ngFor="let mascota of mascotas; let i = index;" class="card-item">
         <div class="card shadow-sm">
-          <img src="assets/imgs/perroMuestra.png" alt="Avatar" class="card-img" >
+          <img [src]="" alt="Avatar" class="card-img" >
           <div class="card-body">
             <p class="card-text">{{mascota.nombre}}</p>
             <div class="card-buttons">
