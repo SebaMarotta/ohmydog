@@ -19,9 +19,15 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
 import { InformacionPlanillaComponent } from './pages/informacion-planilla/informacion-planilla.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InformacionPagoComponent } from './pages/informacion-pago/informacion-pago.component';
 
 @NgModule({
-  declarations: [PlanillaComponent, MotivosPipe, InformacionPlanillaComponent],
+  declarations: [
+    PlanillaComponent,
+    MotivosPipe,
+    InformacionPlanillaComponent,
+    InformacionPagoComponent,
+  ],
   imports: [
     CommonModule,
     DividerModule,
@@ -41,6 +47,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ScrollPanelModule,
     ProgressSpinnerModule,
   ],
-  exports: [PlanillaComponent, MotivosPipe, InformacionPlanillaComponent],
+  exports: [
+    PlanillaComponent,
+    MotivosPipe,
+    InformacionPlanillaComponent,
+    InformacionPagoComponent,
+  ],
 })
 export class LibretaSanitariaModule {}

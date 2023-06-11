@@ -24,6 +24,7 @@ export class TurnosComponent {
   protected turnos: Turno[] = [];
   protected turnoAceptadoModal: Boolean = false;
   protected turnoRechazadoModal: Boolean = false;
+  protected balanceModal: Boolean = false;
   protected turnoIndividual: Turno = {
     id: 0,
     cliente: undefined,
@@ -70,5 +71,10 @@ export class TurnosComponent {
   toggleTurnoRechazado(solicitud) {
     if (!this.turnoRechazadoModal) this.turnoIndividual = solicitud;
     this.turnoRechazadoModal = !this.turnoRechazadoModal;
+  }
+
+  toggleBalanceModal(solicitud) {
+    if (!this.balanceModal) this.turnoIndividual = solicitud;
+    this.balanceModal = !this.balanceModal;
   }
 }

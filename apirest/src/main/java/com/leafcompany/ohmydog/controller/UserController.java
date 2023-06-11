@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,6 +36,9 @@ import java.util.*;
 public class UserController {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private UserRepository userRepository;
 
   @Autowired
   private  EmailService emailService;
@@ -124,6 +128,7 @@ public class UserController {
     }
   }
 
+
   @PutMapping("/edit-password/{id}")
   public ResponseEntity<?> modificarPassword(@RequestBody String password, @PathVariable Long id) {
     try{
@@ -132,6 +137,27 @@ public class UserController {
   } catch (DataAccessException e){
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
     }
+  }
+
+  @PutMapping("/withdraw/{id}")
+  public ResponseEntity<?> retirarSaldo(@RequestBody BigDecimal saldo, @PathVariable Long id) {
+    Map<String,BigDecimal> response = new HashMap<>();
+    User user = this.userService.findById(id).get();
+    BigDecimal antes = user.getSaldo();
+    BigDecimal nuevoSaldo = user.getSaldo().subtract(saldo);
+
+    if ((nuevoSaldo.compareTo(BigDecimal.ZERO)) < 0){
+      user.setSaldo(BigDecimal.ZERO);
+    } else {
+      user.setSaldo(nuevoSaldo);
+    }
+    this.userRepository.save(user);
+    response.put("antes",antes);
+    response.put("practica",saldo);
+    response.put("final",nuevoSaldo);
+    response.put("actual",user.getSaldo());
+    return ResponseEntity.ok(response);
+
   }
 
 }

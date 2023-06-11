@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class UserService {
                     .role(Role.USER)
                     .imagen(request.getImagen().getOriginalFilename())
                     .cambioContraseña(false)
+                    .saldo(BigDecimal.ZERO)
                     .build();
         } else {
             user = User.builder()
@@ -42,6 +44,7 @@ public class UserService {
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.USER)
                     .cambioContraseña(false)
+                    .saldo(BigDecimal.ZERO)
                     .build();
         }
         return userRepository.save(user);
@@ -70,4 +73,5 @@ public class UserService {
         aux.setCambioContraseña(true);
         return userRepository.save(aux);
     }
+
 }

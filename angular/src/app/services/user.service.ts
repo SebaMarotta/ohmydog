@@ -106,4 +106,12 @@ export class UserService implements OnInit {
     const url = `${this.baseUrl}/user/edit-password/${id}`;
     return this.http.put<any>(url, password).pipe();
   }
+
+  withdrawBalance(
+    withdraw: number,
+    idUser: Number
+  ): Observable<Map<String, Number>> {
+    const url = `${this.baseUrl}/user/withdraw/${idUser}`;
+    return this.http.put<Map<String, Number>>(url, withdraw).pipe();
+  }
 }

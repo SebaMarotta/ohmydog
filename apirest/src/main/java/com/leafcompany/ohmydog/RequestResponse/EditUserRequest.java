@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -20,5 +22,6 @@ public class EditUserRequest {
     private String telefono;
     private String password;
     private MultipartFile imagen;
+    private BigDecimal saldo;
 
 }

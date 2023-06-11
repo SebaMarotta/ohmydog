@@ -30,6 +30,8 @@ import {
   differenceInYears,
   format,
 } from 'date-fns';
+import { UserService } from 'src/app/services/user.service';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-planilla',
@@ -41,12 +43,13 @@ export class PlanillaComponent implements OnInit {
   validador: Boolean;
   formulario: FormGroup;
   motivos: Motivos[] = [];
+  balance: any;
   protected inputHidden: Boolean = true;
   protected isButtonDisabled: Boolean = false;
+  protected balanceModal: Boolean = false;
 
   @Output() planillaModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-
   @Input() turno: Turno;
 
   constructor(
@@ -54,7 +57,8 @@ export class PlanillaComponent implements OnInit {
     private messageService: MessageService,
     private mascotaService: MascotaService,
     private turnoService: TurnoService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     this.formulario = this.fb.group({
       motivo: ['', [Validators.required]],
@@ -128,6 +132,11 @@ export class PlanillaComponent implements OnInit {
     const meses = differenceInMonths(fechaActual, fechaNacimiento) % 12;
 
     return { años, meses };
+  }
+
+  toggleBalanceModal(resp) {
+    if (this.balanceModal == false) this.balance = resp;
+    this.balanceModal = !this.balanceModal;
   }
 
   guardar() {
@@ -215,12 +224,38 @@ export class PlanillaComponent implements OnInit {
                           .then(() => {
                             this.router.navigateByUrl(currentUrl);
                           });
-                        this.messageService.add({
-                          severity: 'success',
-                          summary: 'Operacion completada',
-                          detail: `Se registró la planilla y se asignó un nuevo turno en 21 dias`,
-                          closable: false,
-                        });
+                        this.userService
+                          .withdrawBalance(
+                            Number(this.planilla.monto),
+                            this.turno.cliente.id
+                          )
+                          .subscribe((resp) => {
+                            if (resp['final'] < 0) {
+                              resp['final'] = resp['final'] * -1;
+                            } else {
+                              resp['final'] = 0;
+                            }
+                            this.messageService.addAll([
+                              {
+                                severity: 'success',
+                                summary: 'Operacion completada',
+                                detail:
+                                  'Se registró la planilla y se asignó un nuevo turno dentro de 21 dias',
+                                sticky: true,
+                              },
+                              {
+                                severity: 'info',
+                                summary: 'Cobro',
+                                detail: ` Saldo anterior -> $${resp['antes']}\n
+                       Monto de la practica -> $${resp['practica']}\n
+                       Nuevo saldo -> $${resp['actual']} \n
+                       Debe abonar -> $${resp['final']} \n
+
+                     `,
+                                sticky: true,
+                              },
+                            ]);
+                          });
                         this.isButtonDisabled = false;
                       });
                   }
@@ -242,12 +277,38 @@ export class PlanillaComponent implements OnInit {
                           .then(() => {
                             this.router.navigateByUrl(currentUrl);
                           });
-                        this.messageService.add({
-                          severity: 'success',
-                          summary: 'Operacion completada',
-                          detail: `Se registró la planilla y se asignó un nuevo turno en 365 dias`,
-                          closable: false,
-                        });
+                        this.userService
+                          .withdrawBalance(
+                            Number(this.planilla.monto),
+                            this.turno.cliente.id
+                          )
+                          .subscribe((resp) => {
+                            if (resp['final'] < 0) {
+                              resp['final'] = resp['final'] * -1;
+                            } else {
+                              resp['final'] = 0;
+                            }
+                            this.messageService.addAll([
+                              {
+                                severity: 'success',
+                                summary: 'Operacion completada',
+                                detail:
+                                  'Se registró la planilla y se asignó un nuevo turno dentro de 365 dias',
+                                sticky: true,
+                              },
+                              {
+                                severity: 'info',
+                                summary: 'Cobro',
+                                detail: ` Saldo anterior -> $${resp['antes']}\n
+                       Monto de la practica -> $${resp['practica']}\n
+                       Nuevo saldo -> $${resp['actual']} \n
+                       Debe abonar -> $${resp['final']} \n
+
+                     `,
+                                sticky: true,
+                              },
+                            ]);
+                          });
                         this.isButtonDisabled = false;
                       });
                   }
@@ -271,12 +332,40 @@ export class PlanillaComponent implements OnInit {
                       .then(() => {
                         this.router.navigateByUrl(currentUrl);
                       });
-                    this.messageService.add({
-                      severity: 'success',
-                      summary: 'Operacion completada',
-                      detail: `Se registró la planilla y se asignó un nuevo turno dentro de 365 dias`,
-                      closable: false,
-                    });
+
+                    this.userService
+                      .withdrawBalance(
+                        Number(this.planilla.monto),
+                        this.turno.cliente.id
+                      )
+                      .subscribe((resp) => {
+                        if (resp['final'] < 0) {
+                          resp['final'] = resp['final'] * -1;
+                        } else {
+                          resp['final'] = 0;
+                        }
+                        this.messageService.addAll([
+                          {
+                            severity: 'success',
+                            summary: 'Operacion completada',
+                            detail:
+                              'Se registró la planilla y se asignó un nuevo turno dentro de 365 dias',
+                            sticky: true,
+                          },
+                          {
+                            severity: 'info',
+                            summary: 'Cobro',
+                            detail: ` Saldo anterior -> $${resp['antes']}\n
+                       Monto de la practica -> $${resp['practica']}\n
+                       Nuevo saldo -> $${resp['actual']} \n
+                       Debe abonar -> $${resp['final']} \n
+
+                     `,
+                            sticky: true,
+                          },
+                        ]);
+                      });
+
                     this.isButtonDisabled = false;
                   });
               }
@@ -289,12 +378,38 @@ export class PlanillaComponent implements OnInit {
                   this.router.navigateByUrl(currentUrl);
                 });
 
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Operacion completada',
-                detail: `La practica fue registrada correctamente`,
-                closable: false,
-              });
+              this.userService
+                .withdrawBalance(
+                  Number(this.planilla.monto),
+                  this.turno.cliente.id
+                )
+                .subscribe((resp) => {
+                  if (resp['final'] < 0) {
+                    resp['final'] = resp['final'] * -1;
+                  } else {
+                    resp['final'] = 0;
+                  }
+                  this.messageService.addAll([
+                    {
+                      severity: 'success',
+                      summary: 'Operacion completada',
+                      detail: 'La practica fue registrada correctamente',
+                      sticky: true,
+                    },
+                    {
+                      severity: 'info',
+                      summary: 'Cobro',
+                      detail: ` Saldo anterior -> $${resp['antes']}\n
+                       Monto de la practica -> $${resp['practica']}\n
+                       Nuevo saldo -> $${resp['actual']} \n
+                       Debe abonar -> $${resp['final']} \n
+
+                     `,
+                      sticky: true,
+                    },
+                  ]);
+                });
+
               this.isButtonDisabled = false;
             }
           });
