@@ -33,7 +33,6 @@ public class User implements UserDetails {
     private String telefono;
     private String password;
     private Boolean cambioContraseña;
-    private String imagen;
     private BigDecimal saldo;
 
 

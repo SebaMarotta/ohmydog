@@ -20,7 +20,6 @@ public class RegisterUserRequest {
     private String email;
     private String telefono;
     private String password;
-    private MultipartFile imagen;
     private BigDecimal saldo;
 
 }

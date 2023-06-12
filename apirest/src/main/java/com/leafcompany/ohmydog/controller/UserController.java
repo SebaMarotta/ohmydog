@@ -70,20 +70,8 @@ public class UserController {
         sb.append(chars.charAt(index));
       }
       request.setPassword(sb.toString());
-      if(request.getImagen() != null && !request.getImagen().isEmpty()) {
-        Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
-        String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
 
-        try {
-          byte[] bytesImg = request.getImagen().getBytes();
-          Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + request.getImagen().getOriginalFilename());
-          Files.write(rutaCompleta, bytesImg);
-
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
       var aux = userService.register(request);
 
       String titulo = "Fuiste registrado en la veterinaria Oh My Dog!";
@@ -113,14 +101,6 @@ public class UserController {
       Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
       String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
-      try {
-        byte[] bytesImg = user.getImagen().getBytes();
-        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + user.getImagen().getOriginalFilename());
-        Files.write(rutaCompleta, bytesImg);
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
 
       return ResponseEntity.ok(userService.editUser(user));
     } else {

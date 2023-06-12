@@ -21,21 +21,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     public User register(RegisterUserRequest request){
         User user;
-        if (request.getImagen() != null) {
-            user = User.builder()
-                    .nombre(request.getNombre())
-                    .apellido(request.getApellido())
-                    .dni(request.getDni())
-                    .email(request.getEmail())
-                    .telefono(request.getTelefono())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .role(Role.USER)
-                    .imagen(request.getImagen().getOriginalFilename())
-                    .cambioContraseña(false)
-                    .saldo(BigDecimal.ZERO)
-                    .build();
-        } else {
-            user = User.builder()
+        user = User.builder()
                     .nombre(request.getNombre())
                     .apellido(request.getApellido())
                     .dni(request.getDni())
@@ -46,7 +32,7 @@ public class UserService {
                     .cambioContraseña(false)
                     .saldo(BigDecimal.ZERO)
                     .build();
-        }
+
         return userRepository.save(user);
     }
 
@@ -63,7 +49,6 @@ public class UserService {
         aux.setApellido(user.getApellido());
         aux.setEmail(user.getEmail());
         aux.setTelefono(user.getTelefono());
-        aux.setImagen(user.getImagen().getOriginalFilename());
         return userRepository.save(aux);
     }
 
