@@ -12,7 +12,6 @@
                   <th>Mascota</th>
                   <th>Motivo</th>
                   <th>Turno</th>
-                  <th *ngIf="user.role == 'ADMIN'" >Estado</th>
                   <th *ngIf="user.role == 'ADMIN'" >Acciones</th>
               </tr>
           </ng-template>
@@ -35,11 +34,9 @@
                   <td>
                     {{ turno.fecha | date:'d MMM yyyy - HH:mm '}}
                 </td>
-                <td *ngIf="user.role == 'ADMIN'">
-                  {{turno.activo}}
-                </td>
+
                   <td *ngIf="user.role == 'ADMIN'">
-                    <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-check" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+                    <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-eye" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
                     <p-button (click)="toggleTurnoRechazado(turno)" icon="pi pi-times"  title="Rechazar" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
                   </td>
 

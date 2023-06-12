@@ -49,7 +49,7 @@ export class EditarComponent {
       dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
       password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern('[^a-zA-Z]')]],
     });
   }
   ngOnInit(): void {
@@ -84,6 +84,8 @@ export class EditarComponent {
           return 'Este campo es requerido';
         case 'email':
           return 'Formato de email inválido';
+        case 'pattern':
+          return 'No se permiten letras'
       }
     }
     return null;
