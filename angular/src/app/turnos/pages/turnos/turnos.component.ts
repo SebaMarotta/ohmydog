@@ -52,10 +52,10 @@ export class TurnosComponent {
         switchMap(() => this.turnoService.getTurnos()),
         map((resp) => resp.filter((resp2) => resp2.activo == true)),
         map((resp) => {
-          if (this.user.role === 'USER') {
+          if (this.user.role == 'USER') {
             return resp.filter((resp3) => {
-              resp3.cliente.id == this.user.id;
-              resp3.activo == true
+              return resp3.cliente.id == this.user.id;
+
             });
           } else {
             return resp;
