@@ -64,8 +64,18 @@ public class ServicioDeTercerosController {
     @PostMapping("/registro")
     public ResponseEntity<ServicioDeTerceros> guardarServicio(@RequestBody RegisterServicioDeTercerosRequest cuidador_paseador) throws MiException {
 
-        this.servicioDeTercerosService.findAll().
+
         try {
+            for (ServicioDeTerceros s : this.servicioDeTercerosService.findAll()) {
+                if (s.getEmail().equals(cuidador_paseador.getEmail())
+                        && s.getNombre().equals(cuidador_paseador.getNombre())
+                        && s.getApellido().equals(cuidador_paseador.getApellido())
+                        && s.getZona().equals(cuidador_paseador.getZona())
+                        && s.getTipo().equals(cuidador_paseador.getTipo()))
+                {
+                    throw new MiException("El servicio para este cliente ya está registrado.");
+                }
+            }
             ServicioDeTerceros aux = servicioDeTercerosService.crearServicioDeTerceros(cuidador_paseador);
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         } catch (MiException ex) {

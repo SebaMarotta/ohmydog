@@ -160,8 +160,8 @@ export class CrearComponent {
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${e}`,
-            detail: `${e}`,
+            summary: `Error`,
+            detail: `Este servicio ya se encuentra registrado`,
             closable: false,
           });
           return throwError(e);
