@@ -164,6 +164,7 @@ export class CrearComponent {
             detail: `Este servicio ya se encuentra registrado`,
             closable: false,
           });
+          this.isButtonDisabled = false;
           return throwError(e);
         })
       )

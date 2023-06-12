@@ -114,16 +114,15 @@ export class SolicitudComponent {
       .enviarFormularioInteres(this.formularioServicio)
       .pipe(
         map((resp: any) => resp as FormularioServicioTerceroRequest),
-        catchError((e: any) => {
-          const error: string = 'Duplicate entry';
-          const mensaje: string = e.error.error;
+        catchError((e: Map<string, string>) => {
 
           this.messageService.add({
             severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
+            summary: `Error`,
+            detail: `No se permite enviar emails a tu mismo correo`,
             closable: false,
           });
+          this.isButtonDisabled = false;
           return throwError(e);
         })
       )

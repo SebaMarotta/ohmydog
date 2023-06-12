@@ -1,7 +1,6 @@
 package com.leafcompany.ohmydog.controller;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.leafcompany.ohmydog.RequestResponse.EditServicioDeTerceroRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterServicioDeTercerosRequest;
@@ -41,9 +40,17 @@ public class ServicioDeTercerosController {
 
 
     @PostMapping("/solicitud")
-    public ResponseEntity<Boolean> solicitudServicio(@RequestBody SolicitudContactoServicio request) throws MiException {
+    public ResponseEntity<?> solicitudServicio(@RequestBody SolicitudContactoServicio request) throws MiException {
+
+        Map<String, Object> response = new HashMap<>();
 
         ServicioDeTerceros publicacion = this.servicioDeTercerosService.findById(request.getIdServicio()).get();
+
+        if (request.getEmail().equals(publicacion.getEmail()))
+        {
+            response.put("error", "No se puede enviar emails a tu mismo correo");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
 
         String titulo = "Hay una persona interesada en tu servicio de " + publicacion.getTipo() + "!";
         String cuerpo = "Buenas noticias " + publicacion.getNombre() + "!. Una persona esta interesada en tus servicios de " + publicacion.getTipo() + "\n\n"
