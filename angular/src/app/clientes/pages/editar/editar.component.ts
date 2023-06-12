@@ -49,7 +49,7 @@ export class EditarComponent {
       dni: ['', [Validators.required, Validators.pattern('[0-9]*')]],
       password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required, Validators.pattern('[^a-zA-Z]')]],
+      telefono: ['', [Validators.required, Validators.pattern('[^a-zA-Z]*')]],
     });
   }
   ngOnInit(): void {
