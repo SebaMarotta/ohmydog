@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, filter, map } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap } from 'rxjs';
 import { User } from 'src/app/clientes/interfaces/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServicioTercero } from '../../interfaces/interfaces';
@@ -42,16 +42,27 @@ export class HomeComponent {
   ) {}
 
   ngOnInit() {
-    this.user$.subscribe((resp) => {
-      if (this.user$.value != null) {
-        this.rolSession = resp.role;
-        this.idUser = resp.id;
-      }
-    });
-    this.servicioDeTerceroService
-      .getServicios()
-      .pipe(map((resp) => resp.filter((resp2) => resp2.disponible == true)))
+    this.authService.userSession
+      .pipe(
+        map((resp) => {
+          if (this.user$.value != null) {
+            this.rolSession = resp.role;
+            this.idUser = resp.id;
+          }
+        }),
+          switchMap(() => this.servicioDeTerceroService.getServicios()),
+          map((resp) => {
+
+            if (this.rolSession != 'ADMIN')
+              return resp.filter((resp3) => {
+
+                return resp3.disponible == true;
+              });
+            else return resp;
+          })
+      )
       .subscribe((resp) => {
+
         this.servicios = resp;
       });
   }

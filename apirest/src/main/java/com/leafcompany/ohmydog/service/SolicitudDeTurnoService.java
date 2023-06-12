@@ -40,6 +40,7 @@ public SolicitudDeTurno register (RegisterSolicitudRequest request){
             .user(user)
             .motivo(MotivosTurnos.valueOf(request.getMotivo()))
             .horario(HorariosTurnos.valueOf(request.getHorario()))
+            .observaciones(request.getObservaciones())
             .estado(true)
             .build();
 

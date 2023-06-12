@@ -46,6 +46,8 @@ export class MenuRutasComponent {
     for (let i = 0; i < urlSegments.length - 1; i++) {
       url += `${urlSegments[i]}/`;
     }
+    console.log(url);
+    if (url.endsWith('/clientes/') && !this.authService.isAdmin) url = '/';
     this.items.push({ label: '<- Volver', routerLink: url });
   }
 }

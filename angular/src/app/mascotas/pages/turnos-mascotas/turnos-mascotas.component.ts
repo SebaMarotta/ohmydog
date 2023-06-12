@@ -73,6 +73,7 @@ export class TurnosMascotasComponent {
     this.formulario = this.fb.group({
       motivo: ['', [Validators.required]],
       horario: ['', [Validators.required]],
+      observaciones: [''],
     });
   }
   ngOnInit(): void {
@@ -160,6 +161,7 @@ export class TurnosMascotasComponent {
     this.solicitud.user = this.idUser;
     this.solicitud.horario = this.solicitud.horario['horario'];
     this.solicitud.motivo = this.solicitud.motivo['motivo'];
+
 
     console.log(this.solicitud);
     forkJoin({

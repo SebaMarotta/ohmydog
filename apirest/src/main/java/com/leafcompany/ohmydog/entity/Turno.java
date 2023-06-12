@@ -30,7 +30,7 @@ public class Turno{
     @Enumerated(EnumType.STRING)
     private MotivosTurnos motivo;
 
-    private String comentarios;
+    private String observaciones;
 
     private Boolean activo;
 
@@ -41,61 +41,13 @@ public class Turno{
 
     }
 
-    public Turno(User cliente, Mascota mascota, MotivosTurnos motivo, String comentarios, LocalDateTime fecha){
+    public Turno(User cliente, Mascota mascota, MotivosTurnos motivo, String observaciones, LocalDateTime fecha){
         this.cliente = cliente;
         this.mascota = mascota;
         this.motivo = motivo;
-        this.comentarios = comentarios;
+        this.observaciones = observaciones;
         this.activo = true;
         this.fecha = fecha;
     }
 
-    public User getCliente() {
-        return cliente;
-    }
-    public void setCliente(User cliente) {
-        this.cliente = cliente;
-    }
-    public Mascota getMascota() {
-        return mascota;
-    }
-    public void setMascota(Mascota mascota) {
-        this.mascota = mascota;
-    }
-    public String getComentarios() {
-        return comentarios;
-    }
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
-    }
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public MotivosTurnos getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(MotivosTurnos motivo) {
-        this.motivo = motivo;
-    }
-
-    public Boolean isActivo() {
-        return activo;
-    }
-
-    public void desactivarTurno() {
-        this.activo = false;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
 }

@@ -76,7 +76,7 @@ export class EditarMascotaComponent implements OnInit {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      // imagen: [],
+      imagen: [],
       cruza: [''],
       castrada: [''],
     });
@@ -133,6 +133,16 @@ export class EditarMascotaComponent implements OnInit {
     return this.formulario.value['raza'];
   }
 
+  imageSelected(event) {
+    this.formulario.value['imagen'] = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.formulario.get('imagen').setValue(event.target.files[0]);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
   guardar() {
     if (
       this.formulario.value.sexo['sexo'] != undefined &&
@@ -173,6 +183,8 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
     this.mascotaEditada.fechaDeNacimiento =
       this.formulario.value.fechaDeNacimiento;
+
+    console.log(this.mascotaEditada, this.mascotaActual);
 
     return this.mascotaService
       .editar(this.mascotaEditada)

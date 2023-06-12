@@ -33,6 +33,7 @@ export class TurnosPendientesComponent implements OnInit {
     horario: '',
     motivo: '',
     estado: false,
+    observaciones: '',
   };
   @Output() cantidadSolicitudes: EventEmitter<string> = new EventEmitter();
 

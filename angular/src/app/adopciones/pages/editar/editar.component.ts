@@ -1,3 +1,4 @@
+
 import {
   Component,
   EventEmitter,
@@ -9,7 +10,6 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   FormGroupDirective,
   Validators,
@@ -17,54 +17,47 @@ import {
 import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import {
-  Mascota,
-  RegisterMascotaRequest,
-} from 'src/app/mascotas/interfaces/interfaces';
+  RegisterUserRequest,
+  User,
+} from 'src/app/clientes/interfaces/interfaces';
 import { catchError, map, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { MascotaService } from 'src/app/services/mascota.service';
-import {
-  SolicitudAceptada,
-  SolicitudPendiente,
-} from '../../interfaces/interfaces';
-import { TurnoService } from 'src/app/services/turno.service';
+import { JsonPipe } from '@angular/common';
+import { RegisterAdopcionRequest } from '../../interfaces/interfaces';
+import { AdopcionService } from 'src/app/services/adopcion.service';
 
 @Component({
-  selector: 'app-turno-pendiente-aceptar',
-  templateUrl: './turno-pendiente-aceptar.component.html',
-  styleUrls: ['./turno-pendiente-aceptar.component.css'],
+  selector: 'app-editar',
+  templateUrl: './editar.component.html',
+  styleUrls: ['./editar.component.css']
 })
-export class TurnoPendienteModalComponent implements OnInit {
-  turno: SolicitudAceptada = {
-    idMascota: 0,
-    idUser: 0,
-    idSolicitud: 0,
-    fecha: undefined,
-    motivo: '',
-    observaciones: '',
-  };
+export class EditarComponent {
+  formularioAdopcion: RegisterAdopcionRequest;
   validador: Boolean;
-  formulario: FormGroup;
-  minDate: Date;
-  @Output() solicitudModal: EventEmitter<null> = new EventEmitter();
+  isButtonDisabled: Boolean = false;
+  protected sexos: any;
+  formulario: FormGroup = this.fb.group({
+    nombrePerro: ['', Validators.required],
+    edad: ['', Validators.required],
+    raza: ['', Validators.required],
+    color: ['', Validators.required],
+    sexo: ['', Validators.required],
+    origen: ['', Validators.required],
+  });
 
+  @Output() crearModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() solicitud: SolicitudPendiente;
-
-  protected isButtonDisabled: boolean = false;
+  @Input() idUser: number;
 
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private turnoService: TurnoService,
+    private userService: UserService,
+    private adopcionService: AdopcionService,
     private router: Router
-  ) {
-    this.formulario = this.fb.group({
-      fecha: ['', [Validators.required]],
-    });
-  }
+  ) {}
   ngOnInit(): void {
-    this.minDate = new Date();
+    this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
   }
 
   isValidField(field: string) {
@@ -97,36 +90,35 @@ export class TurnoPendienteModalComponent implements OnInit {
       this.isButtonDisabled = false;
       return null;
     }
-    this.turno.idMascota = this.solicitud.mascota.id;
-    this.turno.idUser = this.solicitud.user.id;
-    this.turno.idSolicitud = this.solicitud.id;
-    this.turno.motivo = this.solicitud.motivo;
-    this.turno.fecha = this.formulario.value['fecha'];
-    this.turno.observaciones = this.solicitud.observaciones;
-    return this.turnoService
-      .setTurno(this.turno)
+
+    this.formularioAdopcion = this.formulario.value;
+    this.formularioAdopcion.sexo = this.formularioAdopcion.sexo['sexo'];
+
+    return this.adopcionService
+      .register(this.formularioAdopcion, this.idUser)
       .pipe(
-        map((resp: any) => resp as SolicitudAceptada),
+        map((resp: any) => resp as User),
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',
-            summary: `${e.error.mensaje}`,
-            detail: `${e.error.error}`,
+            summary: `${e}`,
+            detail: `${e}`,
             closable: false,
           });
           return throwError(e);
         })
       )
       .subscribe((resp) => {
+        const url = this.router.url;
         this.router
           .navigateByUrl('/', { skipLocationChange: true })
           .then(() => {
-            this.router.navigateByUrl(`/turnos`);
+            this.router.navigateByUrl(url);
           });
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `El turno fue creado correctamente`,
+          detail: `La publicacion de adopcion fue creada correctamente`,
           closable: false,
         });
       });
@@ -134,6 +126,6 @@ export class TurnoPendienteModalComponent implements OnInit {
 
   cerrar(): void {
     setTimeout(() => this.formGroupDirective.resetForm(), 200);
-    this.solicitudModal.emit();
+    this.crearModal.emit(false);
   }
 }

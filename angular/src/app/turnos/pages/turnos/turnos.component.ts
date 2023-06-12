@@ -32,6 +32,7 @@ export class TurnosComponent {
     motivo: '',
     activo: false,
     fecha: undefined,
+    observaciones: '',
   };
 
   constructor(
@@ -49,10 +50,12 @@ export class TurnosComponent {
           return user;
         }),
         switchMap(() => this.turnoService.getTurnos()),
-        map((resp) => resp.filter((resp2) => resp2.activo == true)),
         map((resp) => {
           if (this.user.role === 'USER') {
-            return resp.filter((resp3) => resp3.cliente.id == this.user.id);
+            return resp.filter((resp3) => {
+              resp3.cliente.id == this.user.id;
+              resp3.activo == true;
+            });
           } else {
             return resp;
           }

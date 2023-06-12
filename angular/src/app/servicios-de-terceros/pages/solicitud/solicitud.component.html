@@ -16,28 +16,28 @@
 
       <span class="p-float-label" >
         <input pInputText id="nombre" formControlName="nombre" />
-        <label htmlFor="nombre">Nombre</label>
+        <label htmlFor="nombre">Nombre (*)</label>
       </span>
       <span *ngIf="isValidField('nombre')" class="form-text text-danger">
         {{ getFieldError('nombre') }}
       </span>
       <span class="p-float-label">
         <input pInputText id="telefono" formControlName="telefono" />
-        <label htmlFor="telefono">Telefono</label>
+        <label htmlFor="telefono">Telefono (*)</label>
       </span>
       <span *ngIf="isValidField('telefono')" class="form-text text-danger">
         {{ getFieldError('telefono') }}
       </span>
       <span class="p-float-label">
         <input pInputText id="email" formControlName="email" />
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email (*)</label>
       </span>
       <span *ngIf="isValidField('email')" class="form-text text-danger">
         {{ getFieldError('email') }}
       </span>
       <span class="p-float-label">
         <input pInputText id="fechaYhora" formControlName="fechaYhora" />
-        <label htmlFor="fechaYhora">Fechas y horas necesitadas</label>
+        <label htmlFor="fechaYhora">Fechas y horas necesitadas (*)</label>
       </span>
       <span *ngIf="isValidField('fechaYhora')" class="form-text text-danger">
         {{ getFieldError('fechaYhora') }}

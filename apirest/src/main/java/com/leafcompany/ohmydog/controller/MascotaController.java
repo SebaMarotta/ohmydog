@@ -79,20 +79,18 @@ public class MascotaController {
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<?> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
+    public ResponseEntity<?> modificarPerro(@ModelAttribute EditMascotaRequest mascota, BindingResult result, @PathVariable Long id) {
         Map<String,Object> errores = new HashMap<String,Object>();
         try{
+            System.out.println(mascota);
             if (mascota.getDuenio().equals(id)) {
                 if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
                     Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
                     String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
-
-
                     try {
                         byte[] bytesImg = mascota.getImagen().getBytes();
                         Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + mascota.getImagen().getOriginalFilename());
                         Files.write(rutaCompleta, bytesImg);
-
                     } catch (java.io.IOException e) {
                         e.printStackTrace();
                     }

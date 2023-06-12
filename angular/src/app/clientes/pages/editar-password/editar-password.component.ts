@@ -18,7 +18,15 @@ import {
   RegisterUserRequest,
   User,
 } from 'src/app/clientes/interfaces/interfaces';
-import { catchError, firstValueFrom, map, tap, throwError } from 'rxjs';
+import {
+  catchError,
+  firstValueFrom,
+  interval,
+  map,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import { Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { AuthService } from 'src/app/services/auth.service';
@@ -118,16 +126,19 @@ export class EditarPasswordComponent {
                 return null;
               }
 
+              this.authService.logout();
+              this.router.navigateByUrl('/');
               const url = this.router.url;
-              this.router
-                .navigateByUrl('/', { skipLocationChange: true })
-                .then(() => {
-                  this.router.navigateByUrl(url);
-                });
+              const intervalCount = interval(3000);
+              const takeFive = intervalCount.pipe(take(1));
+              takeFive.subscribe((x) => {
+                window.location.reload();
+              });
+
               this.messageService.add({
                 severity: 'success',
                 summary: 'Operacion completada',
-                detail: `La contraseña ha sido cambiada exitosamente`,
+                detail: `La contraseña ha sido cambiada exitosamente, en 3 segundos ingrese nuevamente`,
                 closable: false,
               });
             });

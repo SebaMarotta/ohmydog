@@ -69,6 +69,7 @@ public class MascotaService {
                     .duenio(dueño)
                     .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
                     .sexo(mascota.getSexo())
+                    .imagen("perroDefault.png")
                     .observaciones(mascota.getObservaciones())
                     .castrada(mascota.isCastrada())
                     .build();
@@ -83,47 +84,38 @@ public class MascotaService {
     @Transactional
     public Mascota modificarMascota(EditMascotaRequest mascota) throws MiException{
 
+        Mascota original = this.mascotaRepository.findById(mascota.getId()).get();
         Mascota aux;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),
                 LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         var user = this.userRepository.findById(mascota.getDuenio()).get();
-        if (mascota.getImagen() != null) {
-            aux = Mascota
-                    .builder()
-                    .duenio(user)
-                    .raza(Razas.valueOf(mascota.getRaza()))
-                    .id(mascota.getId())
-                    .nombre(mascota.getNombre())
-                    .color(mascota.getColor())
-                    .cruza(mascota.isCruza())
-                    .duenio(user)
-                    .fechaDeNacimiento(fecha)
-                    .imagen(mascota.getImagen().getOriginalFilename())
-                    .observaciones(mascota.getObservaciones())
-                    .sexo(mascota.getSexo())
-                    .castrada(mascota.isCastrada())
-                    .build();
-        } else {
-             aux = Mascota
-                    .builder()
-                    .duenio(user)
-                    .raza(Razas.valueOf(mascota.getRaza()))
-                    .id(mascota.getId())
-                    .nombre(mascota.getNombre())
-                    .color(mascota.getColor())
-                    .cruza(mascota.isCruza())
-                    .duenio(user)
-                    .fechaDeNacimiento(fecha)
-                    .observaciones(mascota.getObservaciones())
-                    .sexo(mascota.getSexo())
-                    .castrada(mascota.isCastrada())
-                    .build();
-        }
 
-        return mascotaRepository.save(aux);
+        System.out.println("ffffff" + mascota);
+        if (mascota.getImagen() != null) {
+            original.setCruza(mascota.isCruza());
+            original.setCastrada(mascota.isCastrada());
+            original.setColor(mascota.getColor());
+            original.setImagen(mascota.getImagen().getOriginalFilename());
+            original.setNombre(mascota.getNombre());
+            original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
+            original.setSexo(mascota.getSexo());
+            original.setObservaciones(mascota.getObservaciones());
+            original.setRaza(Razas.valueOf(mascota.getRaza()));
+        } else {
+            original.setCruza(mascota.isCruza());
+            original.setCastrada(mascota.isCastrada());
+            original.setColor(mascota.getColor());
+            original.setNombre(mascota.getNombre());
+            original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
+            original.setSexo(mascota.getSexo());
+            original.setObservaciones(mascota.getObservaciones());
+            original.setRaza(Razas.valueOf(mascota.getRaza()));
+        }
+        return mascotaRepository.save(original);
         }
 
 

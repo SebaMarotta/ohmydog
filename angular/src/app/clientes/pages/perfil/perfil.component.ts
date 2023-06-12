@@ -26,7 +26,7 @@ export class PerfilComponent implements OnInit {
   protected editarModalPassword: Boolean = false;
   protected cardMascotaId: number;
   protected suscriptionLista: Subscription;
-  protected imagenUrl: SafeUrl[];
+  protected imagenUrl: SafeUrl;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,9 +52,6 @@ export class PerfilComponent implements OnInit {
     this.mascotaService.getMascotasUser(this.id).subscribe((resp) => {
       this.mascotas = resp;
       this.rolSession = this.authService.userSession.getValue()['role'];
-      for (let mascota of resp) {
-        this.imagenUrl.push(() => {});
-      }
     });
 
     this.suscriptionLista = this.mascotaService.refresh.subscribe(() => {
@@ -84,12 +81,12 @@ export class PerfilComponent implements OnInit {
     this.editarModalPassword = !this.editarModalPassword;
   }
 
-  mostrarFoto(nombre: string): SafeUrl {
-    return this.mascotaService
-      .getImage(nombre)
-      .subscribe((imagenBlob: Blob) => {
-        let aux = URL.createObjectURL(imagenBlob);
-        return this.DomSanitizer.bypassSecurityTrustUrl(aux);
-      });
-  }
+  //   mostrarFoto(nombre: string): SafeUrl {
+  //     return this.mascotaService
+  //       .getImage(nombre)
+  //       .subscribe((imagenBlob: Blob) => {
+  //         let aux = URL.createObjectURL(imagenBlob);
+  //         return this.DomSanitizer.bypassSecurityTrustUrl(aux);
+  //       });
+  //   }
 }

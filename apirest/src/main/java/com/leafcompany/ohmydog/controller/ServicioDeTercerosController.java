@@ -64,7 +64,7 @@ public class ServicioDeTercerosController {
     @PostMapping("/registro")
     public ResponseEntity<ServicioDeTerceros> guardarServicio(@RequestBody RegisterServicioDeTercerosRequest cuidador_paseador) throws MiException {
 
-     
+        this.servicioDeTercerosService.findAll().
         try {
             ServicioDeTerceros aux = servicioDeTercerosService.crearServicioDeTerceros(cuidador_paseador);
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);

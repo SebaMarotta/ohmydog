@@ -18,9 +18,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { DataViewModule } from 'primeng/dataview';
+import { EditarComponent } from './pages/editar/editar.component';
 
 @NgModule({
-  declarations: [CrearComponent, HomeComponent, SolicitudComponent],
+  declarations: [CrearComponent, HomeComponent, SolicitudComponent, EditarComponent],
   imports: [
     CommonModule,
     AdopcionesRoutingModule,

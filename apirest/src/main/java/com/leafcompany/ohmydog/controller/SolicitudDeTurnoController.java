@@ -34,7 +34,6 @@ public class SolicitudDeTurnoController {
 
     @PostMapping("/crear")
     public ResponseEntity<SolicitudDeTurno> create(@RequestBody RegisterSolicitudRequest request){
-        System.out.println("aaaaaaa  " + request);
         return ResponseEntity.ok(service.register(request));
     }
 

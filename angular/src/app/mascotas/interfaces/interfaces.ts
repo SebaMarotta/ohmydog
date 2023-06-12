@@ -22,6 +22,8 @@ export interface RegisterMascotaRequest {
   sexo: string;
   fechaDeNacimiento: String;
   imagen: string;
+  cruza: boolean;
+  castrada: boolean;
 }
 
 export interface Razas {

@@ -51,6 +51,7 @@ public class TurnoService {
                     .activo(true)
                     .fecha(request.getFecha())
                     .motivo(MotivosTurnos.valueOf(request.getMotivo()))
+                    .observaciones(request.getObservaciones())
                     .build();
             return this.turnoRepository.save(turno);
         } catch (DataAccessException e){
@@ -70,8 +71,8 @@ public class TurnoService {
         Optional<Turno> respuesta =  turnoRepository.findById(id);
         if(respuesta.isPresent()){
             Turno turno = respuesta.get();
-            if (turno.isActivo()) {
-                turno.desactivarTurno();
+            if (turno.getActivo()) {
+                turno.setActivo(false);
                 turnoRepository.save(turno);
             }
         }

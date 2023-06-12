@@ -20,6 +20,7 @@ public class RegisterTurnoRequest {
     private Optional<Long> idSolicitud;
     private LocalDateTime fecha;
     private String motivo;
+    private String observaciones;
 
 
 }

@@ -30,6 +30,8 @@
     {{ getFieldError('horario') }}
   </span>
 
+  <textarea styleClass="w-full mt-4" class="mt-4" rows="5" cols="28" pInputTextarea formControlName="observaciones"></textarea>
+
   <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
     <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Enviar" class="p-button-success p-button-text text-center"></button>
   </div>

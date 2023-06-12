@@ -213,6 +213,7 @@ export class PlanillaComponent implements OnInit {
                       idUser: this.turno.cliente.id,
                       fecha: addDays(currentDate, 21),
                       motivo: this.turno.motivo,
+                      observaciones: this.turno.observaciones,
                     };
 
                     this.turnoService
@@ -266,6 +267,7 @@ export class PlanillaComponent implements OnInit {
                       idUser: this.turno.cliente.id,
                       fecha: addYears(currentDate, 1),
                       motivo: this.turno.motivo,
+                      observaciones: this.turno.observaciones,
                     };
 
                     this.turnoService
@@ -321,6 +323,7 @@ export class PlanillaComponent implements OnInit {
                   idUser: this.turno.cliente.id,
                   fecha: addYears(currentDate, 1),
                   motivo: this.turno.motivo,
+                  observaciones: this.turno.observaciones,
                 };
 
                 this.turnoService

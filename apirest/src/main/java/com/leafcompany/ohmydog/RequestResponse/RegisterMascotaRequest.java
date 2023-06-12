@@ -27,13 +27,9 @@ public class RegisterMascotaRequest {
     private String color;
     private String observaciones;
     private User duenio;
-
     private Sexo sexo;
-
     private String fechaDeNacimiento;
-
     private MultipartFile imagen;
-
     private boolean cruza;
     private boolean castrada;
 

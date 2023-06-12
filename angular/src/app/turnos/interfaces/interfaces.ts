@@ -7,6 +7,7 @@ export interface SolicitudPendiente {
   user: User;
   horario: string;
   motivo: string;
+  observaciones: string;
   estado: boolean;
 }
 
@@ -16,6 +17,7 @@ export interface SolicitudAceptada {
   idSolicitud?: number;
   fecha: Date;
   motivo: string;
+  observaciones: string;
 }
 
 export interface SolicitudRechazada {
@@ -30,6 +32,7 @@ export interface Turno {
   motivo: string;
   activo: boolean;
   fecha: Date;
+  observaciones: string;
 }
 
 export interface TurnoAceptado {

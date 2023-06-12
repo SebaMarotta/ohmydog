@@ -29,6 +29,7 @@
                   <th>Zona</th>
                   <th>Rango horario</th>
                   <th>Dias</th>
+                  <th *ngIf="rolSession == 'ADMIN'" >Estado</th>
                   <th>Opciones</th>
 
               </tr>
@@ -57,6 +58,9 @@
                 {{ servicio.dias | motivoPipe | titlecase}}
               </td>
 
+              <td *ngIf="rolSession == 'ADMIN'">
+                {{servicio.disponible}}
+              </td>
             <td>
               <span><p-button (click)="toggleSolicitud(servicio)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button></span>
             <span><div *ngIf="rolSession == 'ADMIN'">
