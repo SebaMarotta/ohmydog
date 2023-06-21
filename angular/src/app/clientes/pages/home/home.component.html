@@ -7,10 +7,26 @@
 <div *ngIf="clientes.length > 0">
 <p-table
         responsiveLayout="scroll"
+        #dt2
+        dataKey="id"
+        [value]="clientes"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[5 ,10, 25, 50]"
+        [paginator]="true"
+        [globalFilterFields]="['nombre', 'apellido', 'dni', 'telefono']"
         [value]="clientes"
         [scrollable]="true"
         scrollHeight="flex">
 
+        <ng-template pTemplate="caption">
+          <div class="flex">
+              <span class="p-input-icon-left ml-auto mx-auto">
+                  <i class="pi pi-search"></i>
+                  <input #textInput pInputText type="text" (input)="dt2.filterGlobal(textInput.value, 'contains')" placeholder="Search keyword" />
+              </span>
+          </div>
+      </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th>NOMBRE</th>
@@ -19,6 +35,7 @@
                 <th>ACCIONES</th>
 
             </tr>
+
         </ng-template>
 
         <ng-template
