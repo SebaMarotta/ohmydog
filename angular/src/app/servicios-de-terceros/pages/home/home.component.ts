@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ServicioTercero } from '../../interfaces/interfaces';
 import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
 import { MultiSelect } from 'primeng/multiselect';
-import { ColumnFilter } from 'primeng/table';
+import { ColumnFilter, Table } from 'primeng/table';
 
 @Component({
   selector: 'app-home',
@@ -42,7 +42,7 @@ export class HomeComponent {
   @ViewChild('RegistroContainer', { read: ViewContainerRef })
   container: ViewContainerRef;
 
-  @ViewChild('tipoMultiSelect') multiSelectComponent: ColumnFilter;
+  @ViewChild( 'dt2' ) dt2: Table;
 
 
   constructor(
@@ -73,9 +73,6 @@ export class HomeComponent {
       )
       .subscribe((resp) => {
 
-        resp.forEach(servicio => {
-          servicio.nombre = servicio.nombre + " " + servicio.apellido;
-        })
         this.servicios = resp;
       });
 
@@ -108,8 +105,9 @@ export class HomeComponent {
     this.editarModal = !this.editarModal;
   }
 
-  clearTipo(atributo){
-    this.multiSelectComponent.resetSubscription
+  filterNombre(field){
+    this.dt2.filter( field, 'nombre', 'contains' );
+    this.dt2.filter( field, 'apellido', 'contains' );
   }
 
 

@@ -29,13 +29,19 @@
           >
           <ng-template pTemplate="header">
             <tr>
-                <th style="min-width:15rem">
+                <th >
                     <div class="flex align-items-center">
                         Nombre
                         <p-columnFilter type="text" field="nombre" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                     </div>
                 </th>
-                <th style="min-width:15rem">
+                <th >
+                  <div class="flex align-items-center">
+                      Apellido
+                      <p-columnFilter type="text" field="apellido" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                  </div>
+              </th>
+                <th >
                   <div class="flex align-items-center">
                      Servicio
                       <p-columnFilter field="tipo" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
@@ -56,7 +62,7 @@
                       </p-columnFilter>
                   </div>
               </th>
-                <th style="min-width:15rem">
+                <th >
                     <div class="flex align-items-center">
                         Zona
                         <p-columnFilter field="zona" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
@@ -77,13 +83,13 @@
                         </p-columnFilter>
                     </div>
                 </th>
-                <th style="min-width:10rem" *ngIf="rolSession == 'ADMIN'">
-                    <div class="flex align-items-center">
+                <th  *ngIf="rolSession == 'ADMIN'">
+                    <div class="flex align-items-center" style="max-width:2.5rem">
                         Estado
                         <p-columnFilter class="ml-2 mb-1"  type="boolean" field="disponible" ></p-columnFilter>
                     </div>
                 </th>
-                <th style="min-width:10rem">
+                <th>
                     <div class="flex align-items-center">
                         Opciones
                     </div>
@@ -100,6 +106,9 @@
                   <td>
                       {{ servicio.nombre }}
                   </td>
+                  <td>
+                    {{servicio.apellido }}
+                </td>
                    <td>
                     {{ servicio.tipo | motivoPipe | titlecase }}
                    </td>
@@ -109,7 +118,7 @@
                     </td>
 
 
-              <td *ngIf="rolSession == 'ADMIN'" class="text-left">
+              <td *ngIf="rolSession == 'ADMIN'" class="text-center">
                 <i class="pi" [ngClass]="{ 'text-green-400 pi-check-circle': servicio.disponible, 'text-red-500 pi-times-circle': !servicio.disponible }"></i>
               </td>
 
