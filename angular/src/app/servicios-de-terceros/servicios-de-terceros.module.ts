@@ -7,7 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToolbarModule } from 'primeng/toolbar';
 import { RatingModule } from 'primeng/rating';
 import { TagModule } from 'primeng/tag';
@@ -23,6 +23,7 @@ import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.m
 import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
 import { EditarComponent } from './pages/editar/editar.component';
 import { InputSwitch, InputSwitchModule } from 'primeng/inputswitch';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,8 @@ import { InputSwitch, InputSwitchModule } from 'primeng/inputswitch';
     ToastModule,
     InputSwitchModule,
     LibretaSanitariaModule,
+    MultiSelectModule,
+    FormsModule,
   ],
 })
 export class ServiciosDeTercerosModule {}

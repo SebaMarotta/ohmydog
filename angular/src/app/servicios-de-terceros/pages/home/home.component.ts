@@ -5,6 +5,8 @@ import { User } from 'src/app/clientes/interfaces/interfaces';
 import { AuthService } from 'src/app/services/auth.service';
 import { ServicioTercero } from '../../interfaces/interfaces';
 import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
+import { MultiSelect } from 'primeng/multiselect';
+import { ColumnFilter } from 'primeng/table';
 
 @Component({
   selector: 'app-home',
@@ -32,8 +34,16 @@ export class HomeComponent {
   protected rolSession: string = '';
   protected idUser: number = 0;
 
+  protected tiposTotal : String[];
+  protected zonasTotal : String[];
+  protected tiposSeleccionados: String[] = [];
+  protected zonasSeleccionadas: String[] = [];
+
   @ViewChild('RegistroContainer', { read: ViewContainerRef })
   container: ViewContainerRef;
+
+  @ViewChild('tipoMultiSelect') multiSelectComponent: ColumnFilter;
+
 
   constructor(
     private servicioDeTerceroService: ServicioDeTerceroService,
@@ -63,8 +73,21 @@ export class HomeComponent {
       )
       .subscribe((resp) => {
 
+        resp.forEach(servicio => {
+          servicio.nombre = servicio.nombre + " " + servicio.apellido;
+        })
         this.servicios = resp;
       });
+
+      this.servicioDeTerceroService.getTipos().subscribe( (resp) => {
+        this.tiposTotal = resp;
+      })
+
+      this.servicioDeTerceroService.getZonas().subscribe (resp => {
+        this.zonasTotal = resp;
+      })
+
+
   }
 
   redireccionar(id: String) {
@@ -84,4 +107,11 @@ export class HomeComponent {
     if (!this.editarModal) this.servicioIndividual = servicio;
     this.editarModal = !this.editarModal;
   }
+
+  clearTipo(atributo){
+    this.multiSelectComponent.resetSubscription
+  }
+
+
 }
+

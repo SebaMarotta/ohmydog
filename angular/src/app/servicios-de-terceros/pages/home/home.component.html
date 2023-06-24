@@ -18,22 +18,78 @@
           responsiveLayout="scroll"
           [value]="servicios"
           [scrollable]="true"
-          scrollHeight="flex">
-
+          scrollHeight="flex"
+          #dt2
+          dataKey="id"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          [paginator]="true"
+          [globalFilterFields]="['nombre','apellido','tipo', 'zona', 'disponible']"
+          >
           <ng-template pTemplate="header">
-              <tr>
+            <tr>
+                <th style="min-width:15rem">
+                    <div class="flex align-items-center">
+                        Nombre
+                        <p-columnFilter type="text" field="nombre" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                    </div>
+                </th>
+                <th style="min-width:15rem">
+                  <div class="flex align-items-center">
+                     Servicio
+                      <p-columnFilter field="tipo" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                          <ng-template pTemplate="header">
+                              <div class="px-3 pt-3 pb-0">
+                                  <span class="font-bold">Buscar servicio</span>
+                              </div>
+                          </ng-template>
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                              <p-multiSelect [ngModel]="value" [showHeader]="false" [options]="tiposTotal" placeholder="Todos" (onChange)="filter($event.value)" optionLabel="">
+                                  <ng-template let-option pTemplate="item">
+                                      <div class="inline-block vertical-align-middle">
+                                          <span class="ml-1 mt-1">{{ option | motivoPipe | titlecase }}</span>
+                                      </div>
+                                  </ng-template>
+                              </p-multiSelect>
+                          </ng-template>
+                      </p-columnFilter>
+                  </div>
+              </th>
+                <th style="min-width:15rem">
+                    <div class="flex align-items-center">
+                        Zona
+                        <p-columnFilter field="zona" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                            <ng-template pTemplate="header">
+                                <div class="px-3 pt-3 pb-0">
+                                    <span class="font-bold">Buscar por zona</span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-multiSelect [ngModel]="value" [showHeader]="false" [options]="zonasTotal" placeholder="Todos" (onChange)="filter($event.value)" optionValue="" [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} plazas'">
+                                    <ng-template let-option pTemplate="item">
+                                        <div class="inline-block vertical-align-middle">
+                                            <span class="ml-1 mt-1">{{ option | motivoPipe | titlecase }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </div>
+                </th>
+                <th style="min-width:10rem" *ngIf="rolSession == 'ADMIN'">
+                    <div class="flex align-items-center">
+                        Estado
+                        <p-columnFilter class="ml-2 mb-1"  type="boolean" field="disponible" ></p-columnFilter>
+                    </div>
+                </th>
+                <th style="min-width:10rem">
+                    <div class="flex align-items-center">
+                        Opciones
+                    </div>
+                </th>
+        </ng-template>
 
-                  <th>Nombre</th>
-                  <th>Servicio</th>
-
-                  <th>Zona</th>
-                  <th>Rango horario</th>
-                  <th>Dias</th>
-                  <th *ngIf="rolSession == 'ADMIN'" >Estado</th>
-                  <th>Opciones</th>
-
-              </tr>
-          </ng-template>
 
           <ng-template
               pTemplate="body"
@@ -42,7 +98,7 @@
 
               <tr>
                   <td>
-                      {{ servicio.nombre }} {{servicio.apellido}}
+                      {{ servicio.nombre }}
                   </td>
                    <td>
                     {{ servicio.tipo | motivoPipe | titlecase }}
@@ -51,16 +107,12 @@
                     <td>
                        {{ servicio.zona | motivoPipe | titlecase}}
                     </td>
-              <td>
-                {{ servicio.rangoHorario }}
-              </td>
-              <td>
-                {{ servicio.dias | motivoPipe | titlecase}}
+
+
+              <td *ngIf="rolSession == 'ADMIN'" class="text-left">
+                <i class="pi" [ngClass]="{ 'text-green-400 pi-check-circle': servicio.disponible, 'text-red-500 pi-times-circle': !servicio.disponible }"></i>
               </td>
 
-              <td *ngIf="rolSession == 'ADMIN'">
-                {{servicio.disponible}}
-              </td>
             <td>
               <span><p-button (click)="toggleSolicitud(servicio)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button></span>
             <span><div *ngIf="rolSession == 'ADMIN'">

@@ -30,6 +30,9 @@ export class HomeComponent implements OnInit {
       .getUsers()
       .pipe(map((resp) => resp.filter((resp2) => resp2.role == 'USER')))
       .subscribe((resp) => {
+        resp.forEach(resp2 => {
+          resp2.nombre = resp2.nombre + " " + resp2.apellido;
+        })
         this.clientes = resp;
       });
   }
@@ -43,6 +46,6 @@ export class HomeComponent implements OnInit {
   }
 
   applyFilterGlobal($event, stringVal) {
-    this.dt2.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    return this.dt2.filterGlobal($event, stringVal);
   }
 }
