@@ -163,7 +163,7 @@ public class TurnoController {
     }
     @GetMapping("/listarDia")
     public ResponseEntity<List<Turno>> listarTurnosDia() {
-        LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 0,0);
+        LocalDateTime fechaInicio = LocalDateTime.of(1, 1,1, 0,0);
         LocalDateTime fechaFin = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
 
 
