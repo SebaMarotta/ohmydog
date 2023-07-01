@@ -175,6 +175,20 @@ public class TurnoController {
         }
     }
 
+    @GetMapping("/listarFuturos")
+    public ResponseEntity<List<Turno>> listarTurnosFuturos() {
+        LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
+        LocalDateTime fechaFin = LocalDateTime.of(9999, 1,1, 23,59);
+
+
+        List<Turno> turnos = turnoService.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
+        if (turnos != null) {
+            return ResponseEntity.ok(turnos);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/listar/{idCliente}")
     public ResponseEntity<List<Turno>> listarTurnosPorCliente(@PathVariable Long idCliente) {
         List<Turno> turnos = turnoService.findByClient(idCliente);

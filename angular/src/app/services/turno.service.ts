@@ -105,4 +105,9 @@ export class TurnoService {
     const url = `${this.baseUrl}/turno/listarDia`;
     return this.http.get<Turno[]>(url);
   }
+
+  getTurnosFuturos(): Observable<Turno[]> {
+    const url = `${this.baseUrl}/turno/listarFuturos`;
+    return this.http.get<Turno[]>(url);
+  }
 }

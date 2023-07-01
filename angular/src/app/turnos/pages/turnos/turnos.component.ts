@@ -49,7 +49,7 @@ export class TurnosComponent {
           this.user = user;
           return user;
         }),
-        switchMap(() => this.turnoService.getTurnos()),
+        switchMap(() => this.turnoService.getTurnosFuturos()),
         map((resp) => resp.filter((resp2) => resp2.activo == true)),
         map((resp) => {
           if (this.user.role == 'USER') {
@@ -81,4 +81,5 @@ export class TurnosComponent {
     if (!this.balanceModal) this.turnoIndividual = solicitud;
     this.balanceModal = !this.balanceModal;
   }
+
 }
