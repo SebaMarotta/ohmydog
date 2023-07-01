@@ -1,4 +1,10 @@
 
+<div *ngIf="veterinarias">
+  <p-dialog  header="" [(visible)]="veterinarias" [modal]="true" [style]="{ width: '50vw',height: '90vh' }"  [draggable]="true" [resizable]="true" [closable]="true">
+    <app-veterinarias-turno (cerrarModal)="recargaModal()" ></app-veterinarias-turno>
+  </p-dialog>
+</div>
+
 <div *ngIf="!cambioPassword && idUser != null">
   <p-dialog  header="" [(visible)]="!cambioPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="false">
     <div class="text-align">
@@ -27,9 +33,9 @@
           </p>
 
           <p class="mt-0 mb-4 text-0 line-height-2 text-0 font-bold">Para solicitar prácticas médicas y más funcionalidades, por favor inicie sesión</p>
-          <button pButton  pRipple (click)="cartelera()" label="Cartelera" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised" ></button>
-          <button pButton  pRipple label="Veterinarias de turno" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised "></button>
-          <button pButton  pRipple label="Donaciones" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised "></button>
+          <button pButton  pRipple (click)="verCartelera()" label="Cartelera" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised" ></button>
+          <button pButton  pRipple (click)="verVeterinarias()" label="Veterinarias de turno" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised "></button>
+          <button pButton  pRipple (click)="verCartelera()" label="Donaciones" type="button" class="mr-3 p-button-veterinariaOrange p-button-raised "></button>
 
 
           </section>

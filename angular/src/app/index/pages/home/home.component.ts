@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
 
   cambioPassword: boolean = true;
   idUser: number = null;
+  veterinarias: boolean = false;
 
   ngOnInit(): void {
     this.user$.subscribe((resp) => {
@@ -33,7 +34,22 @@ export class HomeComponent implements OnInit {
   toggleEditarPassword() {
     this.cambioPassword = true;
   }
-  cartelera() {
+  verCartelera() {
     this.router.navigateByUrl('cartelera');
+  }
+
+  verDonaciones() {
+    this.router.navigateByUrl('donaciones');
+  }
+
+  verVeterinarias () {
+    this.veterinarias = !this.veterinarias;
+  }
+
+  recargaModal(){
+    this.veterinarias = false;
+    setTimeout(() => {
+      this.veterinarias = true;
+    }, 0); // 2000 ms = 2 segundos
   }
 }

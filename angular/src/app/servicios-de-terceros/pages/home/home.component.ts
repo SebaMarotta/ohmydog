@@ -39,6 +39,7 @@ export class HomeComponent {
   protected tiposSeleccionados: String[] = [];
   protected zonasSeleccionadas: String[] = [];
 
+
   @ViewChild('RegistroContainer', { read: ViewContainerRef })
   container: ViewContainerRef;
 
@@ -105,9 +106,7 @@ export class HomeComponent {
     this.editarModal = !this.editarModal;
   }
 
-  filterNombre(field){
-    this.dt2.filter( field, 'nombre', 'contains' );
-    this.dt2.filter( field, 'apellido', 'contains' );
+  prueba(tabla) {
   }
 
 

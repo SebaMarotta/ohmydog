@@ -163,7 +163,6 @@ export class TurnosMascotasComponent {
     this.solicitud.motivo = this.solicitud.motivo['motivo'];
 
 
-    console.log(this.solicitud);
     forkJoin({
       solicitudTurno: solicitudTurno$,
       turnos: turnos$,

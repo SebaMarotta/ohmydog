@@ -87,7 +87,6 @@ export class MascotaService {
   }
 
   getImage(imagen: string) {
-    console.log(imagen);
     return this.http.get(`http://localhost:8080/imagenes/${imagen}`, {
       responseType: 'blob',
     });

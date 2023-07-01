@@ -15,9 +15,12 @@ import { EditarPasswordComponent } from './pages/editar-password/editar-password
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputTextModule } from 'primeng/inputtext';
+import { VeterinariasTurnoComponent } from './pages/veterinarias-turno/veterinarias-turno.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
-  declarations: [HomeComponent, CarteleraComponent, EditarPasswordComponent],
+  declarations: [HomeComponent, CarteleraComponent, EditarPasswordComponent, VeterinariasTurnoComponent],
   imports: [
     CommonModule,
     IndexRoutingModule,
@@ -32,6 +35,8 @@ import { InputTextModule } from 'primeng/inputtext';
     ReactiveFormsModule,
     ProgressSpinnerModule,
     InputTextModule,
+    FileUploadModule,
+    PanelModule,
   ],
 })
 export class IndexModule {}

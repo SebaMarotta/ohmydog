@@ -184,7 +184,6 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.fechaDeNacimiento =
       this.formulario.value.fechaDeNacimiento;
 
-    console.log(this.mascotaEditada, this.mascotaActual);
 
     return this.mascotaService
       .editar(this.mascotaEditada)

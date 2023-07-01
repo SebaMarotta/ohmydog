@@ -19,10 +19,8 @@ export class InformacionPlanillaComponent {
   constructor(private turnoService: TurnoService) {}
 
   ngOnInit() {
-    console.log(this.idPlanilla);
     this.turnoService.getPlanillaById(this.idPlanilla).subscribe((resp) => {
       this.planilla = resp;
-      console.log(resp);
     });
   }
 }

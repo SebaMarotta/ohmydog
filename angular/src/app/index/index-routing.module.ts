@@ -20,6 +20,15 @@ const routes: Routes = [
       { path: 'servicios', component: HomeComponentServicios },
     ],
   },
+  {
+    path: 'donaciones',
+    component: BackgroundComponent,
+    children: [
+      { path: '', component: CarteleraComponent },
+      { path: 'adopciones', component: HomeComponentAdopciones },
+      { path: 'servicios', component: HomeComponentServicios },
+    ],
+  },
 ];
 
 @NgModule({
