@@ -202,12 +202,11 @@ export class PlanillaComponent implements OnInit {
             //Reutiliza la clase SolicitudAceptada para que envie la informacion al backend de como queremos que sea el turno
 
             if (
-              (this.turno.motivo == 'VACUNA_TIPO_A' && cantTipoA < 2) ||
-              (this.turno.motivo == 'VACUNA_TIPO_B' && cantTipoB < 2)
+              (this.turno.motivo == 'VACUNA_TIPO_A') ||
+              (this.turno.motivo == 'VACUNA_TIPO_B')
             ) {
               if (this.turno.motivo == 'VACUNA_TIPO_A') {
-                if (cantTipoA < 2) {
-                  if (edadMascota.años == 0 && edadMascota.meses < 4) {
+                if (cantTipoA == 0 && edadMascota.años == 0 && edadMascota.meses < 4) {
                     let turno21dias: SolicitudAceptada = {
                       idMascota: this.turno.mascota.id,
                       idUser: this.turno.cliente.id,
@@ -259,65 +258,63 @@ export class PlanillaComponent implements OnInit {
                           });
                         this.isButtonDisabled = false;
                       });
-                  }
 
-                  if (edadMascota.meses >= 4) {
-                    let turno365dias: SolicitudAceptada = {
-                      idMascota: this.turno.mascota.id,
-                      idUser: this.turno.cliente.id,
-                      fecha: addYears(currentDate, 1),
-                      motivo: this.turno.motivo,
-                      observaciones: this.turno.observaciones,
-                    };
+                } else {
+                  let turno365dias: SolicitudAceptada = {
+                    idMascota: this.turno.mascota.id,
+                    idUser: this.turno.cliente.id,
+                    fecha: addYears(currentDate, 1),
+                    motivo: this.turno.motivo,
+                    observaciones: this.turno.observaciones,
+                  };
 
-                    this.turnoService
-                      .setTurnoAutomatico(turno365dias)
-                      .subscribe((resp) => {
-                        const currentUrl = this.router.url;
-                        this.router
-                          .navigateByUrl('/', { skipLocationChange: true })
-                          .then(() => {
-                            this.router.navigateByUrl(currentUrl);
-                          });
-                        this.userService
-                          .withdrawBalance(
-                            Number(this.planilla.monto),
-                            this.turno.cliente.id
-                          )
-                          .subscribe((resp) => {
-                            if (resp['final'] < 0) {
-                              resp['final'] = resp['final'] * -1;
-                            } else {
-                              resp['final'] = 0;
-                            }
-                            this.messageService.addAll([
-                              {
-                                severity: 'success',
-                                summary: 'Operacion completada',
-                                detail:
-                                  'Se registró la planilla y se asignó un nuevo turno dentro de 365 dias',
-                                sticky: true,
-                              },
-                              {
-                                severity: 'info',
-                                summary: 'Cobro',
-                                detail: ` Saldo anterior -> $${resp['antes']}\n
-                       Monto de la practica -> $${resp['practica']}\n
-                       Nuevo saldo -> $${resp['actual']} \n
-                       Debe abonar -> $${resp['final']} \n
+                  this.turnoService
+                    .setTurnoAutomatico(turno365dias)
+                    .subscribe((resp) => {
+                      const currentUrl = this.router.url;
+                      this.router
+                        .navigateByUrl('/', { skipLocationChange: true })
+                        .then(() => {
+                          this.router.navigateByUrl(currentUrl);
+                        });
+                      this.userService
+                        .withdrawBalance(
+                          Number(this.planilla.monto),
+                          this.turno.cliente.id
+                        )
+                        .subscribe((resp) => {
+                          if (resp['final'] < 0) {
+                            resp['final'] = resp['final'] * -1;
+                          } else {
+                            resp['final'] = 0;
+                          }
+                          this.messageService.addAll([
+                            {
+                              severity: 'success',
+                              summary: 'Operacion completada',
+                              detail:
+                                'Se registró la planilla y se asignó un nuevo turno dentro de 365 dias',
+                              sticky: true,
+                            },
+                            {
+                              severity: 'info',
+                              summary: 'Cobro',
+                              detail: ` Saldo anterior -> $${resp['antes']}\n
+                     Monto de la practica -> $${resp['practica']}\n
+                     Nuevo saldo -> $${resp['actual']} \n
+                     Debe abonar -> $${resp['final']} \n
 
-                     `,
-                                sticky: true,
-                              },
-                            ]);
-                          });
-                        this.isButtonDisabled = false;
-                      });
-                  }
+                   `,
+                              sticky: true,
+                            },
+                          ]);
+                        });
+                      this.isButtonDisabled = false;
+                    });
                 }
               }
 
-              if (this.turno.motivo == 'VACUNA_TIPO_B' && cantTipoB < 2) {
+              if (this.turno.motivo == 'VACUNA_TIPO_B') {
                 let turno365dias: SolicitudAceptada = {
                   idMascota: this.turno.mascota.id,
                   idUser: this.turno.cliente.id,
