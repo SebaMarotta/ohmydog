@@ -17,11 +17,13 @@ public class PerroAdoptivo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
     private User dueño;
     private String nombre;
     private String edad;
     private String raza;
     private String color;
+    private String imagen;
     private String sexo;
     private String origen;
 
