@@ -18,6 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { VeterinariasTurnoComponent } from './pages/veterinarias-turno/veterinarias-turno.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import {PanelModule} from 'primeng/panel';
+import { MascotasBusquedaModule } from '../mascotas-busqueda/mascotas-busqueda.module';
 
 @NgModule({
   declarations: [HomeComponent, CarteleraComponent, EditarPasswordComponent, VeterinariasTurnoComponent],
@@ -37,6 +38,7 @@ import {PanelModule} from 'primeng/panel';
     InputTextModule,
     FileUploadModule,
     PanelModule,
+    MascotasBusquedaModule,
   ],
 })
 export class IndexModule {}

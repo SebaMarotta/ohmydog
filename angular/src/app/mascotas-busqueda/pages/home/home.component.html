@@ -1,0 +1,142 @@
+<div class="container mx-auto">
+  <div *ngIf="rolSession == 'ADMIN'">
+  <button pButton  pRipple label="Agregar busqueda +" (click)="toggleCrear($event)" class="text-0 mr-3 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+</div>
+<div *ngIf="crearModal">
+<p-dialog header="Registro de publicacion" [(visible)]="crearModal" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+    <app-crear-busqueda (modal)="toggleCrear($event)" [publicacion]="busquedaIndividual"></app-crear-busqueda>
+  </p-dialog>
+</div>
+
+  <div *ngIf="busquedas.length > 0">
+  <p-table
+          responsiveLayout="scroll"
+          [value]="busquedas"
+          [scrollable]="true"
+          scrollHeight="flex"
+          #dt2
+          dataKey="id"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          [paginator]="true"
+          [globalFilterFields]="['nombre','apellido','tipo', 'zona', 'disponible']"
+          >
+          <ng-template pTemplate="header">
+            <tr>
+                <th >
+                    <div class="flex align-items-center">
+                        Nombre
+                        <p-columnFilter type="text" field="nombre"  matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                    </div>
+                </th>
+                <th >
+                  <div class="flex align-items-center">
+                      Apellido
+                      <p-columnFilter type="text" field="apellido" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                  </div>
+              </th>
+                <th >
+                  <div class="flex align-items-center">
+                     Servicio
+                      <p-columnFilter field="tipo" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                          <ng-template pTemplate="header">
+                              <div class="px-3 pt-3 pb-0">
+                                  <span class="font-bold">Buscar servicio</span>
+                              </div>
+                          </ng-template>
+                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                              <p-multiSelect [ngModel]="value" [showHeader]="false" [options]="tiposTotal" placeholder="Todos" (onChange)="filter($event.value)" optionLabel="">
+                                  <ng-template let-option pTemplate="item">
+                                      <div class="inline-block vertical-align-middle">
+                                          <span class="ml-1 mt-1">{{ option | motivoPipe | titlecase }}</span>
+                                      </div>
+                                  </ng-template>
+                              </p-multiSelect>
+                          </ng-template>
+                      </p-columnFilter>
+                  </div>
+              </th>
+                <th >
+                    <div class="flex align-items-center">
+                        Zona
+                        <p-columnFilter field="zona" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                            <ng-template pTemplate="header">
+                                <div class="px-3 pt-3 pb-0">
+                                    <span class="font-bold">Buscar por zona</span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-multiSelect [ngModel]="value" [showHeader]="false" [options]="zonasTotal" placeholder="Todos" (onChange)="filter($event.value)" optionValue="" [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} plazas'">
+                                    <ng-template let-option pTemplate="item">
+                                        <div class="inline-block vertical-align-middle">
+                                            <span class="ml-1 mt-1">{{ option | motivoPipe | titlecase }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </div>
+                </th>
+                <th  *ngIf="rolSession == 'ADMIN'">
+                    <div class="flex align-items-center" style="max-width:2.5rem">
+                        Estado
+                        <p-columnFilter class="ml-2 mb-1"  type="boolean" field="disponible" ></p-columnFilter>
+                    </div>
+                </th>
+                <th>
+                    <div class="flex align-items-center">
+                        Opciones
+                    </div>
+                </th>
+        </ng-template>
+
+
+          <ng-template
+              pTemplate="body"
+              let-rowData="rowData"
+              let-busqueda sortMode="multiple">
+
+              <tr>
+                  <td>
+                      {{ busqueda.nombre }}
+                  </td>
+                  <td>
+                    {{busqueda.apellido }}
+                </td>
+                   <td>
+                    {{ busqueda.tipo | motivoPipe | titlecase }}
+                   </td>
+
+                    <td>
+                       {{ busqueda.zona | motivoPipe | titlecase}}
+                    </td>
+
+
+              <td *ngIf="rolSession == 'ADMIN'" class="text-center">
+                <i class="pi" [ngClass]="{ 'text-green-400 pi-check-circle': busqueda.disponible, 'text-red-500 pi-times-circle': !busqueda.disponible }"></i>
+              </td>
+
+            <td>
+              <span><p-button (click)="toggleSolicitud(busqueda)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button></span>
+            <span><div *ngIf="rolSession == 'ADMIN'">
+              <p-button (click)="toggleCrear(busqueda)" icon="pi pi-pencil" title="Editar" styleClass="p-button-rounded p-button-text"></p-button>
+              </div></span>
+
+            </td>
+            <div *ngIf="solicitudModal">
+            <p-dialog header="Solicitud de servicio" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '70vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+              <app-contacto-busqueda  (cerrarModal)="toggleSolicitud(busqueda)" [contacto]="busquedaIndividual"></app-contacto-busqueda>
+            </p-dialog>
+          </div>
+              </tr>
+          </ng-template>
+
+        </p-table>
+    </div>
+    <div *ngIf="busquedas.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+      <div style="padding-top: 0.8vw;">
+      No hay ninguna busqueda registrada
+      </div>
+    </div>
+    </div>

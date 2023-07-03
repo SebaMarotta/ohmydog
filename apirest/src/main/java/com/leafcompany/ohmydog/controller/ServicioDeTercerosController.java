@@ -91,21 +91,32 @@ public class ServicioDeTercerosController {
 
     }
 
-    @GetMapping("/modificacion/{id}")
-    public ResponseEntity<ServicioDeTerceros> modificarServicio(@PathVariable Long id) {
-        Optional<ServicioDeTerceros> cuidador_paseador = servicioDeTercerosService.findById(id);
-        if (cuidador_paseador.isPresent()) {
-            return ResponseEntity.ok(cuidador_paseador.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/modificacion/{id}")
+//    public ResponseEntity<ServicioDeTerceros> modificarServicio(@PathVariable Long id) {
+//        Optional<ServicioDeTerceros> cuidador_paseador = servicioDeTercerosService.findById(id);
+//        if (cuidador_paseador.isPresent()) {
+//            return ResponseEntity.ok(cuidador_paseador.get());
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @PutMapping("/modificar/{id}")
     public ResponseEntity<ServicioDeTerceros> modificar(@RequestBody EditServicioDeTerceroRequest cuidador_paseador,
                                                         @PathVariable Long id) throws MiException {
         
         Optional<ServicioDeTerceros> respuesta = servicioDeTercerosService.findById(id);
+
+        for (ServicioDeTerceros s : this.servicioDeTercerosService.findAll()) {
+            if (s.getEmail().equals(cuidador_paseador.getEmail())
+                    && s.getNombre().equals(cuidador_paseador.getNombre())
+                    && s.getApellido().equals(cuidador_paseador.getApellido())
+                    && s.getZona().equals(cuidador_paseador.getZona())
+                    && s.getTipo().equals(cuidador_paseador.getTipo()))
+            {
+                throw new MiException("El servicio para este cliente ya está registrado.");
+            }
+        }
         try {
             if(respuesta.isPresent() && cuidador_paseador.getId().equals(id)){
                 return ResponseEntity.ok(servicioDeTercerosService.modificarServicioDeTerceros(cuidador_paseador));

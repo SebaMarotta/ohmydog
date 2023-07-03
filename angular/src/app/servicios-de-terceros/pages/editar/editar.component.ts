@@ -167,33 +167,34 @@ export class EditarComponent {
     this.editarServicio.dias = this.formulario.value.dias['dias'];
 
     return this.servicioTerceroService
-      .editarServicio(this.editarServicio)
-      .pipe(
-        map((resp: any) => resp as ServicioTercero),
-        catchError((e: any) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: `${e}`,
-            detail: `${e}`,
-            closable: false,
-          });
-          return throwError(e);
-        })
-      )
-      .subscribe((resp) => {
-        const url = this.router.url;
-        this.router
-          .navigateByUrl('/', { skipLocationChange: true })
-          .then(() => {
-            this.router.navigateByUrl(url);
-          });
+    .editarServicio(this.editarServicio)
+    .pipe(
+      map((resp: any) => resp as ServicioTercero),
+      catchError((e: any) => {
         this.messageService.add({
-          severity: 'success',
-          summary: 'Operacion completada',
-          detail: `El servicio se editó correctamente`,
+          severity: 'error',
+          summary: `Error`,
+          detail: `Este servicio ya se encuentra registrado`,
           closable: false,
         });
+        this.isButtonDisabled = false;
+        return throwError(e);
+      })
+    )
+    .subscribe((resp) => {
+      const url = this.router.url;
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() => {
+          this.router.navigateByUrl(url);
+        });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Operacion completada',
+        detail: `El servicio se editó correctamente`,
+        closable: false,
       });
+    });
   }
 
   cerrar(): void {
