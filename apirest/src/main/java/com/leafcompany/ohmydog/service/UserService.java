@@ -5,6 +5,7 @@ import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.enumerations.Role;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.repository.UserRepository;
+import org.apache.tomcat.util.net.TLSClientHelloExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,14 @@ public class UserService {
         aux.setPassword(passwordEncoder.encode(password));
         aux.setCambioContraseña(true);
         return userRepository.save(aux);
+    }
+
+    public void registrarSaldoAFavorDonacion(Long idCliente, Double saldo){
+        Optional<User> respuestaCliente = userRepository.findById(idCliente);
+        if (respuestaCliente.isPresent()){
+            User cliente = respuestaCliente.get();
+            cliente.setSaldo(cliente.getSaldo().add(BigDecimal.valueOf(saldo)));
+        }
     }
 
 }

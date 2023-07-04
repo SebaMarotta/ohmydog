@@ -1,9 +1,6 @@
 package com.leafcompany.ohmydog.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +19,6 @@ public class CampanaDonacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private String descripcion;
     private Double objetivo;
@@ -30,5 +26,10 @@ public class CampanaDonacion {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fecha;
     private Boolean activa;
+
+    @PrePersist
+    public void prePersist() {
+        setFecha(LocalDate.now());
+    }
 
 }
