@@ -4,12 +4,12 @@
 </div>
 <div *ngIf="crearModal">
 <p-dialog header="Registro de publicacion" [(visible)]="crearModal" [modal]="true" [style]="{ width: '40vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
-    <app-crear-busqueda (modal)="toggleCrear($event)" [publicacion]="busquedaIndividual"></app-crear-busqueda>
+    <app-crear-busqueda (modal)="toggleCrear($event)"></app-crear-busqueda>
   </p-dialog>
 </div>
 <div *ngIf="editarModal">
   <p-dialog header="Edicion de publicacion" [(visible)]="editarModal" [modal]="true" [style]="{ width: '40vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
-      <app-editar-busqueda (modal)="toggleCrear($event)" [publicacion]="busquedaIndividual"></app-editar-busqueda>
+      <app-editar-busqueda (modal)="toggleEditar($event)" [publicacion]="busquedaIndividual"></app-editar-busqueda>
     </p-dialog>
   </div>
 
