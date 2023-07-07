@@ -102,21 +102,22 @@
     {{ formulario.value['imagen'].name }}
   </span>
 
-    <span class="p-float-label">
-      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones" ></textarea>
-      <label htmlFor="observaciones">Observaciones</label>
-    </span>
-    <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
-      {{ getFieldError('observaciones') }}
-    </span>
+  <span class="p-float-label">
+    <small htmlFor="observaciones">Observaciones</small>
+    <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones" ></textarea>
+  </span>
+  <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
+    {{ getFieldError('observaciones') }}
+  </span>
 
-    <span class="p-float-label">
-      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="estado"></textarea>
-      <label htmlFor="estado">Estado</label>
-    </span>
-    <span *ngIf="isValidField('estado')" class="form-text text-danger">
-      {{ getFieldError('estado') }}
-    </span>
+  <span class="p-float-label">
+    <small htmlFor="estado">Estado</small>
+    <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="estado"></textarea>
+
+  </span>
+  <span *ngIf="isValidField('estado')" class="form-text text-danger">
+    {{ getFieldError('estado') }}
+  </span>
 
 
     <div class="flex-container">
