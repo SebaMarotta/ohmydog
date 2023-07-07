@@ -1,1 +1,29 @@
-<p>contacto-busqueda works!</p>
+<div class="container">
+  <div class="column-left">
+    <!-- Columna izquierda: Información de la mascota -->
+    <h3>Información de la publicacion</h3>
+    <p><strong>Tipo de publicacion: </strong>  {{contacto.tipo | motivoPipe | titlecase}} </p>
+    <p><strong>Nombre del perro:</strong> {{ contacto.nombre }}</p>
+    <p><strong>Raza: </strong> {{ contacto.raza | motivoPipe | titlecase }}</p>
+    <p><strong>Sexo: </strong> {{ contacto.sexo | motivoPipe | titlecase }}</p>
+    <p><strong>Color: </strong> {{ contacto.color | motivoPipe | titlecase }}</p>
+    <p><strong>Fecha del suceso: </strong>  {{contacto.fecha | date:'dd/MM/yy'}} </p>
+    <p><strong>Zona: </strong> {{ contacto.zona | motivoPipe | titlecase }}</p>
+    <p><strong>Edad: </strong> {{ contacto.edad | motivoPipe | titlecase }}</p>
+    <p><strong>Telefono: </strong> {{ contacto.telefono | motivoPipe | titlecase }}</p>
+    <p><strong>Email de contacto: </strong> {{ contacto.email }}</p>
+    <p><strong>Telefono: </strong> {{ contacto.telefono | motivoPipe | titlecase }}</p>
+    <p><strong>Observaciones: </strong> {{ contacto.observaciones | motivoPipe | titlecase }}</p>
+    <p><strong>Estado: </strong> {{ contacto.estado | motivoPipe | titlecase }}</p>
+
+
+
+    <!-- Agrega más información de la mascota según tus necesidades -->
+  </div>
+  <div class="column-right">
+    <!-- Columna derecha: Formulario de interés para el contacto -->
+
+    <img [src]="imagenUrl" alt="Avatar" style="max-width: 25vw; margin-top: 1.5vh;" class="rounded">
+
+  </div>
+</div>

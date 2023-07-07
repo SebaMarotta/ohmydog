@@ -50,11 +50,11 @@ import { BusquedaService } from 'src/app/services/busqueda.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-crear-busqueda',
-  templateUrl: './crear-busqueda.component.html',
-  styleUrls: ['./crear-busqueda.component.css']
+  selector: 'app-editar-busqueda',
+  templateUrl: './editar-busqueda.component.html',
+  styleUrls: ['./editar-busqueda.component.css']
 })
-export class CrearBusquedaComponent {
+export class EditarBusquedaComponent {
 
   @Output() modal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -121,6 +121,9 @@ export class CrearBusquedaComponent {
     });
   }
   ngOnInit(): void {
+    const fecha = this.publicacion.fecha.toString();
+    const [year, month, day] = fecha.split('-');
+    const fechaFormateada = `${day}/${month}/${year}`;
     this.servicioTerceroService.getZonas().subscribe((resp) => {
       resp.forEach((resp) => {
         this.zonas.push({ zona: resp });
@@ -142,17 +145,17 @@ export class CrearBusquedaComponent {
     if (this.publicacion)
     this.formulario.patchValue({
       nombre: this.publicacion.nombre,
-      zona: this.publicacion.zona,
+      zona: {zona: this.publicacion.zona},
       email: this.publicacion.email,
       color: this.publicacion.color,
-      raza: this.publicacion.raza,
+      raza: {raza: this.publicacion.raza},
       imagen: this.publicacion.imagen,
-      fecha: this.publicacion.fecha,
-      sexo: this.publicacion.sexo,
+      fecha: fechaFormateada,
+      sexo: {sexo: this.publicacion.sexo},
       edad: this.publicacion.edad,
       observaciones: this.publicacion.observaciones,
       estado: this.publicacion.estado,
-      tipo: this.publicacion.tipo,
+      tipo: {tipo: this.publicacion.tipo},
       telefono: this.publicacion.telefono,
       activo: this.publicacion.activo,
     });
@@ -167,24 +170,24 @@ export class CrearBusquedaComponent {
   get placeholderTextRaza(): string {
     if (this.formulario.value['raza'] == '' || this.formulario.value['raza'] == null) return 'Raza (*)';
 
-    return this.formulario.value['raza'];
+    return this.formulario.value['raza'].raza;
   }
 
   get placeholderTextTipo(): string {
     if (this.formulario.value['tipo'] == '' || this.formulario.value['tipo'] == null) return 'Tipo (*)';
 
-    return this.formulario.value['tipo'];
+    return this.formulario.value['tipo'].tipo;
   }
 
   get placeholderTextZona(): string {
     if (this.formulario.value['zona'] == '' || this.formulario.value['zona'] == null) return 'Zona (*)';
 
-    return this.formulario.value['zona'];
+    return this.formulario.value['zona'].zona;
   }
 
   get placeholderTextSexo(): string {
     if (this.formulario.value['sexo'] == '' || this.formulario.value['sexo'] == null) return 'Sexo (*)';
-    return this.formulario.value['sexo'];
+    return this.formulario.value['sexo'].sexo;
   }
 
   formatoOpcion(motivo: Motivos) {
@@ -228,16 +231,18 @@ export class CrearBusquedaComponent {
       return null;
     }
 
+    this.crearBusqueda
     this.crearBusqueda = this.formulario.value;
     this.crearBusqueda.zona = this.crearBusqueda.zona['zona'];
     this.crearBusqueda.sexo = this.crearBusqueda.sexo['sexo'];
     this.crearBusqueda.raza = this.crearBusqueda.raza['raza'];
     this.crearBusqueda.tipo = this.crearBusqueda.tipo['tipo'];
-    this.crearBusqueda.activo = true;
-    this.crearBusqueda.idCliente = this.authService.userSession.value.id;
+    this.crearBusqueda.id = this.publicacion.id;
+    this.crearBusqueda.idCliente = this.publicacion.duenio.id;
+
 
     return this.busquedaService
-      .register(this.crearBusqueda)
+      .editar(this.crearBusqueda)
       .pipe(
         map((resp: any) => resp as BusquedaMascota),
         catchError((e: any) => {

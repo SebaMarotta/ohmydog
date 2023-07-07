@@ -22,12 +22,16 @@ import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.m
 import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
 import { InputSwitch, InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { InputMaskModule } from 'primeng/inputmask';
+import { EditarBusquedaComponent } from './pages/editar-busqueda/editar-busqueda.component';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CrearBusquedaComponent,
     ContactoBusquedaComponent,
+    EditarBusquedaComponent,
   ],
   exports: [HomeComponent, CrearBusquedaComponent, ContactoBusquedaComponent, MotivosPipe],
   imports: [
@@ -52,6 +56,9 @@ import { MultiSelectModule } from 'primeng/multiselect';
     MultiSelectModule,
     FormsModule,
     DialogModule,
+    InputMaskModule,
+    DropdownModule,
+    ImageModule
   ],
 })
 export class MascotasBusquedaModule { }

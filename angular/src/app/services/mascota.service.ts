@@ -8,6 +8,7 @@ import {
   RegisterMascotaRequest,
 } from '../mascotas/interfaces/interfaces';
 import { Observable, Subject, tap } from 'rxjs';
+import { BusquedaMascota } from '../mascotas-busqueda/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -87,8 +88,19 @@ export class MascotaService {
   }
 
   getImage(imagen: string) {
-    return this.http.get(`http://localhost:8080/imagenes/${imagen}`, {
+    return this.http.get(`http://localhost:8080/imagenes/mascota/${imagen}`, {
       responseType: 'blob',
     });
+  }
+
+  getImageBusqueda(imagen: string) {
+    return this.http.get(`http://localhost:8080/imagenes/busqueda/${imagen}`, {
+      responseType: 'blob',
+    });
+  }
+
+  findByIdBusqueda(id: Number): Observable<BusquedaMascota> {
+    const url = `${this.baseUrl}/busquedas/getById/${id}`;
+    return this.http.get<BusquedaMascota>(url);
   }
 }

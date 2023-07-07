@@ -17,6 +17,7 @@ import { BusquedaService } from 'src/app/services/busqueda.service';
 export class HomeComponent {
   protected busquedas: BusquedaMascota[] = [];
   protected crearModal: Boolean = false;
+  protected editarModal: Boolean = false;
   protected solicitudModal: Boolean = false;
   protected busquedaIndividual: BusquedaMascota = {
     id: 0,
@@ -29,7 +30,13 @@ export class HomeComponent {
     estado: '',
     telefono: '',
     email: '',
-    disponible: false
+    activo: false,
+    nombre: '',
+    raza: '',
+    color: '',
+    idCliente: 0,
+    tipo: '',
+    duenio: undefined
   }
   protected user$: BehaviorSubject<User> = this.authService.userSession;
   protected rolSession: string = '';
@@ -54,32 +61,35 @@ export class HomeComponent {
   ) {}
 
   ngOnInit() {
-    this.authService.userSession
-      .pipe(
-        map((resp) => {
-          if (this.user$.value != null) {
-            this.rolSession = resp.role;
-            this.idUser = resp.id;
-          }
-        }),
-          switchMap(() => this.busquedaService.getBusquedas()),
+      this.authService.userSession
+          .pipe(
+            map((resp) => {
+              if (this.user$.value != null) {
+                this.rolSession = resp.role;
+                this.idUser = resp.id;
+              }
+            }),
+           switchMap(() => this.busquedaService.getBusquedas()),
           map((resp) => {
 
             if (this.rolSession != 'ADMIN')
               return resp.filter((resp3) => {
 
-                return resp3.disponible == true;
+                return resp3.activo == true;
               });
             else return resp;
           })
-      )
-      .subscribe((resp) => {
-
-        this.busquedas = resp;
-      });
+          )
+          .subscribe((resp) => {
+            this.busquedas = resp;
+          });
 
       this.busquedaService.getZonas().subscribe (resp => {
         this.zonasTotal = resp;
+      })
+
+      this.busquedaService.getTipoBusqueda().subscribe (resp => {
+        this.tiposTotal = resp;
       })
 
 
@@ -90,8 +100,12 @@ export class HomeComponent {
   }
 
   toggleCrear(event) {
-    if (event != null) this.busquedaIndividual = event;
     this.crearModal = !this.crearModal;
+  }
+
+  toggleEditar(event) {
+    if (event != null) this.busquedaIndividual = event;
+    this.editarModal = !this.editarModal;
   }
 
   toggleSolicitud(servicio) {

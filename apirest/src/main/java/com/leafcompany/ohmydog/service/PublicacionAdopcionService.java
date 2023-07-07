@@ -58,8 +58,8 @@ public class PublicacionAdopcionService {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.validarDatos(publicacion.getNombrePerro(),publicacion.getRaza(),publicacion.getColor(), publicacion.getEdad(),
-                            publicacion.getSexo(),LocalDate.parse(publicacion.getFecha(),formatter),publicacion.getOrigen(),
-                            publicacion.getVisible(), publicacion.getCliente());
+                publicacion.getSexo(),LocalDate.parse(publicacion.getFecha(),formatter),publicacion.getOrigen(),
+                publicacion.getVisible(), publicacion.getCliente());
 
 
         var fecha = LocalDate.parse(publicacion.getFecha(),formatter);

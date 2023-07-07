@@ -103,16 +103,17 @@
   </span>
 
     <span class="p-float-label">
+      <small htmlFor="observaciones">Observaciones</small>
       <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones" ></textarea>
-      <label htmlFor="observaciones">Observaciones</label>
     </span>
     <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
       {{ getFieldError('observaciones') }}
     </span>
 
     <span class="p-float-label">
+      <small htmlFor="estado">Estado</small>
       <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="estado"></textarea>
-      <label htmlFor="estado">Estado</label>
+
     </span>
     <span *ngIf="isValidField('estado')" class="form-text text-danger">
       {{ getFieldError('estado') }}
@@ -125,7 +126,7 @@
     </div>
 
       <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
-        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar mascota" class="p-button-success p-button-text text-center"></button>
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Editar mascota" class="p-button-success p-button-text text-center"></button>
       </div>
 
       <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
@@ -133,5 +134,3 @@
       </div>
   </form>
   </div>
-
-{{ formulario.value['fecha']}}
