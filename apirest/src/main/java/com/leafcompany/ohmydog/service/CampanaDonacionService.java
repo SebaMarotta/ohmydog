@@ -64,7 +64,7 @@ public class CampanaDonacionService {
 //                .nombre(campana.getNombre())
 //                .descripcion(campana.getDescripcion())
 //                .objetivo(campana.getObjetivo())
-//               .montoAlcanzado(campana.getMontoAlcanzado())
+//                .montoAlcanzado(campana.getMontoAlcanzado())
 //                .activa(campana.getActiva())
 //                .fecha(LocalDate.parse(campana.getFecha(),formatter))
 //                .build();

@@ -160,15 +160,18 @@ public class MascotaController {
 //        }
 //    }
 //
-//    @GetMapping("/listar/{raza}")
-//    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
-//        List<Mascota> perros = mascotaService.findByType(raza);
-//        if (perros != null) {
-//            return ResponseEntity.ok(perros);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/listar-raza-sexoOpuesto-activo/{idMascota}")
+    public ResponseEntity<List<Mascota>> listarPerrosPorRazaySexo(@PathVariable Long idMascota) {
+        Mascota perro = mascotaService.findById(idMascota).get();
+        List<Mascota> perros = mascotaService.findByType(perro.getRaza().toString()).stream().filter(mascota -> (mascota.getSexo() != perro.getSexo()) && mascota.isCruza()).toList();
+
+        System.out.println("hola: " + perros);
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 //
 //    @GetMapping("/listar/{sexo}")
 //    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {

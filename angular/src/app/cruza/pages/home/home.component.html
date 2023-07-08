@@ -1,0 +1,92 @@
+  <div *ngIf="busquedas.length > 0">
+  <p-table
+          responsiveLayout="scroll"
+          [value]="busquedas"
+          [scrollable]="true"
+          scrollHeight="flex"
+          #dt2
+          dataKey="id"
+          [rows]="10"
+          [showCurrentPageReport]="true"
+          [rowsPerPageOptions]="[5, 10, 25, 50]"
+          [paginator]="true"
+          [globalFilterFields]="['nombre','raza', 'color', 'sexo', 'fechaDeNacimiento']"
+          >
+          <ng-template pTemplate="header">
+            <tr>
+                <th >
+                    <div class="flex align-items-center">
+                        Nombre
+                        <p-columnFilter type="text" field="nombre"  matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                    </div>
+                </th>
+                <th >
+                  <div class="flex align-items-center">
+                      Raza
+                      <p-columnFilter type="text" field="raza" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                  </div>
+              </th>
+              <th >
+                <div class="flex align-items-center">
+                    Color
+                    <p-columnFilter type="text" field="color" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+            </th>
+
+                <th  *ngIf="rolSession == 'ADMIN'">
+                    <div class="flex align-items-center" style="max-width:2.5rem">
+                        Estado
+                        <p-columnFilter class="ml-2 mb-1"  type="boolean" field="activo" ></p-columnFilter>
+                    </div>
+                </th>
+                <th>
+                    <div class="flex align-items-center">
+                        Opciones
+                    </div>
+                </th>
+        </ng-template>
+
+
+          <ng-template
+              pTemplate="body"
+              let-rowData="rowData"
+              let-busqueda sortMode="multiple">
+
+              <tr>
+                  <td>
+                      {{ busqueda.nombre }}
+                  </td>
+                  <td>
+                    {{busqueda.raza | motivoPipe | titlecase }}
+                </td>
+                <td>
+                  {{ busqueda.color | motivoPipe | titlecase}}
+               </td>
+
+              <td *ngIf="rolSession == 'ADMIN'" class="text-center">
+                <i class="pi" [ngClass]="{ 'text-green-400 pi-check-circle': busqueda.activo, 'text-red-500 pi-times-circle': !busqueda.activo}"></i>
+              </td>
+
+            <td>
+              <span><p-button (click)="toggleSolicitud(busqueda)" icon="pi pi-eye" title="Me interesa!" styleClass="p-button-rounded p-button-text"></p-button></span>
+            <span><div *ngIf="rolSession == 'ADMIN'">
+              <p-button (click)="toggleSolicitud(busqueda)" icon="pi pi-pencil" title="Editar" styleClass="p-button-rounded p-button-text"></p-button>
+              </div></span>
+
+            </td>
+              </tr>
+          </ng-template>
+
+        </p-table>
+    </div>
+    <div *ngIf="busquedas.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
+      <div style="padding-top: 0.8vw;">
+      No hay ninguna mascota compatible
+      </div>
+    </div>
+
+    <div *ngIf="solicitudModal">
+      <p-dialog header="Edicion de publicacion" [(visible)]="solicitudModal" [modal]="true" [style]="{ width: '70vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
+          <app-contacto [contacto]="mascotaInteres"></app-contacto>
+        </p-dialog>
+      </div>

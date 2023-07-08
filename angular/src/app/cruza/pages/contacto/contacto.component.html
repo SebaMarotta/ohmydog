@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="column-left">
+    <!-- Columna izquierda: Información de la mascota -->
+    <h3>Informacion de la mascota</h3>
+    <p><strong>Nombre de la mascota:</strong> {{ contacto.nombre }}</p>
+    <p><strong>Raza: </strong> {{ contacto.raza | motivoPipe | titlecase }}</p>
+    <p><strong>Sexo: </strong> {{ contacto.sexo | motivoPipe | titlecase }}</p>
+    <p><strong>Color: </strong> {{ contacto.color | motivoPipe | titlecase }}</p>
+    <!-- <p><strong>Fecha del suceso: </strong>  {{contacto.fechaDeNacimiento | date:'dd/MM/yy'}} </p> -->
+    <hr>
+    <h3>Informacion del dueño/a</h3>
+    <p><strong>Nombre:</strong> {{ contacto.duenio['nombre']}} {{ contacto.duenio['apellido']}}</p>
+    <p><strong>Email: </strong> {{ contacto.duenio['email'] }}</p>
+    <!-- Agrega más información de la mascota según tus necesidades -->
+  </div>
+  <div class="column-right">
+    <!-- Columna derecha: Formulario de interés para el contacto -->
+
+    <img [src]="imagenUrl" alt="Avatar" style="max-width: 25vw; margin-top: 1.5vh;" class="rounded">
+
+  </div>
+</div>
+
+

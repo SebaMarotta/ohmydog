@@ -49,6 +49,9 @@
               <div *ngIf="rolSession == 'ADMIN'">
                 <button pButton pRipple label="Editar" (click)="this.cardMascotaId = mascota.id; toggleEditarMascota()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
               </div>
+              <div *ngIf="mascota.cruza == true && rolSession == 'USER'">
+                <button pButton pRipple label="Quiero cruzarlo" (click)="cruza(mascota)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              </div>
             </div>
           </div>
         </div>

@@ -81,6 +81,10 @@ export class PerfilComponent implements OnInit {
     this.editarModalPassword = !this.editarModalPassword;
   }
 
+  cruza(mascota){
+    this.router.navigateByUrl(`/clientes/${this.user.id}/${mascota.id}/cruza`);
+  }
+
   //   mostrarFoto(nombre: string): SafeUrl {
   //     return this.mascotaService
   //       .getImage(nombre)

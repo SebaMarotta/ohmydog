@@ -147,7 +147,7 @@ public class MascotaService {
     }
 
     public List<Mascota> findByType(String raza) {
-        List<Mascota> resultado = mascotaRepository.findByType(raza);
+        List<Mascota> resultado = mascotaRepository.findByType(Razas.valueOf(raza));
         return (!resultado.isEmpty()) ? resultado : null;
     }
 

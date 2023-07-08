@@ -93,14 +93,8 @@ export class MascotaService {
     });
   }
 
-  getImageBusqueda(imagen: string) {
-    return this.http.get(`http://localhost:8080/imagenes/busqueda/${imagen}`, {
-      responseType: 'blob',
-    });
-  }
-
-  findByIdBusqueda(id: Number): Observable<BusquedaMascota> {
-    const url = `${this.baseUrl}/busquedas/getById/${id}`;
-    return this.http.get<BusquedaMascota>(url);
+  getMascotasRazaSexo(mascota: Mascota): Observable<Mascota[]> {
+    const url = `${this.baseUrl}/mascota/listar-raza-sexoOpuesto-activo/${mascota.id}`;
+    return this.http.get<Mascota[]>(url);
   }
 }

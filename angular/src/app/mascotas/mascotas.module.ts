@@ -29,6 +29,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FechaPipe } from './pipes/fecha.pipe';
 import { CruzaPipe } from './pipes/cruza.pipe';
 import { CastradaPipe } from './pipes/castrada.pipe';
+import { CruzaModule } from '../cruza/cruza.module';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { CastradaPipe } from './pipes/castrada.pipe';
     ScrollPanelModule,
     LibretaSanitariaModule,
     ProgressSpinnerModule,
+    CruzaModule,
   ],
   exports: [
     PerfilMascotaComponent,
