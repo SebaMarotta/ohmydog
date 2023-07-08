@@ -193,7 +193,6 @@ export class PlanillaComponent implements OnInit {
             );
             let edadMascota = this.restaFechaNacimientoYHoy(parseDate);
             for (let planilla of resp) {
-              console.log(planilla);
               if (planilla.motivo == 'VACUNA_TIPO_A') cantTipoA++;
               if (planilla.motivo == 'VACUNA_TIPO_B') cantTipoB++;
             }
@@ -207,7 +206,6 @@ export class PlanillaComponent implements OnInit {
               (this.turno.motivo == 'VACUNA_TIPO_B')
             ) {
               if (this.turno.motivo == 'VACUNA_TIPO_A') {
-                console.log(cantTipoA, edadMascota.años == 0, edadMascota.meses < 4);
                 //Pongo cantTipoA == 1 porque primero agrega la planilla, y despues evalua el turno, por lo que si es la primera vez que lo vacuna, siempre va a tener la cantidad de 1 planilla
                 if (cantTipoA == 1 && edadMascota.años == 0 && edadMascota.meses < 4) {
                     let turno21dias: SolicitudAceptada = {

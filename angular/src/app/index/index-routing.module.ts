@@ -4,6 +4,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HomeComponent as HomeComponentAdopciones } from '../adopciones/pages/home/home.component';
 import { HomeComponent as HomeComponentServicios } from '../servicios-de-terceros/pages/home/home.component';
 import { HomeComponent as HomeComponentBusqueda } from '../mascotas-busqueda/pages/home/home.component';
+import { HomeComponent as HomeComponentDonaciones } from '../donaciones/pages/home/home.component';
 import { CarteleraComponent } from './cartelera/cartelera.component';
 import { BackgroundComponent } from '../shared/background/background.component';
 
@@ -26,7 +27,7 @@ const routes: Routes = [
     path: 'donaciones',
     component: BackgroundComponent,
     children: [
-      { path: '', component: CarteleraComponent },
+      { path: '', component: HomeComponentDonaciones },
       { path: 'adopciones', component: HomeComponentAdopciones },
       { path: 'servicios', component: HomeComponentServicios },
     ],

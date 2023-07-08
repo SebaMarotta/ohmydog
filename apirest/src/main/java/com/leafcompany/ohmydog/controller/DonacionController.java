@@ -45,7 +45,7 @@ public class DonacionController {
         try{
             Optional<CampanaDonacion> respuesta = campanaDonacionService.findById(id);
             if (respuesta.isPresent()) {
-                return ResponseEntity.ok(campanaDonacionService.modificarCampana(campana));
+                return ResponseEntity.ok(campanaDonacionService.modificarCampana(campana,respuesta.get()));
             } else {
                 return ResponseEntity.notFound().build();
             }

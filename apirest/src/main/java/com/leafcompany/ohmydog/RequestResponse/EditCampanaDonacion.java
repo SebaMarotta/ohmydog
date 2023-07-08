@@ -12,12 +12,9 @@ import lombok.NoArgsConstructor;
 
 public class EditCampanaDonacion {
 
-    private Long id;
     private String nombre;
     private String descripcion;
     private Double objetivo;
-    private Double montoAlcanzado;
-    private String fecha;
     private Boolean activa;
 
 

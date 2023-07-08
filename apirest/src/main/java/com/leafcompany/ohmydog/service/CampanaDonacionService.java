@@ -15,9 +15,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -47,27 +50,30 @@ public class CampanaDonacionService {
 
 
     @Transactional
-    public CampanaDonacion modificarCampana (EditCampanaDonacion campana) throws MiException{
+    public CampanaDonacion modificarCampana (EditCampanaDonacion request, CampanaDonacion campana ) throws MiException{
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-
-
-        var fecha = LocalDate.parse(campana.getFecha(),formatter);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 
 
-        CampanaDonacion aux = CampanaDonacion.builder()
-                .nombre(campana.getNombre())
-                .descripcion(campana.getDescripcion())
-                .objetivo(campana.getObjetivo())
-                .montoAlcanzado(campana.getMontoAlcanzado())
-                .activa(campana.getActiva())
-                .fecha(LocalDate.parse(campana.getFecha(),formatter))
-                .build();
+//        var fecha = LocalDate.parse(campana.getFecha(),formatter);
 
 
-        return campanaDonacionRepository.save(aux);
+
+//        CampanaDonacion aux = CampanaDonacion.builder()
+//                .nombre(campana.getNombre())
+//                .descripcion(campana.getDescripcion())
+//                .objetivo(campana.getObjetivo())
+//               .montoAlcanzado(campana.getMontoAlcanzado())
+//                .activa(campana.getActiva())
+//                .fecha(LocalDate.parse(campana.getFecha(),formatter))
+//                .build();
+        campana.setNombre(request.getNombre());
+        campana.setDescripcion(request.getDescripcion());
+        campana.setObjetivo(request.getObjetivo());
+        campana.setActiva(request.getActiva());
+
+        return campanaDonacionRepository.save(campana);
     }
 
 
@@ -131,18 +137,26 @@ public class CampanaDonacionService {
 
     /// METODOS PARA REGISTRAR DONACIONES UNA VEZ CREADAS LAS CAMPANAS
 
-    public void registrarDonacion(Long idCampana, Long idCliente, Double monto) throws MiException{
+    public Map<String, BigDecimal> registrarDonacion(Long idCampana, Long idCliente, Double monto) throws MiException{
         if (idCliente == null || idCampana == null){
             throw new MiException("El ID ingresado no puede ser nulo");
         }
-
+        Map<String,BigDecimal> response = new HashMap<String,BigDecimal>();
+        var saldoAnterior = userService.findById(idCliente).get().getSaldo();
         CampanaDonacion campana = campanaDonacionRepository.findById(idCampana).get();
         campana.setMontoAlcanzado(campana.getMontoAlcanzado() + monto);
+
 
         if (idCliente != 0){
             userService.registrarSaldoAFavorDonacion(idCliente,monto*0.2);
         }
 
+        campanaDonacionRepository.save(campana);
+        var saldoActual = userService.findById(idCliente).get().getSaldo();
+
+        response.put("saldoAnterior",saldoAnterior);
+        response.put("saldoActual",saldoActual);
+        return response;
 
     }
 

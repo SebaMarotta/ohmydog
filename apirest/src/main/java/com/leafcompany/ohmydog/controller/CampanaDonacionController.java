@@ -3,6 +3,7 @@ package com.leafcompany.ohmydog.controller;
 
 import com.leafcompany.ohmydog.RequestResponse.EditCampanaDonacion;
 
+import com.leafcompany.ohmydog.RequestResponse.EditPublicacionBusqueda;
 import com.leafcompany.ohmydog.RequestResponse.RegisterCampanaDonacion;
 
 import com.leafcompany.ohmydog.entity.CampanaDonacion;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +34,8 @@ public class CampanaDonacionController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/registro/{idCliente}")
-    public ResponseEntity<CampanaDonacion> crearCampana(@RequestBody RegisterCampanaDonacion campana,
-                                                            @PathVariable Long idCliente){
+    @PostMapping("/registro")
+    public ResponseEntity<CampanaDonacion> crearCampana(@ModelAttribute RegisterCampanaDonacion campana, BindingResult result){
 
         try {
             CampanaDonacion aux = campanaDonacionService.crearCampana(campana);
@@ -45,12 +47,11 @@ public class CampanaDonacionController {
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<CampanaDonacion> modificarCampana(@RequestBody EditCampanaDonacion campana,
-                                                                    @PathVariable Long id){
+    public ResponseEntity<CampanaDonacion> modificarCampana(@ModelAttribute EditCampanaDonacion campana, BindingResult result,@PathVariable Long id){
         try{
             Optional<CampanaDonacion> respuesta = campanaDonacionService.findById(id);
             if (respuesta.isPresent()) {
-                return ResponseEntity.ok(campanaDonacionService.modificarCampana(campana));
+                return ResponseEntity.ok(campanaDonacionService.modificarCampana(campana, respuesta.get()));
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -110,6 +111,18 @@ public class CampanaDonacionController {
         }
     }
 
+    @GetMapping("/listarPorId/{id}")
+    public ResponseEntity<List<CampanaDonacion>> listarPublicaciones(@PathVariable Long id) {
+        Map<String,Object> errores = new HashMap<String,Object>();
+
+        List<CampanaDonacion> publicaciones = campanaDonacionService.findActive();
+        if (publicaciones != null) {
+            return ResponseEntity.ok(publicaciones);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/listarAdmin")
     public ResponseEntity<List<CampanaDonacion>> listarPublicacionesAdministrador() {
         List<CampanaDonacion> publicaciones = campanaDonacionService.findAll();
@@ -122,16 +135,14 @@ public class CampanaDonacionController {
 
 
     @PostMapping("/registrarDonacion/{idCampana}-{idCliente}")
-    public ResponseEntity<List<CampanaDonacion>> registrarDonacion(@PathVariable Long idCampana,
-                                                        @PathVariable Long idCliente, @RequestParam Double monto){
-
+    public ResponseEntity<Map<String,BigDecimal>> registrarDonacion(@PathVariable Long idCampana,
+                                                        @PathVariable Long idCliente, @RequestBody Double monto){
+        Map<String, BigDecimal> map;
         try{
             if (monto != null && monto != 0){
                 Optional<CampanaDonacion> respuesta = campanaDonacionService.findById(idCampana);
-                if (respuesta.isPresent()) {
-                    this.campanaDonacionService.registrarDonacion(idCampana, idCliente, monto);
-                }
-                return ResponseEntity.ok(campanaDonacionService.findActive());
+                map = this.campanaDonacionService.registrarDonacion(idCampana, idCliente, monto);
+                return ResponseEntity.ok(map);
             } else{
                 return ResponseEntity.notFound().build();
             }

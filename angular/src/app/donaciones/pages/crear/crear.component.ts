@@ -1,6 +1,3 @@
-
-import { BusquedaMascota } from '../../interfaces/interfaces';
-
 import {
   Component,
   EventEmitter,
@@ -48,46 +45,27 @@ import {
 import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
 import { BusquedaService } from 'src/app/services/busqueda.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { CrearDonacion, Donacion } from '../../interfaces/interface';
+import { DonacionesService } from 'src/app/services/donaciones.service';
 
 @Component({
-  selector: 'app-crear-busqueda',
-  templateUrl: './crear-busqueda.component.html',
-  styleUrls: ['./crear-busqueda.component.css']
+  selector: 'app-crear',
+  templateUrl: './crear.component.html',
+  styleUrls: ['./crear.component.css']
 })
-export class CrearBusquedaComponent {
+export class CrearComponent {
 
   @Output() modal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-  @Input() publicacion: BusquedaMascota;
-  crearBusqueda: BusquedaMascota;
 
   validador: Boolean;
   formulario: FormGroup;
-  zonas: Zona[] = [];
-  tipos: Tipo[] = [];
-  sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
-  razas: Razas[] = [];
 
-
-  crearPublicacion: BusquedaMascota = {
+  crearDonacion: CrearDonacion = {
     nombre: '',
-    raza: '',
-    sexo: '',
-    zona: '',
-    telefono: '',
-    email: '',
-    fecha: undefined,
-    imagen: '',
-    edad: '',
-    observaciones: '',
-    estado: '',
-    id: 0,
-    activo: true,
-    color: '',
-    idCliente: 0,
-    tipo: '',
-    duenio: undefined
-  };
+    descripcion: '',
+    objetivo: 0,
+  }
 
   isButtonDisabled: Boolean = false;
 
@@ -99,90 +77,20 @@ export class CrearBusquedaComponent {
     private mascotaService: MascotaService,
     private busquedaService: BusquedaService,
     private authService: AuthService,
+    private donacionesService: DonacionesService
 
   ) {
     this.formulario = this.fb.group({
 
       nombre: ['', [Validators.required]],
-      zona: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      color: ['', [Validators.required]],
-      raza: ['', Validators.required],
-      imagen: [''],
-      fecha: ['', [Validators.required]],
-      sexo: ['', [Validators.required]],
-      edad: ['', [Validators.required]],
-      observaciones: [''],
-      estado: [''],
-      tipo: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      activo: [''],
+      descripcion: ['', [Validators.required]],
+      objetivo: ['', [Validators.required]],
 
     });
   }
   ngOnInit(): void {
-    this.servicioTerceroService.getZonas().subscribe((resp) => {
-      resp.forEach((resp) => {
-        this.zonas.push({ zona: resp });
-      });
-    });
-
-    this.mascotaService.getRazas().subscribe((resp) => {
-      resp.forEach((resp) => {
-        this.razas.push({ raza: resp });
-      });
-    });
-    this.busquedaService.getTipoBusqueda().subscribe((resp) => {
-      resp.forEach((resp) => {
-        this.tipos.push({ tipo: resp });
-      });
-    });
-
-    if (this.publicacion)
-    this.formulario.patchValue({
-      nombre: this.publicacion.nombre,
-      zona: this.publicacion.zona,
-      email: this.publicacion.email,
-      color: this.publicacion.color,
-      raza: this.publicacion.raza,
-      imagen: this.publicacion.imagen,
-      fecha: this.publicacion.fecha,
-      sexo: this.publicacion.sexo,
-      edad: this.publicacion.edad,
-      observaciones: this.publicacion.observaciones,
-      estado: this.publicacion.estado,
-      tipo: this.publicacion.tipo,
-      telefono: this.publicacion.telefono,
-      activo: this.publicacion.activo,
-    });
-  }
-
-  imageSelected(event) {
-    this.formulario.value['imagen'] = event.target.files[0];
-  }
 
 
-  get placeholderTextRaza(): string {
-    if (this.formulario.value['raza'] == '' || this.formulario.value['raza'] == null) return 'Raza (*)';
-
-    return this.formulario.value['raza'];
-  }
-
-  get placeholderTextTipo(): string {
-    if (this.formulario.value['tipo'] == '' || this.formulario.value['tipo'] == null) return 'Tipo (*)';
-
-    return this.formulario.value['tipo'];
-  }
-
-  get placeholderTextZona(): string {
-    if (this.formulario.value['zona'] == '' || this.formulario.value['zona'] == null) return 'Zona (*)';
-
-    return this.formulario.value['zona'];
-  }
-
-  get placeholderTextSexo(): string {
-    if (this.formulario.value['sexo'] == '' || this.formulario.value['sexo'] == null) return 'Sexo (*)';
-    return this.formulario.value['sexo'];
   }
 
   formatoOpcion(motivo: Motivos) {
@@ -201,7 +109,6 @@ export class CrearBusquedaComponent {
     if (!this.formulario.controls[field]) return null;
 
     const errors = this.formulario.controls[field].errors || {};
-
 
     for (const key of Object.keys(errors)) {
       switch (key) {
@@ -224,18 +131,12 @@ export class CrearBusquedaComponent {
       return null;
     }
 
-    this.crearBusqueda = this.formulario.value;
-    this.crearBusqueda.zona = this.crearBusqueda.zona['zona'];
-    this.crearBusqueda.sexo = this.crearBusqueda.sexo['sexo'];
-    this.crearBusqueda.raza = this.crearBusqueda.raza['raza'];
-    this.crearBusqueda.tipo = this.crearBusqueda.tipo['tipo'];
-    this.crearBusqueda.activo = true;
-    this.crearBusqueda.idCliente = this.authService.userSession.value.id;
+    this.crearDonacion = this.formulario.value;
 
-    return this.busquedaService
-      .register(this.crearBusqueda)
+    return this.donacionesService
+      .register(this.crearDonacion)
       .pipe(
-        map((resp: any) => resp as BusquedaMascota),
+        map((resp: any) => resp as Donacion),
         catchError((e: any) => {
           this.messageService.add({
             severity: 'error',

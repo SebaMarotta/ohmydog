@@ -1,0 +1,43 @@
+
+<div>
+  <form [formGroup]="formulario" >
+
+    <span class="p-float-label" >
+      <input pInputText id="nombre" formControlName="nombre" />
+      <label htmlFor="nombre">Nombre (*)</label>
+    </span>
+    <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+      {{ getFieldError('nombre') }}
+    </span>
+
+    <div class="p-inputgroup mt-4">
+      <span class="p-inputgroup-addon">$</span>
+      <input formControlName="objetivo" type="number" pInputText placeholder="Dinero a alcanzar" />
+      <span class="p-inputgroup-addon"></span>
+  </div>
+    <span *ngIf="isValidField('objetivo')" class="form-text text-danger">
+      {{ getFieldError('objetivo') }}
+    </span>
+
+    <span class="p-float-label">
+      <small htmlFor="descripcion">Descripcion</small>
+      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="descripcion" ></textarea>
+    </span>
+    <span *ngIf="isValidField('descripcion')" class="form-text text-danger">
+      {{ getFieldError('descripcion') }}
+    </span>
+
+    <div class="flex-container">
+      <div class="flex-items"><label style="margin-right: 5rem;" htmlFor="activa">Publicacion</label></div>
+      <div class="flex-items"><p-inputSwitch formControlName="activa"></p-inputSwitch></div>
+    </div>
+
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar campaña" class="p-button-success p-button-text text-center"></button>
+      </div>
+
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
+  </form>
+  </div>

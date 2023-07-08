@@ -137,7 +137,6 @@ export class EditarBusquedaComponent {
     });
     this.busquedaService.getTipoBusqueda().subscribe((resp) => {
       resp.forEach((resp) => {
-        console.log(resp);
         this.tipos.push({ tipo: resp });
       });
     });
@@ -163,7 +162,6 @@ export class EditarBusquedaComponent {
 
   imageSelected(event) {
     this.formulario.value['imagen'] = event.target.files[0];
-    console.log(this.formulario.value['imagen'].name);
   }
 
 
@@ -207,7 +205,6 @@ export class EditarBusquedaComponent {
 
     const errors = this.formulario.controls[field].errors || {};
 
-    console.log(errors);
 
     for (const key of Object.keys(errors)) {
       switch (key) {
@@ -226,7 +223,6 @@ export class EditarBusquedaComponent {
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;
     if (this.formulario.invalid) {
-      console.log(this.formulario.invalid);
       this.isButtonDisabled = false;
       return null;
     }
