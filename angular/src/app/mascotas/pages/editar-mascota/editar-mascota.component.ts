@@ -198,7 +198,7 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
     this.mascotaEditada.fechaDeNacimiento = this.formulario.value.fechaDeNacimiento;
 
-    if (this.formulario.value.fechaCelo == '')
+    if (this.formulario.value.fechaCelo == '' || this.formulario.value.fechaCelo == null)
       this.mascotaEditada.fechaCelo = "No especificado";
     else
       this.mascotaEditada.fechaCelo = this.formulario.value.fechaCelo;

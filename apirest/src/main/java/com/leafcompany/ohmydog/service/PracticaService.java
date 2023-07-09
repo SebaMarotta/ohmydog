@@ -21,7 +21,7 @@ public class PracticaService {
     private MascotaRepository mascotaRepository;
 
     public List<PracticaMedica> findByMascota (Long idMascota){
-        return practicaRepository.findByMascotaId(idMascota);
+        return practicaRepository.findByMascotaIdOrderByFechaDesc(idMascota);
     }
     public Optional<PracticaMedica> findById (Long id){
         return practicaRepository.findById(id);

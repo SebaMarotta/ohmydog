@@ -43,6 +43,8 @@ export class RegistroMascotaComponent {
   inputHidden: boolean = true;
 
   sexo: any; //Sirve para la validacion
+
+  imagenSeleccionada: File = null;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -115,7 +117,8 @@ export class RegistroMascotaComponent {
   }
 
   imageSelected(event) {
-    this.formulario.value['imagen'] = event.target.files[0];
+    this.imagenSeleccionada = event.target.files[0];
+    this.formulario.value['imagen'] = this.imagenSeleccionada;
   }
 
   guardar() {
@@ -145,10 +148,19 @@ export class RegistroMascotaComponent {
       this.isButtonDisabled = false;
       return null;
     }
+    if (this.imagenSeleccionada != null)
+    this.formulario.value['imagen'] = this.imagenSeleccionada;
 
     this.mascota = this.formulario.value;
     this.mascota.sexo = this.sexo;
     this.mascota.raza = this.formulario.value.raza['raza'];
+    if (this.formulario.value.fechaCelo == '' || this.formulario.value.fechaCelo == null)
+    this.mascota.fechaCelo = "No especificado";
+  else
+    this.mascota.fechaCelo = this.formulario.value.fechaCelo;
+
+
+
 
     return this.mascotaService
       .register(this.mascota, this.idDuenio)
@@ -173,11 +185,13 @@ export class RegistroMascotaComponent {
           closable: false,
         });
         this.registroModal.emit(false);
+
       });
   }
 
   cerrar(): void {
-    setTimeout(() => this.formGroupDirective.resetForm(), 200);
+    this.formGroupDirective.resetForm();
+    this.formulario.get('imagen').setValue(''); // Restablecer el valor del campo de imagen a vacío
     this.registroModal.emit(false);
   }
 }
