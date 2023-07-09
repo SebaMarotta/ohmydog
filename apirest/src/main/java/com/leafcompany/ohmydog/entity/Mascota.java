@@ -41,6 +41,7 @@ public class Mascota{
     private LocalDate fechaDeNacimiento;
 
     private String imagen;
+    private String fechaCelo;
 
     private boolean cruza;
     private boolean castrada;

@@ -15,7 +15,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-3">
-            <img [src]="imagenUrl" alt="Avatar" style="max-width: 12vw; margin-top: 1.5vh;" class="rounded">
+            <img [src]="imagenUrl" alt="Avatar" style="min-width: 100%;max-width: 100%; max-height: 22vh; min-height: 22vh ; margin-top: 1.5vh;" class="rounded">
 
           </div>
           <div class="col-md-3">
@@ -72,7 +72,6 @@
                   <th >
                       <div class="flex align-items-center">
                           Fecha
-                          <p-columnFilter type="text" field="fecha"  matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                       </div>
                   </th>
                 <th >

@@ -48,6 +48,7 @@ import {
 import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
 import { BusquedaService } from 'src/app/services/busqueda.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { fechaValidator } from 'src/app/mascotas/validators/fecha.validator';
 
 @Component({
   selector: 'app-crear-busqueda',
@@ -109,7 +110,7 @@ export class CrearBusquedaComponent {
       color: ['', [Validators.required]],
       raza: ['', Validators.required],
       imagen: [''],
-      fecha: ['', [Validators.required]],
+      fecha: ['', [Validators.required,fechaValidator]],
       sexo: ['', [Validators.required]],
       edad: ['', [Validators.required]],
       observaciones: [''],

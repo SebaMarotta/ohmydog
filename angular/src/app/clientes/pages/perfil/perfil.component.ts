@@ -27,6 +27,8 @@ export class PerfilComponent implements OnInit {
   protected cardMascotaId: number;
   protected suscriptionLista: Subscription;
   protected imagenUrl: SafeUrl;
+  protected arrayImagenes: SafeUrl[] = [];
+  imageSize = 20;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,6 +54,12 @@ export class PerfilComponent implements OnInit {
     this.mascotaService.getMascotasUser(this.id).subscribe((resp) => {
       this.mascotas = resp;
       this.rolSession = this.authService.userSession.getValue()['role'];
+      resp.forEach(resp => {
+        this.mascotaService.getImage(resp.imagen).subscribe(resp2 => {
+          let aux = URL.createObjectURL(resp2);
+          this.arrayImagenes[resp.id] = this.DomSanitizer.bypassSecurityTrustUrl(aux);
+        })
+      })
     });
 
     this.suscriptionLista = this.mascotaService.refresh.subscribe(() => {
@@ -60,6 +68,8 @@ export class PerfilComponent implements OnInit {
         this.rolSession = this.authService.userSession.getValue()['role'];
       });
     });
+
+
   }
   redireccionar(mascota: Number) {
     this.router.navigateByUrl(`/clientes/${this.user.id}/${mascota}`);
@@ -84,6 +94,19 @@ export class PerfilComponent implements OnInit {
   cruza(mascota){
     this.router.navigateByUrl(`/clientes/${this.user.id}/${mascota.id}/cruza`);
   }
+
+  cambiarCruza(mascota){
+    this.mascotaService.cambiarCruza(mascota).subscribe(resp => {
+      const url = this.router.url;
+      this.router
+        .navigateByUrl('/', { skipLocationChange: true })
+        .then(() => {
+          this.router.navigateByUrl(url);
+        });
+    })
+  }
+
+
 
   //   mostrarFoto(nombre: string): SafeUrl {
   //     return this.mascotaService

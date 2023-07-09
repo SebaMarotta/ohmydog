@@ -43,6 +43,15 @@
       {{ getFieldError('sexo') }}
     </span>
 
+    <div [hidden]="inputHidden">
+      <div class="p-inputgroup mt-4">
+        <input formControlName="fechaCelo" type="text" pInputText placeholder="Fecha de celo (opcional)" />
+      </div>
+      <span *ngIf="isValidField('fechaCelo')" class="form-text text-danger">
+        {{ getFieldError('fechaCelo') }}
+      </span>
+    </div>
+
     <span class="p-float-label">
       <p-inputMask styleClass="w-full"  mask="99/99/9999" slotChar="dd/mm/yyyy" formControlName="fechaDeNacimiento" id="ssn_input"></p-inputMask>
 
@@ -62,10 +71,13 @@
 
 
 
-    <input type="file" multiple value="Foto +" value="select" #selectFile (change)="imageSelected($event)">
+    <input #selectFile type="file" value="select" multiple (change)="imageSelected($event)" style="display: none;" id="selectFile">
+    <label for="selectFile" class="custom-file-upload w-full text-center">
+      <span>+ Foto</span>
+    </label>
+    <span class="" >{{this.formulario.value['imagen'].name}}</span>
 
-
-      <div class="flex-container">
+      <div class="flex-container mt-2">
         <div class="flex-items"><label style="margin-right: 1rem;" htmlFor="cruza">Le gustaría cruzarla?</label></div>
         <div class="flex-items"><p-inputSwitch formControlName="cruza"></p-inputSwitch></div>
       </div>

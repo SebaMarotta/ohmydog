@@ -48,6 +48,7 @@ import {
 import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.service';
 import { BusquedaService } from 'src/app/services/busqueda.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { fechaValidator } from 'src/app/mascotas/validators/fecha.validator';
 
 @Component({
   selector: 'app-editar-busqueda',
@@ -109,7 +110,7 @@ export class EditarBusquedaComponent {
       color: ['', [Validators.required]],
       raza: ['', Validators.required],
       imagen: [''],
-      fecha: ['', [Validators.required]],
+      fecha: ['', [Validators.required,fechaValidator]],
       sexo: ['', [Validators.required]],
       edad: ['', [Validators.required]],
       observaciones: [''],
@@ -227,7 +228,7 @@ export class EditarBusquedaComponent {
       return null;
     }
 
-    this.crearBusqueda
+
     this.crearBusqueda = this.formulario.value;
     this.crearBusqueda.zona = this.crearBusqueda.zona['zona'];
     this.crearBusqueda.sexo = this.crearBusqueda.sexo['sexo'];
@@ -235,6 +236,7 @@ export class EditarBusquedaComponent {
     this.crearBusqueda.tipo = this.crearBusqueda.tipo['tipo'];
     this.crearBusqueda.id = this.publicacion.id;
     this.crearBusqueda.idCliente = this.publicacion.duenio.id;
+    this.crearBusqueda.imagen = this.formulario.value['imagen'];
 
 
     return this.busquedaService
@@ -245,7 +247,7 @@ export class EditarBusquedaComponent {
           this.messageService.add({
             severity: 'error',
             summary: `Error`,
-            detail: `Este servicio ya se encuentra registrado`,
+            detail: `Hubo un error`,
             closable: false,
           });
           this.isButtonDisabled = false;
@@ -262,7 +264,7 @@ export class EditarBusquedaComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Operacion completada',
-          detail: `El servicio se agregó correctamente`,
+          detail: `La busqueda se editó correctamente`,
           closable: false,
         });
       });

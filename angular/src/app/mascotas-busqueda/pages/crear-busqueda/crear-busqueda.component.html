@@ -119,12 +119,6 @@
     {{ getFieldError('estado') }}
   </span>
 
-
-    <div class="flex-container">
-      <div class="flex-items"><label style="margin-right: 5rem;" htmlFor="activo">Publicacion</label></div>
-      <div class="flex-items"><p-inputSwitch formControlName="activo"></p-inputSwitch></div>
-    </div>
-
       <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
         <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar mascota" class="p-button-success p-button-text text-center"></button>
       </div>
@@ -135,4 +129,3 @@
   </form>
   </div>
 
-{{ formulario.value['fecha']}}

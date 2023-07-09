@@ -10,7 +10,7 @@
           [showCurrentPageReport]="true"
           [rowsPerPageOptions]="[5, 10, 25, 50]"
           [paginator]="true"
-          [globalFilterFields]="['nombre','raza', 'color', 'sexo', 'fechaDeNacimiento']"
+          [globalFilterFields]="['nombre','raza', 'color', 'sexo', 'fechaCelo']"
           >
           <ng-template pTemplate="header">
             <tr>
@@ -26,6 +26,12 @@
                       <p-columnFilter type="text" field="raza" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                   </div>
               </th>
+              <th >
+                <div *ngIf="mascotaCliente.sexo ==  'MACHO'" class="flex align-items-center">
+                    Fecha celo
+                    <p-columnFilter type="text" field="fechaCelo" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+                </div>
+            </th>
               <th >
                 <div class="flex align-items-center">
                     Color
@@ -59,6 +65,13 @@
                   <td>
                     {{busqueda.raza | motivoPipe | titlecase }}
                 </td>
+                <td >
+                  <div *ngIf="mascotaCliente.sexo ==  'MACHO'">
+                    <td>
+                      {{busqueda.fechaCelo }}
+                  </td>
+                  </div>
+              </td>
                 <td>
                   {{ busqueda.color | motivoPipe | titlecase}}
                </td>

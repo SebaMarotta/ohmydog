@@ -51,6 +51,7 @@ export class MascotaService {
       mascota.fechaDeNacimiento.toString()
     );
     uploadData.append('imagen', mascota.imagen);
+    uploadData.append('fechaCelo', mascota.fechaCelo);
 
     uploadData.append('observaciones', mascota.observaciones);
     uploadData.append('color', mascota.color);
@@ -75,13 +76,14 @@ export class MascotaService {
       mascota.fechaDeNacimiento.toString()
     );
     uploadData.append('imagen', mascota.imagen);
-
+    uploadData.append('fechaCelo', mascota.fechaCelo);
     uploadData.append('observaciones', mascota.observaciones);
     uploadData.append('color', mascota.color);
     uploadData.append('cruza', JSON.stringify(mascota.cruza));
     uploadData.append('castrada', JSON.stringify(mascota.castrada));
     uploadData.append('duenio', mascota.duenio.toString());
 
+    console.log(uploadData);
 
     const url = `${this.baseUrl}/mascota/modificacion/${mascota.duenio}`;
     return this.http.put<Mascota>(url, uploadData);
@@ -96,5 +98,10 @@ export class MascotaService {
   getMascotasRazaSexo(mascota: Mascota): Observable<Mascota[]> {
     const url = `${this.baseUrl}/mascota/listar-raza-sexoOpuesto-activo/${mascota.id}`;
     return this.http.get<Mascota[]>(url);
+  }
+
+  cambiarCruza(mascota: Mascota): Observable<Mascota> {
+    const url = `${this.baseUrl}/mascota/editar-cruza/${mascota.id}-${mascota.cruza}`;
+    return this.http.get<Mascota>(url);
   }
 }

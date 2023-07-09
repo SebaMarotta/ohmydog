@@ -19,6 +19,7 @@ public class EditMascotaRequest {
     private String raza;
     private String color;
     private String observaciones;
+    private String fechaCelo;
     private Long duenio;
     private Sexo sexo;
     private String fechaDeNacimiento;

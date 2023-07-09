@@ -26,6 +26,7 @@ public class RegisterMascotaRequest {
     private String raza;
     private String color;
     private String observaciones;
+    private String fechaCelo;
     private User duenio;
     private Sexo sexo;
     private String fechaDeNacimiento;

@@ -13,7 +13,9 @@ import com.leafcompany.ohmydog.repository.UserRepository;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -91,16 +93,28 @@ public class PublicacionBusquedaService {
         var user = this.userRepository.findById(publicacion.getIdCliente()).get();
         var busqueda = this.publicacionBusquedaRepository.findById(publicacion.getId()).get();
 
-                busqueda.setDuenio(user);
-                busqueda.setNombre(publicacion.getNombre());
-                busqueda.setEdad(publicacion.getEdad());
-                busqueda.setRaza(publicacion.getRaza());
-                busqueda.setColor(publicacion.getColor());
-                busqueda.setSexo(publicacion.getSexo());
-                busqueda.setFecha(fecha);
-                busqueda.setActivo(publicacion.isActivo());
-                busqueda.setImagen(publicacion.getImagen().getOriginalFilename());
-
+        if (publicacion.getImagen() instanceof String) {
+            busqueda.setDuenio(user);
+            busqueda.setNombre(publicacion.getNombre());
+            busqueda.setEdad(publicacion.getEdad());
+            busqueda.setRaza(publicacion.getRaza());
+            busqueda.setColor(publicacion.getColor());
+            busqueda.setSexo(publicacion.getSexo());
+            busqueda.setFecha(fecha);
+            busqueda.setActivo(publicacion.isActivo());
+            busqueda.setImagen((String) publicacion.getImagen());
+        } else {
+            MultipartFile imagen = (MultipartFile) publicacion.getImagen();
+            busqueda.setDuenio(user);
+            busqueda.setNombre(publicacion.getNombre());
+            busqueda.setEdad(publicacion.getEdad());
+            busqueda.setRaza(publicacion.getRaza());
+            busqueda.setColor(publicacion.getColor());
+            busqueda.setSexo(publicacion.getSexo());
+            busqueda.setFecha(fecha);
+            busqueda.setActivo(publicacion.isActivo());
+            busqueda.setImagen(imagen.getOriginalFilename());
+        }
         return publicacionBusquedaRepository.save(busqueda);
     }
 

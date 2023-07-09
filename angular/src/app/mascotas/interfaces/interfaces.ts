@@ -12,6 +12,7 @@ export interface Mascota {
   duenio: number;
   cruza: boolean;
   castrada: boolean;
+  fechaCelo: string;
 }
 
 export interface RegisterMascotaRequest {
@@ -24,6 +25,7 @@ export interface RegisterMascotaRequest {
   imagen: string;
   cruza: boolean;
   castrada: boolean;
+  fechaCelo: string;
 }
 
 export interface Razas {

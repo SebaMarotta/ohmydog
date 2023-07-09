@@ -40,6 +40,7 @@ export class RegistroMascotaComponent {
   @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idDuenio: number;
+  inputHidden: boolean = true;
 
   sexo: any; //Sirve para la validacion
   constructor(
@@ -64,8 +65,22 @@ export class RegistroMascotaComponent {
       imagen: [''],
       cruza: [false],
       castrada: [false],
+      fechaCelo: [
+        { value: '', disabled: true }
+      ],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+
+    this.formulario.get('sexo').valueChanges.subscribe((value) => {
+      if (value['sexo'] == 'HEMBRA') {
+        this.inputHidden = false;
+        this.formulario.get('fechaCelo').enable();
+      } else {
+        this.inputHidden = true;
+        this.formulario.get('fechaCelo').disable();
+      }
+    });
+
   }
 
   isValidField(field: string) {

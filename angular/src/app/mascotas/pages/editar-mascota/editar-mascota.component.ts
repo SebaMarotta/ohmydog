@@ -44,6 +44,7 @@ export class EditarMascotaComponent implements OnInit {
     duenio: 0,
     cruza: false,
     castrada: false,
+    fechaCelo: ''
   };
   mascotaEditada: Mascota;
   validador: Boolean;
@@ -54,6 +55,7 @@ export class EditarMascotaComponent implements OnInit {
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idMascota: number;
+  inputHidden: boolean = false;
 
   sexo: any; //Sirve para la validacion
   raza: any; //Tambien
@@ -76,11 +78,14 @@ export class EditarMascotaComponent implements OnInit {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      imagen: [],
+      imagen: [''],
       cruza: [''],
       castrada: [''],
+      fechaCelo: [''],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+
+
   }
   ngOnInit(): void {
     this.mascotaService.findById(this.idMascota).subscribe((resp) => {
@@ -98,7 +103,17 @@ export class EditarMascotaComponent implements OnInit {
         imagen: this.mascotaActual.imagen,
         cruza: this.mascotaActual.cruza,
         castrada: this.mascotaActual.castrada,
+        fechaCelo: this.mascotaActual.fechaCelo,
       });
+    });
+    this.formulario.get('sexo').valueChanges.subscribe((value) => {
+      if (value['sexo'] == 'HEMBRA') {
+        this.inputHidden = false;
+        this.formulario.get('fechaCelo').enable();
+      } else {
+        this.inputHidden = true;
+        this.formulario.get('fechaCelo').disable();
+      }
     });
   }
 
@@ -181,8 +196,12 @@ export class EditarMascotaComponent implements OnInit {
     this.mascotaEditada.cruza = this.formulario.value.cruza;
     this.mascotaEditada.castrada = this.formulario.value.castrada;
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
-    this.mascotaEditada.fechaDeNacimiento =
-      this.formulario.value.fechaDeNacimiento;
+    this.mascotaEditada.fechaDeNacimiento = this.formulario.value.fechaDeNacimiento;
+
+    if (this.formulario.value.fechaCelo == '')
+      this.mascotaEditada.fechaCelo = "No especificado";
+    else
+      this.mascotaEditada.fechaCelo = this.formulario.value.fechaCelo;
 
 
     return this.mascotaService

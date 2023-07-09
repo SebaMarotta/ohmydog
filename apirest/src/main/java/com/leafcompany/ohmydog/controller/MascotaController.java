@@ -143,6 +143,16 @@ public class MascotaController {
         }
     }
 
+    @GetMapping("/editar-cruza/{idMascota}-{cruza}")
+    public ResponseEntity<Mascota> listarPerrosDeCliente(@PathVariable Long idMascota,@PathVariable Boolean cruza) throws MiException {
+        Mascota perro = mascotaService.findById(idMascota).get();
+        if (perro != null) {
+            return ResponseEntity.ok(mascotaService.modificarCruza(perro,cruza));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 
     @GetMapping("/listar-razas")

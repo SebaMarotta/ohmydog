@@ -28,6 +28,7 @@ export class PerfilMascotaComponent {
     cruza: false,
     castrada: false,
     fechaDeNacimiento: '01/01/2000',
+    fechaCelo: ''
   };
   protected libretaSanitaria: any = {};
   protected planillaModal: Boolean = false;

@@ -31,6 +31,7 @@ import { BusquedaService } from 'src/app/services/busqueda.service';
 import { MascotaService } from 'src/app/services/mascota.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DonacionesService } from 'src/app/services/donaciones.service';
+import { fechaValidator } from '../../validators/fecha.validator';
 
 @Component({
   selector: 'app-ver',
@@ -57,6 +58,7 @@ export class VerComponent {
     this.formulario = this.fb.group({
       nombre: ['', [Validators.required]],
       numeroTarjeta: ['', [Validators.required]],
+      vencimientoTarjeta: ['', [Validators.required,fechaValidator]],
       codSeguridad: ['', [Validators.required]],
       monto: ['', [Validators.required]],
     });
@@ -74,7 +76,6 @@ export class VerComponent {
 
     const errors = this.formulario.controls[field].errors || {};
 
-
     for (const key of Object.keys(errors)) {
       switch (key) {
         case 'required':
@@ -91,9 +92,13 @@ export class VerComponent {
   guardar() {
     let numeroTarjeta: number = this.formulario.value['numeroTarjeta'];
     let codSeguridad: number = this.formulario.value['codSeguridad'];
+    let vencimientoTarjeta: number = this.formulario.value['vencimientoTarjeta'];
     let monto: number = this.formulario.value['monto'];
     let idCampana = this.donacion.id;
     let idCliente = this.authService.userSession.getValue().id;
+
+    let fechaHoy = new Date();
+    console.log(codSeguridad.toString().length);
 
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;
@@ -102,7 +107,7 @@ export class VerComponent {
       return null;
     }
 
-    if (numeroTarjeta.toString().length != 16 ) {
+    if (numeroTarjeta.toString().length != 19 ) {
       this.messageService.add({
         severity: 'error',
         summary: `Error`,
@@ -158,6 +163,7 @@ export class VerComponent {
           .then(() => {
             this.router.navigateByUrl(url);
           });
+          if (idCliente != undefined){
           this.messageService.addAll([
             {
               severity: 'success',
@@ -174,7 +180,18 @@ export class VerComponent {
    `,
               sticky: true,
             },
-          ]);
+          ]);} else {
+            this.messageService.addAll([
+              {
+                severity: 'success',
+                summary: 'Operacion completada',
+                detail:
+                  'Muchas gracias por colaborar con la campaña!',
+                sticky: false,
+              },
+
+            ]);
+          }
       });
   }
   cerrar(): void {

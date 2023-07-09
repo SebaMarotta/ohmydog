@@ -161,3 +161,7 @@ input::placeholder {
   inline-size: 100px;
   overflow-wrap: break-word;
 }
+
+.fotoSize{
+size: 1cm;
+}

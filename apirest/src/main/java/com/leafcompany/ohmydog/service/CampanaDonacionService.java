@@ -142,22 +142,22 @@ public class CampanaDonacionService {
             throw new MiException("El ID ingresado no puede ser nulo");
         }
         Map<String,BigDecimal> response = new HashMap<String,BigDecimal>();
-        var saldoAnterior = userService.findById(idCliente).get().getSaldo();
+
         CampanaDonacion campana = campanaDonacionRepository.findById(idCampana).get();
         campana.setMontoAlcanzado(campana.getMontoAlcanzado() + monto);
-
-
         if (idCliente != 0){
+            var saldoAnterior = userService.findById(idCliente).get().getSaldo();
             userService.registrarSaldoAFavorDonacion(idCliente,monto*0.2);
+            campanaDonacionRepository.save(campana);
+            var saldoActual = userService.findById(idCliente).get().getSaldo();
+            response.put("saldoAnterior",saldoAnterior);
+            response.put("saldoActual",saldoActual);
+            return response;
+        } else {
+            campanaDonacionRepository.save(campana);
+            response.put("Mensaje", BigDecimal.ZERO);
+            return response;
         }
-
-        campanaDonacionRepository.save(campana);
-        var saldoActual = userService.findById(idCliente).get().getSaldo();
-
-        response.put("saldoAnterior",saldoAnterior);
-        response.put("saldoActual",saldoActual);
-        return response;
-
     }
 
 

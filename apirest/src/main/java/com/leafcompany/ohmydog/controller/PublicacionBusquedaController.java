@@ -21,6 +21,8 @@ import com.leafcompany.ohmydog.RequestResponse.*;
 import com.leafcompany.ohmydog.entity.*;
 import com.leafcompany.ohmydog.service.EmailService;
 import com.leafcompany.ohmydog.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
+
 @Controller
 @RequestMapping("/busquedas")
 public class PublicacionBusquedaController {
@@ -87,23 +89,24 @@ public class PublicacionBusquedaController {
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<PublicacionBusqueda> modificarPublicacion(@ModelAttribute EditPublicacionBusqueda publicacion, BindingResult result) throws IOException {
+    public ResponseEntity<PublicacionBusqueda> modificarPublicacion(@ModelAttribute EditPublicacionBusqueda publicacion, BindingResult result) throws IOException, MiException {
 
         Path directorioImagenes = Paths.get("src//main//resources//static/busqueda_picture");
         Files.createDirectories(directorioImagenes);
         String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 
-
+        Optional<PublicacionBusqueda> respuesta = publicacionBusquedaService.findById(publicacion.getId());
+        if (publicacion.getImagen() instanceof String) {
+            return ResponseEntity.ok(publicacionBusquedaService.modificarPublicacion(publicacion));
+        }
 
         try{
-            Optional<PublicacionBusqueda> respuesta = publicacionBusquedaService.findById(publicacion.getId());
-            System.out.println("Publicacion foto nueva: " + publicacion.getImagen().getOriginalFilename());
-            System.out.println("Publicacion foto vieja: " + respuesta.get().getImagen());
-            if (publicacion.getImagen().getOriginalFilename() != respuesta.get().getImagen()) {
-                if (publicacion.getImagen() != null && !publicacion.getImagen().isEmpty()) {
+            MultipartFile imagen = (MultipartFile) publicacion.getImagen();
+            if (imagen.getOriginalFilename() != respuesta.get().getImagen()) {
+                if (publicacion.getImagen() != null && !imagen.isEmpty()) {
                     try {
-                        byte[] bytesImg = publicacion.getImagen().getBytes();
-                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + publicacion.getImagen().getOriginalFilename());
+                        byte[] bytesImg = imagen.getBytes();
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                         Files.write(rutaCompleta, bytesImg);
 
                     } catch (java.io.IOException e) {

@@ -21,20 +21,29 @@
         {{ getFieldError('nombre') }}
       </span>
 
+
       <small htmlFor="numeroTarjeta">Numero de la tarjeta</small>
-      <div class="p-inputgroup">
-      <input styleClass="w-full" pInputText formControlName="numeroTarjeta" type="number"/>
+      <div class="">
+        <p-inputMask styleClass="w-full"  mask="9999-9999-9999-9999" formControlName="numeroTarjeta" id="ssn_input"></p-inputMask>
       </div>
       <span *ngIf="isValidField('numeroTarjeta')" class="form-text text-danger">
         {{ getFieldError('numeroTarjeta') }}
       </span>
 
-      <small htmlFor="codSeguridad">Codigo de seguridad</small>
-      <div class="p-inputgroup">
-      <input styleClass="w-full" pInputText formControlName="codSeguridad" type="number"/>
+       <small htmlFor="codSeguridad">Codigo de seguridad</small>
+      <div class="">
+        <p-inputMask styleClass="w-full "   mask="999" formControlName="codSeguridad" id="ssn_input"></p-inputMask>
       </div>
       <span *ngIf="isValidField('codSeguridad')" class="form-text text-danger">
         {{ getFieldError('codSeguridad') }}
+      </span>
+
+      <small htmlFor="vencimientoTarjeta">Vencimiento</small>
+      <div class="">
+        <p-inputMask styleClass="w-full"  mask="99/99" slotChar="mm/yy" formControlName="vencimientoTarjeta" id="ssn_input"></p-inputMask>
+      </div>
+      <span *ngIf="isValidField('vencimientoTarjeta')" class="form-text text-danger">
+        {{ getFieldError('vencimientoTarjeta') }}
       </span>
 
       <small htmlFor="codSeguridad">Monto</small>

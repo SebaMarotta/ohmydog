@@ -57,6 +57,7 @@ public class MascotaService {
                     .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
                     .imagen(mascota.getImagen().getOriginalFilename())
                     .sexo(mascota.getSexo())
+                    .fechaCelo(mascota.getFechaCelo())
                     .observaciones(mascota.getObservaciones())
                     .castrada(mascota.isCastrada())
                     .build();
@@ -70,6 +71,7 @@ public class MascotaService {
                     .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
                     .sexo(mascota.getSexo())
                     .imagen("perroDefault.png")
+                    .fechaCelo(mascota.getFechaCelo())
                     .observaciones(mascota.getObservaciones())
                     .castrada(mascota.isCastrada())
                     .build();
@@ -104,6 +106,7 @@ public class MascotaService {
             original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
             original.setSexo(mascota.getSexo());
             original.setObservaciones(mascota.getObservaciones());
+            original.setFechaCelo(mascota.getFechaCelo());
             original.setRaza(Razas.valueOf(mascota.getRaza()));
         } else {
             original.setCruza(mascota.isCruza());
@@ -111,6 +114,7 @@ public class MascotaService {
             original.setColor(mascota.getColor());
             original.setNombre(mascota.getNombre());
             original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
+            original.setFechaCelo(mascota.getFechaCelo());
             original.setSexo(mascota.getSexo());
             original.setObservaciones(mascota.getObservaciones());
             original.setRaza(Razas.valueOf(mascota.getRaza()));
@@ -118,6 +122,11 @@ public class MascotaService {
         return mascotaRepository.save(original);
         }
 
+    @Transactional
+    public Mascota modificarCruza(Mascota mascota,Boolean cruza) throws MiException{
+        mascota.setCruza(!cruza);
+        return mascotaRepository.save(mascota);
+    }
 
     @Transactional
     public void eliminarMascota(Long id) throws MiException{

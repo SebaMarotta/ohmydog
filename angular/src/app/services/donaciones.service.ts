@@ -56,6 +56,9 @@ export class DonacionesService {
     monto: number
   ): Observable<Donacion> {
 
+    if (idCliente == undefined) idCliente = 0;
+
+
     const url = `${this.baseUrl}/campanas/registrarDonacion/${idCampana}-${idCliente}`;
     return this.http.post<Donacion>(url, monto).pipe(
       tap(() => {

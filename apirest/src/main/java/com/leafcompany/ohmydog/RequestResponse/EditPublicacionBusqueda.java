@@ -29,6 +29,6 @@ public class EditPublicacionBusqueda {
     private String estado;
     private TipoBusqueda tipo;
     private String fecha;
-    private MultipartFile imagen;
+    private Object imagen;
     private boolean activo;
 }

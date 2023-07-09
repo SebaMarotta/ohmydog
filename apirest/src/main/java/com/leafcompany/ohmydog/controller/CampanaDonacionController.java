@@ -95,21 +95,21 @@ public class CampanaDonacionController {
 
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<List<CampanaDonacion>> listarPublicaciones() {
-        Map<String,Object> errores = new HashMap<String,Object>();
-        try{
-            campanaDonacionService.actualizarCampanasActivas();
-        } catch (MiException ex){
-            errores.put("mensaje", ex.getMessage());
-        }
-        List<CampanaDonacion> publicaciones = campanaDonacionService.findActive();
-        if (publicaciones != null) {
-            return ResponseEntity.ok(publicaciones);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/listar")
+//    public ResponseEntity<List<CampanaDonacion>> listarPublicaciones() {
+//        Map<String,Object> errores = new HashMap<String,Object>();
+//        try{
+//            campanaDonacionService.actualizarCampanasActivas();
+//        } catch (MiException ex){
+//            errores.put("mensaje", ex.getMessage());
+//        }
+//        List<CampanaDonacion> publicaciones = campanaDonacionService.findActive();
+//        if (publicaciones != null) {
+//            return ResponseEntity.ok(publicaciones);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
     @GetMapping("/listarPorId/{id}")
     public ResponseEntity<List<CampanaDonacion>> listarPublicaciones(@PathVariable Long id) {
@@ -123,7 +123,7 @@ public class CampanaDonacionController {
         }
     }
 
-    @GetMapping("/listarAdmin")
+    @GetMapping("/listar")
     public ResponseEntity<List<CampanaDonacion>> listarPublicacionesAdministrador() {
         List<CampanaDonacion> publicaciones = campanaDonacionService.findAll();
         if (publicaciones != null) {

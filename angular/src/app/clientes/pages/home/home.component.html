@@ -23,13 +23,16 @@
           <div class="flex">
               <span class="p-input-icon-left ml-auto mx-auto">
                   <i class="pi pi-search"></i>
-                  <input #textInput pInputText type="text" (input)="dt2.filterGlobal(textInput.value, 'contains')" placeholder="Search keyword" />
+                  <input #textInput pInputText type="text" (input)="dt2.filterGlobal(textInput.value, 'contains')" placeholder="Busca por DNI | Telefono | Nombre | Apellido | 'Nombre Apellido''" />
               </span>
           </div>
       </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th>NOMBRE</th>
+                <th>NOMBRE
+
+                </th>
+
                 <th>DNI</th>
                 <th>TELEFONO</th>
                 <th>ACCIONES</th>

@@ -11,7 +11,7 @@
 }
 
 .column-left h3 {
-  color: #ff9800; /* Cambia el color según tus preferencias */
+  color: #ff9800;
 }
 
 .column-left p {
@@ -20,7 +20,7 @@
 
 .column-left p strong {
   font-weight: bold;
-  color: #ff9800; /* Cambia el color según tus preferencias */
+  color: #ff9800;
 }
 
 .column-right {
@@ -28,7 +28,6 @@
   padding: 16px;
 }
 
-/* Estilos adicionales para el formulario */
 form {
   margin-top: 16px;
 }
@@ -94,8 +93,13 @@ button {
   }
 
   .custom-modal {
-    width: 40vh; /* Tamaño inicial del modal */
-    height: auto; /* Altura automática */
-    max-height: 80vh; /* Altura máxima del modal */
-    overflow-y: auto; /* Agregar barra de desplazamiento vertical si el contenido es más largo que la altura máxima */
+    width: 40vh;
+    height: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .my-custom-class {
+    min-width: 100% !important;
+
   }

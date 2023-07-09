@@ -30,7 +30,8 @@ export class HomeComponent {
     imagen: '',
     duenio: 0,
     cruza: false,
-    castrada: false
+    castrada: false,
+    fechaCelo: ''
   }
   protected user$: BehaviorSubject<User> = this.authService.userSession;
   protected rolSession: string = '';
