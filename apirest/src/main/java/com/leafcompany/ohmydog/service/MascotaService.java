@@ -165,6 +165,11 @@ public class MascotaService {
         return (!resultado.isEmpty()) ? resultado : null;
     }
 
+    public List<Mascota> findByCruza() {
+        List<Mascota> resultado = mascotaRepository.findByCruza(true);
+        return (!resultado.isEmpty()) ? resultado : null;
+    }
+
     public List<Mascota> findAll() {
         return mascotaRepository.findAll();
     }

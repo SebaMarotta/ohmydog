@@ -20,12 +20,27 @@
                         <p-columnFilter type="text" field="nombre"  matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                     </div>
                 </th>
-                <th >
-                  <div class="flex align-items-center">
-                      Raza
-                      <p-columnFilter type="text" field="raza" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
-                  </div>
-              </th>
+              <th >
+                <div class="flex align-items-center">
+                    Raza
+                    <p-columnFilter field="raza" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="header">
+                            <div class="px-3 pt-3 pb-0">
+                                <span class="font-bold">Buscar por razas</span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-multiSelect [ngModel]="value" [showHeader]="false" [options]="razas" placeholder="Todos" (onChange)="filter($event.value)" optionValue="" [maxSelectedLabels]="1" [selectedItemsLabel]="'{0} razas'">
+                                <ng-template let-option pTemplate="item">
+                                    <div class="inline-block vertical-align-middle">
+                                        <span class="ml-1 mt-1">{{ option | motivoPipe | titlecase }}</span>
+                                    </div>
+                                </ng-template>
+                            </p-multiSelect>
+                        </ng-template>
+                    </p-columnFilter>
+                </div>
+            </th>
               <th >
                 <div *ngIf="mascotaCliente.sexo ==  'MACHO'" class="flex align-items-center">
                     Fecha celo

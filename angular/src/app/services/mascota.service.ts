@@ -96,7 +96,7 @@ export class MascotaService {
   }
 
   getMascotasRazaSexo(mascota: Mascota): Observable<Mascota[]> {
-    const url = `${this.baseUrl}/mascota/listar-raza-sexoOpuesto-activo/${mascota.id}`;
+    const url = `${this.baseUrl}/mascota/listar-sexoOpuesto-activo/${mascota.id}`;
     return this.http.get<Mascota[]>(url);
   }
 

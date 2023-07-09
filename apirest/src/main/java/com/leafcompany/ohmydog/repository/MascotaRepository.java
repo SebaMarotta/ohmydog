@@ -27,4 +27,6 @@ public interface MascotaRepository extends JpaRepository<Mascota, Long>  {
     @Query("SELECT m FROM Mascota m WHERE m.duenio.id = :idDuenio")
     public List<Mascota> findByUser(@Param("idDuenio") long idDuenio);
 
+    public List<Mascota> findByCruza(@Param("cruza") boolean cruza);
+
 }

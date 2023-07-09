@@ -41,6 +41,7 @@ export class HomeComponent {
   container: ViewContainerRef;
 
   @ViewChild( 'dt2' ) dt2: Table;
+  razas: String[] = [];
 
 
   constructor(
@@ -58,6 +59,10 @@ export class HomeComponent {
       }
     });
 
+    this.mascotaService.getRazas().subscribe(resp => {
+      this.razas = resp;
+    })
+
     this.activatedRoute.params.subscribe((resp) => {
       const id = resp['idMascota'];
       this.mascotaService
@@ -68,6 +73,7 @@ export class HomeComponent {
             this.busquedas = resp;
           })
         });
+
 
     });
 
