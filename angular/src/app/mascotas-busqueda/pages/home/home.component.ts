@@ -8,6 +8,7 @@ import { ServicioDeTerceroService } from 'src/app/services/servicio-de-tercero.s
 import { MultiSelect } from 'primeng/multiselect';
 import { ColumnFilter, Table } from 'primeng/table';
 import { BusquedaService } from 'src/app/services/busqueda.service';
+import { MascotaService } from 'src/app/services/mascota.service';
 
 @Component({
   selector: 'app-home',
@@ -44,6 +45,7 @@ export class HomeComponent {
 
   protected tiposTotal : String[];
   protected zonasTotal : String[];
+  protected razas: String[];
   protected tiposSeleccionados: String[] = [];
   protected zonasSeleccionadas: String[] = [];
 
@@ -57,7 +59,8 @@ export class HomeComponent {
   constructor(
     private busquedaService: BusquedaService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private mascotaService: MascotaService
   ) {}
 
   ngOnInit() {
@@ -90,6 +93,10 @@ export class HomeComponent {
 
       this.busquedaService.getTipoBusqueda().subscribe (resp => {
         this.tiposTotal = resp;
+      })
+
+      this.mascotaService.getRazas().subscribe (resp => {
+        this.razas = resp;
       })
 
 
