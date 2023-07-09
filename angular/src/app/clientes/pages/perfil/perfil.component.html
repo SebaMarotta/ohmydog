@@ -4,7 +4,7 @@
 </p-dialog>
 </div>
 
-<div class="row mx-auto div1 align-items-center text-left justify-content-center contenedor-perfil" style="background-color: white;">
+<div class="row mx-auto div1 align-items-center text-left justify-content-center contenedor-perfil" style="background-color: rgb(208, 206, 204)white;">
   <div class="col-md-7 col-lg-6">
     <div class="row">
       <div class="col-4 col-md-3 align-items-center text-center justify-content-center py-5">
@@ -40,7 +40,7 @@
   <div class="album py-5">
     <div class="card-container">
       <div *ngFor="let mascota of mascotas; let i = index;" class="card-item">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm marco-img">
           <img src="assets/imgs/mascotas/perroDefault.png" alt="Avatar" class="card-img" >
           <div class="card-body">
             <p class="card-text">{{mascota.nombre}}</p>
@@ -50,7 +50,13 @@
                 <button pButton pRipple label="Editar" (click)="this.cardMascotaId = mascota.id; toggleEditarMascota()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
               </div>
               <div *ngIf="mascota.cruza == true && rolSession == 'USER'">
-                <button pButton pRipple label="Quiero cruzarlo" (click)="cruza(mascota)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+                <button pButton pRipple label="Buscar Cruza" (click)="cruza(mascota)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.cruza == false && mascota.castrada == false && rolSession == 'USER'">
+                <button pButton pRipple label="Quiero Cruzarlo" (click)="cruza(mascota)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.castrada == true && rolSession == 'USER'">
+                <button pButton pRipple label="No puedo Cruzarme"  class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
               </div>
             </div>
           </div>

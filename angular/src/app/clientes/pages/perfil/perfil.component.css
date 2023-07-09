@@ -132,7 +132,7 @@ input::placeholder {
   margin-right: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: #ff8c00;
-  color: white;
+  color: rgb(208, 206, 204);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -145,5 +145,11 @@ input::placeholder {
   padding: 0.7rem;
 }
 .contenedor-perfil{
+  padding-top: 1%;
+  padding-bottom: 1%;
   height: -webkit-fill-available;
+  background-color: rgb(208, 206, 204);
+}
+.marco-img{
+  background-color: rgb(208, 206, 204);
 }
