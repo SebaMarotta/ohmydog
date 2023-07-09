@@ -46,7 +46,14 @@ export class MenuRutasComponent {
     for (let i = 0; i < urlSegments.length - 1; i++) {
       url += `${urlSegments[i]}/`;
     }
+
     if (url.endsWith('/clientes/') && !this.authService.isAdmin) url = '/';
+
+    if (urlSegments.includes('cruza')) {
+
+      url = `${urlSegments[0]}/${urlSegments[1]}`;
+    }
+
     this.items.push({ label: '<- Volver', routerLink: url });
   }
 }
