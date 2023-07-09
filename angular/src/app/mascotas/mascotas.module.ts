@@ -14,7 +14,7 @@ import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
 import { RegistroMascotaComponent } from './pages/registro-mascota/registro-mascota.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -30,6 +30,7 @@ import { FechaPipe } from './pipes/fecha.pipe';
 import { CruzaPipe } from './pipes/cruza.pipe';
 import { CastradaPipe } from './pipes/castrada.pipe';
 import { CruzaModule } from '../cruza/cruza.module';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,8 @@ import { CruzaModule } from '../cruza/cruza.module';
     LibretaSanitariaModule,
     ProgressSpinnerModule,
     CruzaModule,
+    MultiSelectModule,
+    FormsModule,
   ],
   exports: [
     PerfilMascotaComponent,

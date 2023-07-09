@@ -8,6 +8,7 @@ import { BehaviorSubject, mergeMap, switchMap } from 'rxjs';
 import { User } from 'src/app/clientes/interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Motivos } from 'src/app/libreta-sanitaria/interfaces/interfaces';
 
 @Component({
   selector: 'app-perfil-mascota',
@@ -33,6 +34,7 @@ export class PerfilMascotaComponent {
   protected solicitudModal: Boolean = false;
   protected user$: BehaviorSubject<User> = this.authService.userSession;
   protected rolSession = '';
+  protected motivos: String[] = [];
 
   protected idUser: number;
   protected idPlanilla: number;
@@ -71,8 +73,15 @@ export class PerfilMascotaComponent {
           this.imagenUrl = this.DomSanitizer.bypassSecurityTrustUrl(aux);
         });
 
+
       this.turnoService.getPlanillaByMascota(id).subscribe((resp) => {
         this.libretaSanitaria = resp;
+      });
+
+      this.turnoService.getMotivosTurno().subscribe((resp) => {
+        resp.forEach((resp) => {
+          this.motivos.push(resp);
+        });
       });
     });
   }
