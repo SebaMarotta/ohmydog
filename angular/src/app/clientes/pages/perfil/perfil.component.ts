@@ -66,7 +66,14 @@ export class PerfilComponent implements OnInit {
       this.mascotaService.getMascotasUser(this.id).subscribe((resp) => {
         this.mascotas = resp;
         this.rolSession = this.authService.userSession.getValue()['role'];
+        resp.forEach(resp => {
+          this.mascotaService.getImage(resp.imagen).subscribe(resp2 => {
+            let aux = URL.createObjectURL(resp2);
+            this.arrayImagenes[resp.id] = this.DomSanitizer.bypassSecurityTrustUrl(aux);
+          })
+        })
       });
+
     });
 
 
