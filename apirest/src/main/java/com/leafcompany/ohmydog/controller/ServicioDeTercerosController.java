@@ -108,7 +108,9 @@ public class ServicioDeTercerosController {
         Optional<ServicioDeTerceros> respuesta = servicioDeTercerosService.findById(id);
 
         for (ServicioDeTerceros s : this.servicioDeTercerosService.findAll()) {
-            if (s.getEmail().equals(cuidador_paseador.getEmail())
+            if (
+                    s.getEmail().equals(cuidador_paseador.getEmail())
+                            && s.getId() != cuidador_paseador.getId()
                     && s.getNombre().equals(cuidador_paseador.getNombre())
                     && s.getApellido().equals(cuidador_paseador.getApellido())
                     && s.getZona().equals(cuidador_paseador.getZona())
