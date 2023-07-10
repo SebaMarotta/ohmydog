@@ -26,6 +26,7 @@ import { InputSwitch, InputSwitchModule } from 'primeng/inputswitch';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ImageModule } from 'primeng/image';
+import { CalendarModule } from 'primeng/calendar';
 
 
 
@@ -62,6 +63,7 @@ import { ImageModule } from 'primeng/image';
     InputMaskModule,
     DropdownModule,
     ImageModule,
+    CalendarModule,
   ]
 })
 export class DonacionesModule { }

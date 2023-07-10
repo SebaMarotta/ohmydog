@@ -37,13 +37,16 @@ export class DonacionesService {
   register(
     campaña: CrearDonacion
   ): Observable<Donacion> {
-    const uploadData = new FormData();
-    uploadData.append('nombre', campaña.nombre);
-    uploadData.append('descripcion', campaña.descripcion);
-    uploadData.append('objetivo', campaña.objetivo.toString());
+
+    const body = {
+      nombre: campaña.nombre,
+      descripcion: campaña.descripcion,
+      objetivo: campaña.objetivo,
+      fechaVencimiento: campaña.fechaVencimiento
+    }
 
     const url = `${this.baseUrl}/campanas/registro`;
-    return this.http.post<Donacion>(url, uploadData).pipe(
+    return this.http.post<Donacion>(url, body).pipe(
       tap(() => {
         this.refresh$.next();
       })
@@ -68,15 +71,17 @@ export class DonacionesService {
   }
 
   editar(campaña: EditarDonacion): Observable<Donacion> {
-    const uploadData = new FormData();
-    uploadData.append('nombre', campaña.nombre);
-    uploadData.append('descripcion', campaña.descripcion);
-    uploadData.append('objetivo', campaña.objetivo.toString());
-    uploadData.append('activa', JSON.stringify(campaña.activa));
+    const body = {
+      nombre: campaña.nombre,
+      descripcion: campaña.descripcion,
+      objetivo: campaña.objetivo,
+      fechaVencimiento: campaña.fechaVencimiento,
+      activa: campaña.activa,
+    }
 
 
     const url = `${this.baseUrl}/campanas/modificacion/${campaña.id}`;
-    return this.http.put<Donacion>(url, uploadData);
+    return this.http.put<Donacion>(url, body);
   }
 
   getImage(imagen: string) {

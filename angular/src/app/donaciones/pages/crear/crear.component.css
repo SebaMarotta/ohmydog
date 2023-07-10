@@ -82,3 +82,12 @@ input::-webkit-inner-spin-button {
 .custom-file-upload:hover {
   background-color: #62ADC1;
 }
+
+::ng-deep .p-datepicker table td {
+  padding: 0.05rem;
+  position: relative;
+}
+
+::ng-deep .p-calendar {
+  width: 45rem;
+}

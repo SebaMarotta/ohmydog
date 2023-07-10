@@ -28,8 +28,8 @@ export class HomeComponent {
     descripcion: '',
     objetivo: 0,
     montoAlcanzado: 0,
-    fecha: '',
-    activa: false
+    activa: false,
+    fechaVencimiento: undefined
   }
   protected user$: BehaviorSubject<User> = this.authService.userSession;
   protected rolSession: string = '';

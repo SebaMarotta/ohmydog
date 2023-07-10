@@ -90,10 +90,11 @@ public class MascotaService {
         Mascota aux;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
         this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),
                 LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
 
-        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
+
         var user = this.userRepository.findById(mascota.getDuenio()).get();
 
         System.out.println("ffffff" + mascota);

@@ -4,7 +4,7 @@ export interface Donacion {
   descripcion: string;
   objetivo: number;
   montoAlcanzado: number;
-  fecha: string;
+  fechaVencimiento: Date;
   activa: boolean;
 }
 
@@ -12,6 +12,7 @@ export interface CrearDonacion {
   nombre: string;
   descripcion: string;
   objetivo: number;
+  fechaVencimiento: Date;
 }
 
 export interface EditarDonacion {
@@ -20,6 +21,7 @@ export interface EditarDonacion {
   descripcion: string;
   objetivo: number;
   activa: boolean;
+  fechaVencimiento: Date;
 }
 
 export interface DonacionResponse {

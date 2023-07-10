@@ -18,5 +18,6 @@ public class RegisterCampanaDonacion {
     private String nombre;
     private String descripcion;
     private Double objetivo;
+    private LocalDate fechaVencimiento;
 
 }

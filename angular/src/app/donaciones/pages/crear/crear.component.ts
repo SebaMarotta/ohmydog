@@ -65,8 +65,10 @@ export class CrearComponent {
     nombre: '',
     descripcion: '',
     objetivo: 0,
+    fechaVencimiento: undefined
   }
 
+  minDate: Date;
   isButtonDisabled: Boolean = false;
 
   constructor(
@@ -85,12 +87,12 @@ export class CrearComponent {
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       objetivo: ['', [Validators.required]],
+      fechaVencimiento: ['', [Validators.required]],
 
     });
   }
   ngOnInit(): void {
-
-
+    this.minDate = new Date();
   }
 
   formatoOpcion(motivo: Motivos) {
@@ -131,8 +133,9 @@ export class CrearComponent {
       return null;
     }
 
-    this.crearDonacion = this.formulario.value;
 
+
+    this.crearDonacion = this.formulario.value;
     return this.donacionesService
       .register(this.crearDonacion)
       .pipe(

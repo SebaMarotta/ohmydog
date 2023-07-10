@@ -36,12 +36,15 @@ public class CampanaDonacionService {
     @Transactional
     public CampanaDonacion crearCampana(RegisterCampanaDonacion campana) throws MiException{
 
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        var fecha = LocalDate.parse(campana.getFechaVencimiento(),formatter);
 
         var aux = CampanaDonacion.builder()
                 .nombre(campana.getNombre())
                 .descripcion(campana.getDescripcion())
                 .objetivo(campana.getObjetivo())
                 .montoAlcanzado(0.0)
+                .fechaVencimiento(campana.getFechaVencimiento())
                 .activa(true)
                 .build();
 
@@ -68,10 +71,15 @@ public class CampanaDonacionService {
 //                .activa(campana.getActiva())
 //                .fecha(LocalDate.parse(campana.getFecha(),formatter))
 //                .build();
+
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        var fecha = LocalDate.parse(request.getFechaVencimiento(),formatter);
+
         campana.setNombre(request.getNombre());
         campana.setDescripcion(request.getDescripcion());
         campana.setObjetivo(request.getObjetivo());
         campana.setActiva(request.getActiva());
+        campana.setFechaVencimiento(request.getFechaVencimiento());
 
         return campanaDonacionRepository.save(campana);
     }
@@ -107,7 +115,7 @@ public class CampanaDonacionService {
     public void actualizarCampanasActivas() throws MiException{
         List<CampanaDonacion> campanasActivas = campanaDonacionRepository.findActive();
         for (CampanaDonacion campana: campanasActivas) {
-            if(campana.getFecha().isAfter(LocalDate.now())){
+            if(campana.getFechaVencimiento().isAfter(LocalDate.now())){
                 this.deshabilitarCampana(campana.getId());
             }
         }

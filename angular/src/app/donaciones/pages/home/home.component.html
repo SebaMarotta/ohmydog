@@ -14,6 +14,7 @@
   </div>
 
   <div *ngIf="donaciones.length > 0">
+    <div class="table-container">
   <p-table
           responsiveLayout="scroll"
           [value]="donaciones"
@@ -25,7 +26,7 @@
           [showCurrentPageReport]="true"
           [rowsPerPageOptions]="[5, 10, 25, 50]"
           [paginator]="true"
-          [globalFilterFields]="['nombre','activa','montoAlcanzado','descripcion','objetivo']"
+          [globalFilterFields]="['nombre','activa','montoAlcanzado','descripcion','objetivo','fechaVencimiento']"
           >
           <ng-template pTemplate="header">
             <tr>
@@ -53,6 +54,12 @@
                     <p-columnFilter type="text" field="objetivo" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
                 </div>
             </th>
+            <th >
+              <div class="flex align-items-center">
+                  Fecha vencimiento
+                  <p-columnFilter type="text" field="fecha" matchMode="contains" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false"></p-columnFilter>
+              </div>
+          </th>
             <th  *ngIf="rolSession == 'ADMIN'">
               <div class="flex align-items-center" style="max-width:2.5rem">
                   Estado
@@ -73,20 +80,23 @@
               let-donacion sortMode="multiple">
 
               <tr>
-                  <td>
+                  <td style="width: 10%;">
                       {{ donacion.nombre }}
                   </td>
-                  <td>
+                  <td style="width: 50%;">
                     {{donacion.descripcion | motivoPipe | titlecase }}
                 </td>
-                <td>
+                <td style="width: 10%;">
                   $ {{ donacion.montoAlcanzado | motivoPipe | titlecase}}
                </td>
-                <td>
+                <td style="width: 10%;">
                   $ {{ donacion.objetivo | motivoPipe | titlecase}}
                </td>
+               <td style="width: 10%;">
+                {{ donacion.fechaVencimiento | date: 'dd/MM/yyyy'}}
+             </td>
 
-              <td *ngIf="rolSession == 'ADMIN'" class="text-center">
+              <td *ngIf="rolSession == 'ADMIN'" class="text-center" style="width: 10%;">
                 <i class="pi" [ngClass]="{ 'text-green-400 pi-check-circle': donacion.activa, 'text-red-500 pi-times-circle': !donacion.activa}"></i>
               </td>
 
@@ -100,6 +110,7 @@
           </ng-template>
 
         </p-table>
+      </div>
     </div>
     <div *ngIf="donaciones.length == 0" class="w-full font-bold text-center align-items-center" style="background-color: rgb(255,255,255,1); height: 5vh;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;">
       <div style="padding-top: 0.8vw;">

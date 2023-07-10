@@ -67,10 +67,12 @@ export class EditarComponent {
     descripcion: '',
     objetivo: 0,
     id: 0,
-    activa: false
+    activa: false,
+    fechaVencimiento: undefined
   }
 
   isButtonDisabled: Boolean = false;
+  minDate: Date;
 
   constructor(
     private fb: FormBuilder,
@@ -88,17 +90,24 @@ export class EditarComponent {
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       objetivo: ['', [Validators.required]],
+      fechaVencimiento: ['', [Validators.required]],
       activa: [''],
 
     });
   }
   ngOnInit(): void {
+    const fecha = this.donacion.fechaVencimiento.toString();
+    const [year, month, day] = fecha.split('-');
+    const aux = new Date(Number.parseInt(year),Number.parseInt(month) - 1,Number.parseInt(day))
     this.formulario.patchValue({
       nombre: this.donacion.nombre,
       descripcion: this.donacion.descripcion,
       objetivo: this.donacion.objetivo,
       activa: this.donacion.activa,
+      fechaVencimiento: aux,
     });
+
+    this.minDate = new Date();
 
   }
 

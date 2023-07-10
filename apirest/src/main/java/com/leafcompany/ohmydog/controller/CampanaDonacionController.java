@@ -6,6 +6,7 @@ import com.leafcompany.ohmydog.RequestResponse.EditCampanaDonacion;
 import com.leafcompany.ohmydog.RequestResponse.EditPublicacionBusqueda;
 import com.leafcompany.ohmydog.RequestResponse.RegisterCampanaDonacion;
 
+import com.leafcompany.ohmydog.RequestResponse.RegisterTurnoRequest;
 import com.leafcompany.ohmydog.entity.CampanaDonacion;
 
 import com.leafcompany.ohmydog.exceptions.MiException;
@@ -35,8 +36,9 @@ public class CampanaDonacionController {
     private UserService userService;
 
     @PostMapping("/registro")
-    public ResponseEntity<CampanaDonacion> crearCampana(@ModelAttribute RegisterCampanaDonacion campana, BindingResult result){
+    public ResponseEntity<CampanaDonacion> crearCampana(@RequestBody RegisterCampanaDonacion campana , BindingResult result){
 
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA: "+ campana);
         try {
             CampanaDonacion aux = campanaDonacionService.crearCampana(campana);
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
@@ -47,7 +49,7 @@ public class CampanaDonacionController {
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<CampanaDonacion> modificarCampana(@ModelAttribute EditCampanaDonacion campana, BindingResult result,@PathVariable Long id){
+    public ResponseEntity<CampanaDonacion> modificarCampana(@RequestBody EditCampanaDonacion campana,@PathVariable Long id){
         try{
             Optional<CampanaDonacion> respuesta = campanaDonacionService.findById(id);
             if (respuesta.isPresent()) {

@@ -24,12 +24,9 @@ public class CampanaDonacion {
     private Double objetivo;
     private Double montoAlcanzado;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate fecha;
+    private LocalDate fechaVencimiento;
     private Boolean activa;
 
-    @PrePersist
-    public void prePersist() {
-        setFecha(LocalDate.now());
-    }
+
 
 }
