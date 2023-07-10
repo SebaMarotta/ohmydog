@@ -98,7 +98,6 @@ export class VerComponent {
     let idCliente = this.authService.userSession.getValue().id;
 
     let fechaHoy = new Date();
-    console.log(codSeguridad.toString().length);
 
     this.formulario.markAllAsTouched();
     this.isButtonDisabled = true;

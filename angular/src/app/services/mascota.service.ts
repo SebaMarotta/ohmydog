@@ -83,7 +83,6 @@ export class MascotaService {
     uploadData.append('castrada', JSON.stringify(mascota.castrada));
     uploadData.append('duenio', mascota.duenio.toString());
 
-    console.log(uploadData);
 
     const url = `${this.baseUrl}/mascota/modificacion/${mascota.duenio}`;
     return this.http.put<Mascota>(url, uploadData);
