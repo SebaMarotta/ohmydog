@@ -115,7 +115,7 @@ public class CampanaDonacionService {
     public void actualizarCampanasActivas() throws MiException{
         List<CampanaDonacion> campanasActivas = campanaDonacionRepository.findActive();
         for (CampanaDonacion campana: campanasActivas) {
-            if(campana.getFechaVencimiento().isAfter(LocalDate.now())){
+            if(campana.getFechaVencimiento().isBefore(LocalDate.now())){
                 this.deshabilitarCampana(campana.getId());
             }
         }

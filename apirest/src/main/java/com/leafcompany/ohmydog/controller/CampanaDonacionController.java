@@ -126,7 +126,8 @@ public class CampanaDonacionController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<CampanaDonacion>> listarPublicacionesAdministrador() {
+    public ResponseEntity<List<CampanaDonacion>> listarPublicacionesAdministrador() throws MiException {
+        campanaDonacionService.actualizarCampanasActivas();
         List<CampanaDonacion> publicaciones = campanaDonacionService.findAll();
         if (publicaciones != null) {
             return ResponseEntity.ok(publicaciones);
