@@ -23,6 +23,7 @@ import { MascotasModule } from '../mascotas/mascotas.module';
 import { EditarComponent } from './pages/editar/editar.component';
 import { EditarPasswordComponent } from './pages/editar-password/editar-password.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LazyLoadImageDirective } from './lazy-load-image.directive';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RegistroComponent,
     EditarComponent,
     EditarPasswordComponent,
+    LazyLoadImageDirective,
   ],
   imports: [
     CommonModule,
@@ -51,6 +53,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     MascotasModule,
     ProgressSpinnerModule,
   ],
-  exports: [PerfilComponent, RegistroComponent],
+  exports: [PerfilComponent, RegistroComponent, EditarPasswordComponent,LazyLoadImageDirective],
 })
 export class ClientesModule {}

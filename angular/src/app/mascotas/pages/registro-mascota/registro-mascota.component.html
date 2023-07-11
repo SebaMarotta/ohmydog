@@ -2,37 +2,60 @@
 
     <span class="p-float-label" >
       <input pInputText id="nombre" formControlName="nombre" />
-      <label htmlFor="nombre">Nombre</label>
+      <label htmlFor="nombre">Nombre (*)</label>
     </span>
     <span *ngIf="isValidField('nombre')" class="form-text text-danger">
       {{ getFieldError('nombre') }}
     </span>
 
-    <span class="p-float-label">
-      <input pInputText id="raza" formControlName="raza" />
-      <label htmlFor="raza">Raza</label>
-    </span>
+
+    <p-dropdown [filter]="true" filterBy="" styleClass="w-full mt-4" formControlName="raza" [options]="razas" placeholder="{{placeholderText | motivoPipe | titlecase}}" [editable]="false" optionLabel="raza">
+      <ng-template pTemplate="item" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+    </p-dropdown>
     <span *ngIf="isValidField('raza')" class="form-text text-danger">
       {{ getFieldError('raza') }}
     </span>
 
+
+
+
+
+
+
+
+
+
     <span class="p-float-label">
       <input pInputText id="color" formControlName="color" />
-      <label htmlFor="color">Color</label>
+      <label htmlFor="color">Color (*)</label>
     </span>
     <span *ngIf="isValidField('color')" class="form-text text-danger">
       {{ getFieldError('color') }}
     </span>
 
-    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo" [editable]="false" optionLabel="sexo"></p-dropdown>
+    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="Sexo (*)" [editable]="false" optionLabel="sexo"></p-dropdown>
     <span *ngIf="isValidField('sexo')" class="form-text text-danger">
       {{ getFieldError('sexo') }}
     </span>
 
+    <div [hidden]="inputHidden">
+      <div class="p-inputgroup mt-4">
+        <input formControlName="fechaCelo" type="text" pInputText placeholder="Fecha de celo (opcional)" />
+      </div>
+      <span *ngIf="isValidField('fechaCelo')" class="form-text text-danger">
+        {{ getFieldError('fechaCelo') }}
+      </span>
+    </div>
+
     <span class="p-float-label">
       <p-inputMask styleClass="w-full"  mask="99/99/9999" slotChar="dd/mm/yyyy" formControlName="fechaDeNacimiento" id="ssn_input"></p-inputMask>
 
-      <label htmlFor="ssn_input">Fecha de nacimiento</label>
+      <label htmlFor="ssn_input">Fecha de nacimiento (*)</label>
    </span>
     <span *ngIf="isValidField('fechaDeNacimiento')" class="form-text text-danger">
       {{ getFieldError('fechaDeNacimiento') }}
@@ -47,12 +70,26 @@
     </span>
 
 
-      <!-- <label htmlFor="imagen">Imagen</label>
-      <p-fileUpload formControlName="imagen" mode="basic" [disabled]="true" chooseLabel="imagen"></p-fileUpload> -->
+
+    <input #selectFile type="file" value="select" multiple (change)="imageSelected($event)" style="display: none;" id="selectFile">
+    <label for="selectFile" class="custom-file-upload w-full text-center">
+      <span>+ Foto</span>
+    </label>
+    <div *ngIf="imageSelected != null">
+    <span> {{imagenSeleccionada ? imagenSeleccionada.name : ''}} </span>
+    </div>
 
 
-      <label style="margin-right: 1cm;" htmlFor="cruza">Le gustaría cruzarlo?</label>
-      <p-inputSwitch formControlName="cruza"></p-inputSwitch>
+      <div class="flex-container mt-2">
+        <div class="flex-items"><label style="margin-right: 1rem;" htmlFor="cruza">Le gustaría cruzarla?</label></div>
+        <div class="flex-items"><p-inputSwitch formControlName="cruza"></p-inputSwitch></div>
+      </div>
+
+
+      <div class="flex-container">
+        <div class="flex-items"><label style="margin-right: 5rem;" htmlFor="castrada">Esta castrada?</label></div>
+        <div class="flex-items"><p-inputSwitch formControlName="castrada"></p-inputSwitch></div>
+    </div>
 
       <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
         <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Registrar mascota" class="p-button-success p-button-text text-center"></button>
@@ -62,5 +99,4 @@
       <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
       </div>
   </form>
-
 

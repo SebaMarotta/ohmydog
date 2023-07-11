@@ -25,3 +25,44 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: normal;
+  width: 100%;
+}
+
+.flex-items:nth-child(1) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+.flex-items:nth-child(2) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #F1965B;
+  color: white;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+  background-color: #62ADC1;
+}

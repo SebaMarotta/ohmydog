@@ -16,11 +16,13 @@ export interface RegisterPlanillaRequest {
 }
 
 export interface Planilla {
+  id: number;
   motivo: String;
   fecha: Date;
   observaciones?: string;
   monto: string;
   peso?: string;
+  cantidad?: string;
 }
 
 export interface SolicitudTurno {

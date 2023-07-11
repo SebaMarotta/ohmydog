@@ -41,3 +41,12 @@ p-table th:last-child{
   width: 70vw;
   box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
 }
+
+::placeholder{
+  color: rgb(0, 0, 0, 0.4);
+}
+
+input {
+  min-width: 40rem;
+  text-align: center;
+}

@@ -4,7 +4,7 @@
 </p-dialog>
 </div>
 
-<div class="row mx-auto div1 align-items-center text-left justify-content-center contenedor-perfil" style="background-color: white;">
+<div class="row mx-auto div1 align-items-center text-left justify-content-center contenedor-perfil" style="background-color: rgb(208, 206, 204)white;">
   <div class="col-md-7 col-lg-6">
     <div class="row">
       <div class="col-4 col-md-3 align-items-center text-center justify-content-center py-5">
@@ -40,15 +40,36 @@
   <div class="album py-5">
     <div class="card-container">
       <div *ngFor="let mascota of mascotas; let i = index;" class="card-item">
-        <div class="card shadow-sm">
-          <img src="assets/imgs/perroMuestra.png" alt="Avatar" class="card-img" >
+        <div class="card shadow-sm marco-img">
+          <img [src]="arrayImagenes[mascota.id]" alt="Avatar" class="card-img" >
           <div class="card-body">
             <p class="card-text">{{mascota.nombre}}</p>
             <div class="card-buttons">
-              <button pButton pRipple label="Perfil" (click)="redireccionar(mascota.id)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              <div *ngIf="mascota.cruza == true && mascota.castrada == false  && rolSession == 'USER'">
+                <button pButton pRipple label="Cruza activado" (click)="cambiarCruza(mascota)" class="w-full text-0 p-button-success p-button-raised p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.cruza == false && mascota.castrada == false  && rolSession == 'USER'">
+                <button pButton pRipple label="Cruza desactivado" (click)="cambiarCruza(mascota)" class="w-full text-0 p-button-danger p-button-raised p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.castrada == true  && rolSession == 'USER'">
+                <button pButton pRipple label="Mascota castrada" class="w-full text-0 p-button-info p-button-raised p-button-sm"></button>
+              </div>
+              <button pButton pRipple label="Perfil" (click)="redireccionar(mascota.id)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm mt-5"></button>
               <div *ngIf="rolSession == 'ADMIN'">
                 <button pButton pRipple label="Editar" (click)="this.cardMascotaId = mascota.id; toggleEditarMascota()" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
               </div>
+
+              <div *ngIf="mascota.castrada == true  && rolSession == 'USER'" class="invisible-button">
+                <button pButton pRipple label="Mascota castrada" class="w-full text-0 p-button-info p-button-raised p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.castrada == false && mascota.cruza == false  && rolSession == 'USER'" class="invisible-button">
+                <button pButton pRipple label="Mascota castrada" class="w-full text-0 p-button-info p-button-raised p-button-sm"></button>
+              </div>
+              <div *ngIf="mascota.cruza == true && rolSession == 'USER'">
+                <button pButton pRipple label="Buscar Cruza" (click)="cruza(mascota)" class="w-full text-0 p-button-veterinariaOrange p-button-raised p-button-outlined p-button-sm"></button>
+              </div>
+
+
             </div>
           </div>
         </div>
@@ -77,10 +98,6 @@
       <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
     </p-dialog>
   </div>
-  <div *ngIf="editarModalPassword">
-    <p-dialog  header="Cambiar contraseña" [(visible)]="editarModalPassword" [modal]="true" [style]="{ width: '25vw' }"  [draggable]="false" [resizable]="false" [closable]="true">
-      <app-editar-password (editarModal)="toggleEditarPassword()" [idUser]="user.id"></app-editar-password>
-    </p-dialog>
-  </div>
+
 
 

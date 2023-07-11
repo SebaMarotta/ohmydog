@@ -2,9 +2,11 @@ package com.leafcompany.ohmydog.service;
 
 import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.entity.Mascota;
+import com.leafcompany.ohmydog.enumerations.Zona;
 import com.leafcompany.ohmydog.exceptions.MiException;
 
 import io.jsonwebtoken.io.IOException;
@@ -37,54 +39,95 @@ public class MascotaService {
     @Transactional // inicialmente era un metodo void, pero le puse el devolver mascota para que
                    // luego desde el controlador devuelva el perro creado
     public Mascota crearMascota(RegisterMascotaRequest mascota, Long idDueño) throws MiException, IOException {
+        Mascota aux;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
+        this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) ,idDueño);
         User dueño = userRepository.findById(idDueño).get();
 
         var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
-        var aux = Mascota.builder()
-        .nombre(mascota.getNombre())
-        .color(mascota.getColor())
-        .raza(mascota.getRaza())
-        .cruza(mascota.isCruza())
-        .duenio(dueño)
-        .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(),formatter))
-        .imagen(mascota.getImagen())
-        .sexo(mascota.getSexo())
-        .observaciones(mascota.getObservaciones())
-        .build();
+
+        if (mascota.getImagen() != null) {
+            aux = Mascota.builder()
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .cruza(mascota.isCruza())
+                    .duenio(dueño)
+                    .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
+                    .imagen(mascota.getImagen().getOriginalFilename())
+                    .sexo(mascota.getSexo())
+                    .fechaCelo(mascota.getFechaCelo())
+                    .observaciones(mascota.getObservaciones())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        } else {
+            aux = Mascota.builder()
+                    .nombre(mascota.getNombre())
+                    .color(mascota.getColor())
+                    .raza(Razas.valueOf(mascota.getRaza()))
+                    .cruza(mascota.isCruza())
+                    .duenio(dueño)
+                    .fechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter))
+                    .sexo(mascota.getSexo())
+                    .imagen("perroDefault.png")
+                    .fechaCelo(mascota.getFechaCelo())
+                    .observaciones(mascota.getObservaciones())
+                    .castrada(mascota.isCastrada())
+                    .build();
+        }
 
         return mascotaRepository.save(aux);
     }
 
+    public Razas[] listarRazas(){
+        return Razas.values();
+    }
     @Transactional
     public Mascota modificarMascota(EditMascotaRequest mascota) throws MiException{
 
+        Mascota original = this.mascotaRepository.findById(mascota.getId()).get();
+        Mascota aux;
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        this.validarDatos(mascota.getNombre(),mascota.getRaza(),mascota.getColor(),mascota.getSexo(),
+        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
+        this.validarDatos(mascota.getNombre(),mascota.getColor(),mascota.getSexo(),
                 LocalDate.parse(mascota.getFechaDeNacimiento(),formatter ) , mascota.getDuenio());
 
-        var fecha = LocalDate.parse(mascota.getFechaDeNacimiento(),formatter);
+
         var user = this.userRepository.findById(mascota.getDuenio()).get();
-        Mascota aux = Mascota
-                .builder()
-                .duenio(user)
-                .raza(mascota.getRaza())
-                .id(mascota.getId())
-                .nombre(mascota.getNombre())
-                .color(mascota.getColor())
-                .cruza(mascota.isCruza())
-                .duenio(user)
-                .fechaDeNacimiento(fecha)
-                .imagen(mascota.getImagen())
-                .observaciones(mascota.getObservaciones())
-                .sexo(mascota.getSexo())
-                .build();
 
-
-        return mascotaRepository.save(aux);
+        System.out.println("ffffff" + mascota);
+        if (mascota.getImagen() != null) {
+            original.setCruza(mascota.isCruza());
+            original.setCastrada(mascota.isCastrada());
+            original.setColor(mascota.getColor());
+            original.setImagen(mascota.getImagen().getOriginalFilename());
+            original.setNombre(mascota.getNombre());
+            original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
+            original.setSexo(mascota.getSexo());
+            original.setObservaciones(mascota.getObservaciones());
+            original.setFechaCelo(mascota.getFechaCelo());
+            original.setRaza(Razas.valueOf(mascota.getRaza()));
+        } else {
+            original.setCruza(mascota.isCruza());
+            original.setCastrada(mascota.isCastrada());
+            original.setColor(mascota.getColor());
+            original.setNombre(mascota.getNombre());
+            original.setFechaDeNacimiento(LocalDate.parse(mascota.getFechaDeNacimiento(), formatter));
+            original.setFechaCelo(mascota.getFechaCelo());
+            original.setSexo(mascota.getSexo());
+            original.setObservaciones(mascota.getObservaciones());
+            original.setRaza(Razas.valueOf(mascota.getRaza()));
+        }
+        return mascotaRepository.save(original);
         }
 
+    @Transactional
+    public Mascota modificarCruza(Mascota mascota,Boolean cruza) throws MiException{
+        mascota.setCruza(!cruza);
+        return mascotaRepository.save(mascota);
+    }
 
     @Transactional
     public void eliminarMascota(Long id) throws MiException{
@@ -114,12 +157,17 @@ public class MascotaService {
     }
 
     public List<Mascota> findByType(String raza) {
-        List<Mascota> resultado = mascotaRepository.findByType(raza);
+        List<Mascota> resultado = mascotaRepository.findByType(Razas.valueOf(raza));
         return (!resultado.isEmpty()) ? resultado : null;
     }
 
     public List<Mascota> findByGender(Sexo sexo) {
         List<Mascota> resultado = mascotaRepository.findByGender(sexo.toString());
+        return (!resultado.isEmpty()) ? resultado : null;
+    }
+
+    public List<Mascota> findByCruza() {
+        List<Mascota> resultado = mascotaRepository.findByCruza(true);
         return (!resultado.isEmpty()) ? resultado : null;
     }
 
@@ -129,13 +177,10 @@ public class MascotaService {
 
 
 
-    private void validarDatos(String nombre, String raza, String color, Sexo sexo,
+    private void validarDatos(String nombre, String color, Sexo sexo,
                               LocalDate fechaNac, Long idDueño) throws MiException {
         if (nombre == null || nombre.isEmpty()) {
             throw new MiException("El nombre ingresado no puede ser nulo o estar vacio");
-        }
-        if (raza == null || raza.isEmpty()) {
-            throw new MiException("LA raza ingresado no puede ser nulo o estar vacio");
         }
         if (color == null || color.isEmpty()) {
             throw new MiException("El color ingresado no puede ser nulo o estar vacio");

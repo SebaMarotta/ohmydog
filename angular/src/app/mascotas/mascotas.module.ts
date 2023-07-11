@@ -14,7 +14,7 @@ import { CardModule } from 'primeng/card';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DataViewModule, DataViewLayoutOptions } from 'primeng/dataview';
 import { RegistroMascotaComponent } from './pages/registro-mascota/registro-mascota.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -26,6 +26,11 @@ import { LibretaSanitariaModule } from '../libreta-sanitaria/libreta-sanitaria.m
 import { EditarMascotaComponent } from './pages/editar-mascota/editar-mascota.component';
 import { TurnosMascotasComponent } from './pages/turnos-mascotas/turnos-mascotas.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FechaPipe } from './pipes/fecha.pipe';
+import { CruzaPipe } from './pipes/cruza.pipe';
+import { CastradaPipe } from './pipes/castrada.pipe';
+import { CruzaModule } from '../cruza/cruza.module';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RegistroMascotaComponent,
     EditarMascotaComponent,
     TurnosMascotasComponent,
+    FechaPipe,
+    CruzaPipe,
+    CastradaPipe,
   ],
   imports: [
     CommonModule,
@@ -56,6 +64,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ScrollPanelModule,
     LibretaSanitariaModule,
     ProgressSpinnerModule,
+    CruzaModule,
+    MultiSelectModule,
+    FormsModule,
   ],
   exports: [
     PerfilMascotaComponent,

@@ -1,0 +1,18 @@
+
+:host ::ng-deep .p-breadcrumb {
+  background: #ffffff00 !important;
+  margin-top: 10vh;
+  margin-left: 10vw;
+  position: absolute;
+  border-width: 0cm;
+}
+:host ::ng-deep .p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
+  color: #fff !important;
+}
+:host ::ng-deep .p-breadcrumb ul li .p-breadcrumb-chevron {
+  color: #fff !important;
+}
+:host ::ng-deep .p-breadcrumb ul li:last-child .p-menuitem-text {
+  color: #fff !important;
+  font-weight: 600;
+}

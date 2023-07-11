@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="column-left">
+    <!-- Columna izquierda: Información de la mascota -->
+    <h3>Información de la publicacion</h3>
+    <p><strong>Nombre del perro:</strong> {{ donacion.nombre | motivoPipe | titlecase }}</p>
+    <p><strong>Descripcion: </strong> {{ donacion.descripcion  }}</p>
+    <p><strong>Monto alcanzado: </strong> $ {{ donacion.montoAlcanzado }}</p>
+    <p><strong>Monto objetivo: </strong> $ {{ donacion.objetivo }}</p>
+
+    <!-- Agrega más información de la mascota según tus necesidades -->
+  </div>
+  <div class="column-right">
+    <!-- Columna derecha: Formulario de interés para el contacto -->
+
+    <form [formGroup]="formulario" >
+      <small htmlFor="nombre">Nombre en la tarjeta</small>
+      <div class="p-inputgroup">
+      <input styleClass="w-full" pInputText formControlName="nombre"/>
+      </div>
+      <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+        {{ getFieldError('nombre') }}
+      </span>
+
+
+      <small htmlFor="numeroTarjeta">Numero de la tarjeta</small>
+      <div class="">
+        <p-inputMask styleClass="w-full"  mask="9999-9999-9999-9999" formControlName="numeroTarjeta" id="ssn_input"></p-inputMask>
+      </div>
+      <span *ngIf="isValidField('numeroTarjeta')" class="form-text text-danger">
+        {{ getFieldError('numeroTarjeta') }}
+      </span>
+
+       <small htmlFor="codSeguridad">Codigo de seguridad</small>
+      <div class="">
+        <p-inputMask styleClass="w-full "   mask="999" formControlName="codSeguridad" id="ssn_input"></p-inputMask>
+      </div>
+      <span *ngIf="isValidField('codSeguridad')" class="form-text text-danger">
+        {{ getFieldError('codSeguridad') }}
+      </span>
+
+      <small htmlFor="vencimientoTarjeta">Vencimiento</small>
+      <div class="">
+        <p-inputMask styleClass="w-full"  mask="99/99" slotChar="mm/yy" formControlName="vencimientoTarjeta" id="ssn_input"></p-inputMask>
+      </div>
+      <span *ngIf="isValidField('vencimientoTarjeta')" class="form-text text-danger">
+        {{ getFieldError('vencimientoTarjeta') }}
+      </span>
+
+      <small htmlFor="codSeguridad">Monto</small>
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">$</span>
+        <input formControlName="monto" type="number" pInputText />
+        <span class="p-inputgroup-addon"></span>
+      </div>
+      <span *ngIf="isValidField('monto')" class="form-text text-danger">
+        {{ getFieldError('monto') }}
+      </span>
+
+      <div class="p-inputgroup mt-4">
+
+    </div>
+      <span *ngIf="isValidField('monto')" class="form-text text-danger">
+        {{ getFieldError('monto') }}
+      </span>
+
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Pagar Donación" class="p-button-success p-button-text text-center"></button>
+      </div>
+
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
+
+
+    </form>
+  </div>
+</div>

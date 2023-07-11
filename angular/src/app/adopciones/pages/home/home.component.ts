@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { Adopcion } from '../../interfaces/interfaces';
 import { AdopcionService } from 'src/app/services/adopcion.service';
 import { User } from 'src/app/clientes/interfaces/interfaces';
@@ -50,6 +50,30 @@ export class HomeComponent {
     this.adopcionService.getAdopciones().subscribe((resp) => {
       this.adopciones = resp;
     });
+
+    this.authService.userSession
+      .pipe(
+        map((resp) => {
+          if (this.user$.value != null) {
+            this.rolSession = resp.role;
+            this.idUser = resp.id;
+          }
+        }),
+          switchMap(() => this.adopcionService.getAdopciones()),
+          map((resp) => {
+
+            if (this.rolSession != 'ADMIN')
+              return resp.filter((resp3) => {
+
+                return resp3.visible == true;
+              });
+            else return resp;
+          })
+      )
+      .subscribe((resp) => {
+
+        this.adopciones = resp;
+      });
   }
 
   redireccionar(id: String) {

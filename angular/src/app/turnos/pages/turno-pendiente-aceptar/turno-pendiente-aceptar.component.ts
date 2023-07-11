@@ -41,6 +41,7 @@ export class TurnoPendienteModalComponent implements OnInit {
     idSolicitud: 0,
     fecha: undefined,
     motivo: '',
+    observaciones: '',
   };
   validador: Boolean;
   formulario: FormGroup;
@@ -101,6 +102,7 @@ export class TurnoPendienteModalComponent implements OnInit {
     this.turno.idSolicitud = this.solicitud.id;
     this.turno.motivo = this.solicitud.motivo;
     this.turno.fecha = this.formulario.value['fecha'];
+    this.turno.observaciones = this.solicitud.observaciones;
     return this.turnoService
       .setTurno(this.turno)
       .pipe(

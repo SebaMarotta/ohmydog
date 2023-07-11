@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Controller
@@ -52,7 +50,7 @@ public class TurnoController {
        turno.setFecha(turno.getFecha().minusHours(3).withSecond(0).withNano(0));
         try {
             Turno aux = turnoService.crearTurno(turno);
-            SolicitudDeTurno solicitud = this.solicitudDeTurnoService.findById(turno.getIdSolicitud()).get();
+            SolicitudDeTurno solicitud = this.solicitudDeTurnoService.findById(turno.getIdSolicitud().get()).get();
             User user = solicitud.getUser();
             Mascota mascota = solicitud.getMascota();
             solicitud.setEstado(false);
@@ -69,6 +67,38 @@ public class TurnoController {
                     + "Gracias por elegir nuestra veterinaria y esperamos verlo pronto.\n\n"
                     + "Saludos cordiales,\n"
                     + "Veterinaria 'Oh My Dog!'";
+            emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
+
+
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(new Turno());
+        } catch (DataAccessException e) {
+            throw e;
+        }
+
+    }
+
+    @PostMapping("/crear-automatico")
+    public ResponseEntity<Turno> crearTurnoAutomatico(@RequestBody RegisterTurnoRequest turno) throws MiException {
+
+        turno.setFecha(turno.getFecha().minusHours(3).withSecond(0).withNano(0));
+        try {
+            Turno aux = turnoService.crearTurno(turno);
+            User user = aux.getCliente();
+            Mascota mascota = aux.getMascota();
+//
+            String titulo = "Turno automatico creado para " + mascota.getNombre();
+            String cuerpo =
+                    "Le informamos que se generó un turno para "+ mascota.getNombre() + " para una futura dosis\n\n"
+                            + "Detalles del turno:\n\n"
+                            + "Motivo: "+ aux.getMotivo() + "\n"
+                            + "Fecha: " + aux.getFecha().getDayOfMonth() + "/" + aux.getFecha().getMonthValue() + "/" + aux.getFecha().getYear() + "\n"
+                            + "Hora: " + aux.getFecha().toLocalTime() + "\n\n"
+
+                            + "Si necesita cancelar o reprogramar su turno, comuníquese con nosotros lo antes posible.\n\n"
+                            + "Gracias por elegir nuestra veterinaria y esperamos verlo pronto.\n\n"
+                            + "Saludos cordiales,\n"
+                            + "Veterinaria 'Oh My Dog!'";
             emailService.send(emailUsername,user.getEmail(),titulo,cuerpo);
 
 
@@ -133,14 +163,25 @@ public class TurnoController {
     }
     @GetMapping("/listarDia")
     public ResponseEntity<List<Turno>> listarTurnosDia() {
-        LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 0,0);
+        LocalDateTime fechaInicio = LocalDateTime.of(1, 1,1, 0,0);
         LocalDateTime fechaFin = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
 
-        System.out.println("fechaInicio = " + fechaInicio);
-        System.out.println("fechaFin = " + fechaFin);
 
         List<Turno> turnos = turnoService.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
-        System.out.println("turnos" + turnos);
+        if (turnos != null) {
+            return ResponseEntity.ok(turnos);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/listarFuturos")
+    public ResponseEntity<List<Turno>> listarTurnosFuturos() {
+        LocalDateTime fechaInicio = LocalDateTime.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(),LocalDate.now().getDayOfMonth(), 23,59);
+        LocalDateTime fechaFin = LocalDateTime.of(9999, 1,1, 23,59);
+
+
+        List<Turno> turnos = turnoService.findAllByFechaBetweenOrderByFecha(fechaInicio,fechaFin);
         if (turnos != null) {
             return ResponseEntity.ok(turnos);
         } else {

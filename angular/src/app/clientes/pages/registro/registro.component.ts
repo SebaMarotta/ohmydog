@@ -50,7 +50,7 @@ export class RegistroComponent {
       [Validators.required, Validators.pattern('[0-9]*'), Validators.maxLength],
     ],
     email: ['', [Validators.required, Validators.email]],
-    telefono: ['', Validators.required],
+    telefono: ['', [Validators.required, Validators.pattern('[^a-zA-Z]*')]],
   });
 
   isValidField(field: string) {
@@ -72,6 +72,8 @@ export class RegistroComponent {
         case 'email':
           return 'Formato de email inválido';
       }
+      if (field == "dni" && errors) return "Solo se permite numeros";
+      if (field == "telefono" && errors) return "No se permite letras";
     }
     return null;
   }

@@ -1,4 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
+import { User } from 'src/app/clientes/interfaces/interfaces';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-index',
@@ -6,7 +8,12 @@ import { Component, DoCheck, OnInit } from '@angular/core';
   styleUrls: ['./index.component.css'],
 })
 export class IndexComponent implements OnInit {
-  ngOnInit(): void {}
+  constructor(private authService: AuthService) {}
+
+  user: User;
+  ngOnInit(): void {
+    this.user = this.authService.userSession.value;
+  }
   public value: string;
   public activeIndex: number = JSON.parse(localStorage.getItem('index'));
 

@@ -28,7 +28,7 @@ export class TurnoAceptarComponent {
   validador: Boolean;
   formulario: FormGroup;
   planillaModal: Boolean = false;
-  @Output() turnoAceptadoModal: EventEmitter<null> = new EventEmitter();
+  @Output() turnoAceptadoModal: EventEmitter<boolean> = new EventEmitter();
   @Input() turnoAceptado: Turno;
 
   constructor(
@@ -70,6 +70,6 @@ export class TurnoAceptarComponent {
   }
 
   cerrar(): void {
-    this.turnoAceptadoModal.emit();
+    this.turnoAceptadoModal.emit(true);
   }
 }

@@ -1,0 +1,26 @@
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+      <div *ngIf="admin" class="text-center mb-2" >
+        <input #input type="file" multiple (change)="imageSelected($event)" style="display: none;" id="selectFile">
+      <label for="selectFile" class="custom-file-upload">
+        <span>+ Veterinarias de turno</span>
+      </label>
+
+      </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+      <div class="pContainer">
+        <p-panel *ngIf="pdf" header="Veterinarias de turno" [toggleable]="false">
+          <embed [src]="pdf" type="application/pdf" width="100%" height="600px" />
+        </p-panel>
+        <p-panel *ngIf="!pdf" header="Veterinarias de turno" [toggleable]="false">
+          No hay farmacias de turno cargadas
+        </p-panel>
+  </div>
+		</div>
+	</div>
+</div>

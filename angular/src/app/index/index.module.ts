@@ -11,9 +11,17 @@ import { SharedModule } from '../shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { AdopcionesModule } from '../adopciones/adopciones.module';
 import { ServiciosDeTercerosModule } from '../servicios-de-terceros/servicios-de-terceros.module';
+import { EditarPasswordComponent } from './pages/editar-password/editar-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InputTextModule } from 'primeng/inputtext';
+import { VeterinariasTurnoComponent } from './pages/veterinarias-turno/veterinarias-turno.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import {PanelModule} from 'primeng/panel';
+import { MascotasBusquedaModule } from '../mascotas-busqueda/mascotas-busqueda.module';
 
 @NgModule({
-  declarations: [HomeComponent, CarteleraComponent],
+  declarations: [HomeComponent, CarteleraComponent, EditarPasswordComponent, VeterinariasTurnoComponent],
   imports: [
     CommonModule,
     IndexRoutingModule,
@@ -25,6 +33,12 @@ import { ServiciosDeTercerosModule } from '../servicios-de-terceros/servicios-de
     DialogModule,
     AdopcionesModule,
     ServiciosDeTercerosModule,
+    ReactiveFormsModule,
+    ProgressSpinnerModule,
+    InputTextModule,
+    FileUploadModule,
+    PanelModule,
+    MascotasBusquedaModule,
   ],
 })
 export class IndexModule {}

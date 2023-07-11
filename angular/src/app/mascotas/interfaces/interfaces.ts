@@ -11,6 +11,8 @@ export interface Mascota {
   imagen: string;
   duenio: number;
   cruza: boolean;
+  castrada: boolean;
+  fechaCelo: string;
 }
 
 export interface RegisterMascotaRequest {
@@ -21,4 +23,11 @@ export interface RegisterMascotaRequest {
   sexo: string;
   fechaDeNacimiento: String;
   imagen: string;
+  cruza: boolean;
+  castrada: boolean;
+  fechaCelo: string;
+}
+
+export interface Razas {
+  raza: String;
 }

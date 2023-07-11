@@ -58,22 +58,19 @@ public class ServicioDeTercerosService {
                 cuidador_paseador.getEmail(), cuidador_paseador.getTipo(), cuidador_paseador.getRangoHorario(), cuidador_paseador.getDias());
 
 
-        var servicio = ServicioDeTerceros.builder()
-                .id(cuidador_paseador.getId())
-                .nombre(cuidador_paseador.getNombre())
-                .apellido(cuidador_paseador.getApellido())
-                .telefono(cuidador_paseador.getTelefono())
-                .email(cuidador_paseador.getEmail())
-                .tipo(cuidador_paseador.getTipo())
-                .rangoHorario(cuidador_paseador.getRangoHorario())
-                .dias(cuidador_paseador.getDias())
-                .zona(cuidador_paseador.getZona())
-                .disponible(cuidador_paseador.getDisponible())
-                .build();
-            
+        var servicio = this.servicioDeTercerosRepository.findById(cuidador_paseador.getId()).get();
+
+        servicio.setApellido(cuidador_paseador.getApellido());
+        servicio.setNombre(cuidador_paseador.getNombre());
+        servicio.setDias(cuidador_paseador.getDias());
+        servicio.setDisponible(cuidador_paseador.getDisponible());
+        servicio.setEmail(cuidador_paseador.getEmail());
+        servicio.setRangoHorario(cuidador_paseador.getRangoHorario());
+        servicio.setTelefono(cuidador_paseador.getTelefono());
+        servicio.setTipo(cuidador_paseador.getTipo());
+        servicio.setZona(cuidador_paseador.getZona());
+
             return servicioDeTercerosRepository.save(servicio);
-
-
 
     }
 

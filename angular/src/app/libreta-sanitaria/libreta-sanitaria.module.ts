@@ -17,9 +17,17 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
+import { InformacionPlanillaComponent } from './pages/informacion-planilla/informacion-planilla.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { InformacionPagoComponent } from './pages/informacion-pago/informacion-pago.component';
 
 @NgModule({
-  declarations: [PlanillaComponent, MotivosPipe],
+  declarations: [
+    PlanillaComponent,
+    MotivosPipe,
+    InformacionPlanillaComponent,
+    InformacionPagoComponent,
+  ],
   imports: [
     CommonModule,
     DividerModule,
@@ -37,7 +45,13 @@ import { MotivosPipe } from '../turnos/pipes/motivos.pipe';
     InputMaskModule,
     InputSwitchModule,
     ScrollPanelModule,
+    ProgressSpinnerModule,
   ],
-  exports: [PlanillaComponent, MotivosPipe],
+  exports: [
+    PlanillaComponent,
+    MotivosPipe,
+    InformacionPlanillaComponent,
+    InformacionPagoComponent,
+  ],
 })
 export class LibretaSanitariaModule {}

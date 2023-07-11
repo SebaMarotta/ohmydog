@@ -24,6 +24,11 @@ import com.leafcompany.ohmydog.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @RestController
@@ -31,6 +36,9 @@ import java.util.*;
 public class UserController {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private UserRepository userRepository;
 
   @Autowired
   private  EmailService emailService;
@@ -62,6 +70,8 @@ public class UserController {
         sb.append(chars.charAt(index));
       }
       request.setPassword(sb.toString());
+
+
       var aux = userService.register(request);
 
       String titulo = "Fuiste registrado en la veterinaria Oh My Dog!";
@@ -70,8 +80,7 @@ public class UserController {
               + "Hemos generado una contraseña aleatoria para su cuenta que le recomendamos cambiar después de iniciar sesión en nuestro sitio web\n\n"
               + "Contraseña: " + sb.toString() + "\n\n"
 
-              + "Para cambiarla deberá iniciar sesión en la esquina superior derecha de la pantalla al ingresar a nuestro sitio y deberá ir a \n"
-              + "'Mi Perfil', y luego a 'Editar contraseña' "
+              + "Al iniciar sesión por primera vez, se le pedirá que obligatoriamente cambie dicha contraseña por alguna de su elección\n"
               + "Gracias por elegir nuestra veterinaria y esperamos poder atender a sus mascotas en el futuro.\n\n"
               + "Saludos cordiales,\n"
               + "Veterinaria 'Oh my Dog!'";
@@ -81,7 +90,6 @@ public class UserController {
     } catch (DataAccessException e) {
       response.put("mensaje", "Error al crear el usuario");
       response.put("error", e.getMostSpecificCause().getMessage());
-      System.out.println(e.getMostSpecificCause().getMessage());
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
@@ -89,20 +97,47 @@ public class UserController {
   @PutMapping("/edit/{id}")
   public ResponseEntity<User> modificar(@RequestBody EditUserRequest user, @PathVariable Long id) {
     if (user.getId().equals(id)) {
+
+      Path directorioImagenes = Paths.get("src//main//resources//static/user_picture");
+      String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+
       return ResponseEntity.ok(userService.editUser(user));
     } else {
       return ResponseEntity.notFound().build();
     }
   }
 
+
   @PutMapping("/edit-password/{id}")
-  public ResponseEntity<Boolean> modificarPassword(@RequestBody String password, @PathVariable Long id) {
+  public ResponseEntity<?> modificarPassword(@RequestBody String password, @PathVariable Long id) {
     try{
     userService.editPassword(password, id);
-    return ResponseEntity.ok(true);
+    return ResponseEntity.ok(userService.editPassword(password, id));
   } catch (DataAccessException e){
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
     }
+  }
+
+  @PutMapping("/withdraw/{id}")
+  public ResponseEntity<?> retirarSaldo(@RequestBody BigDecimal saldo, @PathVariable Long id) {
+    Map<String,BigDecimal> response = new HashMap<>();
+    User user = this.userService.findById(id).get();
+    BigDecimal antes = user.getSaldo();
+    BigDecimal nuevoSaldo = user.getSaldo().subtract(saldo);
+
+    if ((nuevoSaldo.compareTo(BigDecimal.ZERO)) < 0){
+      user.setSaldo(BigDecimal.ZERO);
+    } else {
+      user.setSaldo(nuevoSaldo);
+    }
+    this.userRepository.save(user);
+    response.put("antes",antes);
+    response.put("practica",saldo);
+    response.put("final",nuevoSaldo);
+    response.put("actual",user.getSaldo());
+    return ResponseEntity.ok(response);
+
   }
 
 }

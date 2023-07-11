@@ -1,0 +1,136 @@
+
+<div>
+  <form [formGroup]="formulario" >
+
+    <p-dropdown [filter]="true" filterBy="" styleClass="w-full mt-4" formControlName="tipo" [options]="tipos" placeholder="{{placeholderTextTipo | motivoPipe | titlecase}}" [editable]="false" optionLabel="tipo">
+      <ng-template pTemplate="item" let-tipo>
+        {{ tipo.tipo | motivoPipe | titlecase }}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-tipo>
+        {{ tipo.tipo | motivoPipe | titlecase }}
+      </ng-template>
+    </p-dropdown>
+    <span *ngIf="isValidField('tipo')" class="form-text text-danger">
+      {{ getFieldError('tipo') }}
+    </span>
+
+    <span class="p-float-label" >
+      <input pInputText id="nombre" formControlName="nombre" />
+      <label htmlFor="nombre">Nombre (*)</label>
+    </span>
+    <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+      {{ getFieldError('nombre') }}
+    </span>
+
+    <p-dropdown [filter]="true" filterBy="" styleClass="w-full mt-4" formControlName="raza" [options]="razas" placeholder="{{placeholderTextRaza | motivoPipe | titlecase}}" [editable]="false" optionLabel="raza">
+      <ng-template pTemplate="item" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-raza>
+        {{ raza.raza | motivoPipe | titlecase }}
+      </ng-template>
+    </p-dropdown>
+    <span *ngIf="isValidField('raza')" class="form-text text-danger">
+      {{ getFieldError('raza') }}
+    </span>
+
+    <p-dropdown styleClass="w-full mt-4" formControlName="sexo" [options]="sexos" placeholder="{{placeholderTextSexo | motivoPipe | titlecase}}" [editable]="false" optionLabel="sexo"></p-dropdown>
+    <span *ngIf="isValidField('sexo')" class="form-text text-danger">
+      {{ getFieldError('sexo') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="color" formControlName="color" />
+      <label htmlFor="color">Color (*)</label>
+    </span>
+    <span *ngIf="isValidField('color')" class="form-text text-danger">
+      {{ getFieldError('color') }}
+    </span>
+
+
+    <p-dropdown styleClass="w-full mt-4" formControlName="zona" [options]="zonas" placeholder="{{placeholderTextZona | motivoPipe | titlecase}}" [editable]="false" optionLabel="zona">
+      <ng-template pTemplate="item" let-zona>
+        {{ zona.zona | motivoPipe | titlecase }}
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-zona>
+        {{ zona.zona | motivoPipe | titlecase }}
+      </ng-template>
+    </p-dropdown>
+    <span *ngIf="isValidField('zona')" class="form-text text-danger">
+      {{ getFieldError('zona') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="edad" formControlName="edad"/>
+      <label htmlFor="edad">Edad (*)</label>
+    </span>
+    <span *ngIf="isValidField('edad')" class="form-text text-danger">
+      {{ getFieldError('edad') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="telefono" formControlName="telefono" type="number"/>
+      <label htmlFor="telefono">Telefono (*)</label>
+    </span>
+    <span *ngIf="isValidField('telefono')" class="form-text text-danger">
+      {{ getFieldError('telefono') }}
+    </span>
+
+    <span class="p-float-label">
+      <input pInputText id="email" formControlName="email" type="email"/>
+      <label htmlFor="email">Email (*)</label>
+    </span>
+    <span *ngIf="isValidField('email')" class="form-text text-danger">
+      {{ getFieldError('email') }}
+    </span>
+
+    <span class="p-float-label">
+      <p-inputMask styleClass="w-full"  mask="99/99/9999" slotChar="dd/mm/yyyy" formControlName="fecha" id="ssn_input"></p-inputMask>
+      <label htmlFor="ssn_input">Fecha perdida/encuentro (*)</label>
+   </span>
+    <span *ngIf="isValidField('fecha')" class="form-text text-danger">
+      {{ getFieldError('fecha') }}
+    </span>
+
+  <span class=" w-full">
+      <input class="text-center mb-2 mt-4" type="file" multiple (change)="imageSelected($event)" style="display: none;" id="selectFile">
+    <label for="selectFile" class="custom-file-upload mt-4 w-full text-center">
+      <span>Foto +</span>
+    </label>
+  </span>
+  <span *ngIf="formulario.value['imagen']" class="form-text">
+    {{ formulario.value['imagen'].name }}
+  </span>
+
+    <span class="p-float-label">
+      <small htmlFor="observaciones">Observaciones</small>
+      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="observaciones" ></textarea>
+    </span>
+    <span *ngIf="isValidField('observaciones')" class="form-text text-danger">
+      {{ getFieldError('observaciones') }}
+    </span>
+
+    <span class="p-float-label">
+      <small htmlFor="estado">Estado</small>
+      <textarea styleClass="w-full" rows="5" cols="35" pInputTextarea formControlName="estado"></textarea>
+
+    </span>
+    <span *ngIf="isValidField('estado')" class="form-text text-danger">
+      {{ getFieldError('estado') }}
+    </span>
+
+
+    <div class="flex-container">
+      <div class="flex-items"><label style="margin-right: 5rem;" htmlFor="activo">Publicacion</label></div>
+      <div class="flex-items"><p-inputSwitch formControlName="activo"></p-inputSwitch></div>
+    </div>
+
+      <div class="d-flex justify-content-center align-items-center" style="padding-top: 1cm;">
+        <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Editar mascota" class="p-button-success p-button-text text-center"></button>
+      </div>
+
+      <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+      </div>
+  </form>
+  </div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
+  Planilla,
   RegisterPlanillaRequest,
   SolicitudTurno,
   SolicitudTurnoRechazado,
@@ -44,9 +45,14 @@ export class TurnoService {
     return this.http.post<any>(url, planilla);
   }
 
-  getPlanilla(idMascota: number): Observable<any> {
+  getPlanillaByMascota(idMascota: number): Observable<Planilla[]> {
     const url = `${this.baseUrl}/practica/buscar-mascota/${idMascota}`;
-    return this.http.get<any>(url);
+    return this.http.get<Planilla[]>(url);
+  }
+
+  getPlanillaById(id: number): Observable<Planilla> {
+    const url = `${this.baseUrl}/practica/buscar-planilla/${id}`;
+    return this.http.get<Planilla>(url);
   }
   setSolicitudTurno(solicitud: SolicitudTurno): Observable<Boolean> {
     const url = `${this.baseUrl}/solicitud-turno/crear`;
@@ -85,6 +91,11 @@ export class TurnoService {
     return this.http.post<any>(url, solicitud);
   }
 
+  setTurnoAutomatico(solicitud: SolicitudAceptada): Observable<Boolean> {
+    const url = `${this.baseUrl}/turno/crear-automatico`;
+    return this.http.post<any>(url, solicitud);
+  }
+
   getTurnos(): Observable<Turno[]> {
     const url = `${this.baseUrl}/turno/listar`;
     return this.http.get<Turno[]>(url);
@@ -92,6 +103,11 @@ export class TurnoService {
 
   getTurnosDelDia(): Observable<Turno[]> {
     const url = `${this.baseUrl}/turno/listarDia`;
+    return this.http.get<Turno[]>(url);
+  }
+
+  getTurnosFuturos(): Observable<Turno[]> {
+    const url = `${this.baseUrl}/turno/listarFuturos`;
     return this.http.get<Turno[]>(url);
   }
 }

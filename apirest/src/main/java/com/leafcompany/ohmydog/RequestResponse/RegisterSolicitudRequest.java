@@ -17,5 +17,6 @@ public class RegisterSolicitudRequest {
     private Long user;
     private String motivo;
     private String horario;
+    private String observaciones;
 
 }

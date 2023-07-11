@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BackgroundComponent } from '../shared/background/background.component';
 import { HomeComponent } from './pages/home/home.component';
+import { HomeComponent as HomeCruzaComponent } from '../cruza/pages/home/home.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { PerfilMascotaComponent } from '../mascotas/pages/perfil-mascota/perfil-mascota.component';
 import { isAdminGuard } from '../auth/guards/is-admin.guard';
@@ -25,6 +26,12 @@ const routes: Routes = [
     path: 'clientes/:id/:idMascota',
     component: BackgroundComponent,
     children: [{ path: '', component: PerfilMascotaComponent }],
+    canActivate: [isMascotaDelClienteGuard],
+  },
+  {
+    path: 'clientes/:id/:idMascota/cruza',
+    component: BackgroundComponent,
+    children: [{ path: '', component: HomeCruzaComponent }],
     canActivate: [isMascotaDelClienteGuard],
   },
 ];

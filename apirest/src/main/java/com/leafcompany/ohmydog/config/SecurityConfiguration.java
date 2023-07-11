@@ -31,8 +31,14 @@ public class SecurityConfiguration {
                         "/noauth/**",
                         "/adopciones/listar",
                         "/adopciones/solicitud",
+                        "/mascota/listar-razas",
                         "/servicioDeTerceros/listar/**",
-                        "/servicioDeTerceros/solicitud"
+                        "/servicioDeTerceros/solicitud",
+                        "/imagenes/pdf",
+                        "/imagenes/**",
+                        "/busquedas/**",
+                        "/imagenes/busquedas/**",
+                        "/campanas/**"
                 )
                 .permitAll()
                 .anyRequest()

@@ -15,6 +15,7 @@ import {
   of,
   BehaviorSubject,
   Subject,
+  take,
 } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 import { JsonPipe } from '@angular/common';
@@ -29,6 +30,8 @@ export class AuthService {
   private baseUrl: string = environment.baseUrl;
   private _ok: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(null);
   private _user$: BehaviorSubject<User> = new BehaviorSubject<User>({});
+  private _validPassword$: BehaviorSubject<Boolean> =
+    new BehaviorSubject<Boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -61,8 +64,16 @@ export class AuthService {
     return this._user$.value != null;
   }
 
+  get isPasswordValid(): Boolean {
+    return this._validPassword$.value;
+  }
+
   get isAdmin(): Boolean {
     return this._user$.value.role == 'ADMIN';
+  }
+
+  get cambioPassword(): Boolean {
+    return this._user$.value.cambioContraseña;
   }
 
   login(username: String, password: String): Observable<AuthResponse> {
@@ -95,8 +106,18 @@ export class AuthService {
     return this.http.post<boolean>(url, params);
   }
 
+  passwordIsValid(password: string, idUser: number): Observable<boolean> {
+    const url = `${this.baseUrl}/auth/is-password-valid`;
+
+    const body = {
+      password: password,
+      idUser: idUser,
+    };
+    return this.http.post<boolean>(url, body);
+  }
+
   private getUserSession(username: String): Observable<User> {
-    return this.userService.getUserSession(username);
+    return this.userService.getUserSession(username).pipe(take(1));
   }
 
   logout() {

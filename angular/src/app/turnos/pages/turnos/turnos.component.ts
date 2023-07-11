@@ -11,7 +11,9 @@ import {
 import { Router } from '@angular/router';
 import { Turno } from 'src/app/turnos/interfaces/interfaces';
 import { TurnoService } from 'src/app/services/turno.service';
-import { map } from 'rxjs';
+import { map, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/clientes/interfaces/interfaces';
 
 @Component({
   selector: 'app-turnos',
@@ -22,6 +24,7 @@ export class TurnosComponent {
   protected turnos: Turno[] = [];
   protected turnoAceptadoModal: Boolean = false;
   protected turnoRechazadoModal: Boolean = false;
+  protected balanceModal: Boolean = false;
   protected turnoIndividual: Turno = {
     id: 0,
     cliente: undefined,
@@ -29,14 +32,36 @@ export class TurnosComponent {
     motivo: '',
     activo: false,
     fecha: undefined,
+    observaciones: '',
   };
 
-  constructor(private turnoService: TurnoService, private router: Router) {}
+  constructor(
+    private turnoService: TurnoService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+  user: User;
 
   ngOnInit() {
-    this.turnoService
-      .getTurnos()
-      .pipe(map((resp) => resp.filter((resp2) => resp2.activo == true)))
+    this.authService.userSession
+      .pipe(
+        map((user) => {
+          this.user = user;
+          return user;
+        }),
+        switchMap(() => this.turnoService.getTurnosFuturos()),
+        map((resp) => resp.filter((resp2) => resp2.activo == true)),
+        map((resp) => {
+          if (this.user.role == 'USER') {
+            return resp.filter((resp3) => {
+              return resp3.cliente.id == this.user.id;
+
+            });
+          } else {
+            return resp;
+          }
+        })
+      )
       .subscribe((resp) => {
         this.turnos = resp;
       });
@@ -51,4 +76,10 @@ export class TurnosComponent {
     if (!this.turnoRechazadoModal) this.turnoIndividual = solicitud;
     this.turnoRechazadoModal = !this.turnoRechazadoModal;
   }
+
+  toggleBalanceModal(solicitud) {
+    if (!this.balanceModal) this.turnoIndividual = solicitud;
+    this.balanceModal = !this.balanceModal;
+  }
+
 }

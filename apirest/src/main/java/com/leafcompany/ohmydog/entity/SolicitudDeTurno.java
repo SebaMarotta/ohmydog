@@ -21,6 +21,7 @@ public class SolicitudDeTurno {
     private Mascota mascota;
     @ManyToOne
     private User user;
+    private String observaciones;
 
     @Enumerated(EnumType.STRING)
     private HorariosTurnos horario;

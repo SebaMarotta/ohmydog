@@ -1,5 +1,9 @@
 package com.leafcompany.ohmydog.controller;
 
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +13,18 @@ import java.util.Optional;
 import com.leafcompany.ohmydog.RequestResponse.EditMascotaRequest;
 import com.leafcompany.ohmydog.RequestResponse.RegisterMascotaRequest;
 import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.service.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +35,7 @@ import com.leafcompany.ohmydog.service.MascotaService;
 
 import io.jsonwebtoken.io.IOException;
 
-@Controller
+@RestController
 @RequestMapping("/mascota")
 public class MascotaController {
 
@@ -35,33 +45,31 @@ public class MascotaController {
     @Autowired
     UserService userService;
 
-    // @GetMapping("/registrar") // localhost4200:/mascota/registrar ---> a
-    // confirmar como se va a interactuar con el frontend
-    // public String registrarMascota(ModelMap modelo){
-    // List<String> sexos = new ArrayList<String>();
-    // sexos.add(Sexo.MACHO.toString());
-    // sexos.add(Sexo.HEMBRA.toString());
 
-    // modelo.addAttribute("sexos", sexos);
-    // return "mascota_form";
-    // }
 
-    @PostMapping("/registro/{idDuenio}") // recibe del formulario que tiene este action . Usar el required=false es
-                              // porque si ingresa un valor
-                              // nulo al controlador, ni se ejecuta, entonces de esta manera hacemos que si
-                              // hay un nulo
-                              // o vacio , entre igual y manejemos el error desde la excepcion creada en el
-                              // servicio
-    public ResponseEntity<?> crearPerro(@RequestBody RegisterMascotaRequest mascota, @PathVariable Long idDuenio)
+    @PostMapping("/registro/{idDuenio}")
+    public ResponseEntity<?> crearPerro(@ModelAttribute RegisterMascotaRequest mascota, BindingResult result, @PathVariable Long idDuenio)
             throws MiException, IOException, java.io.IOException {
         Map<String,Object> errores = new HashMap<String,Object>();
-
         try {
+            if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
+
+
+                Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
+                Files.createDirectories(directorioImagenes);
+                String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+
+
+                try {
+                    byte[] bytesImg = mascota.getImagen().getBytes();
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + mascota.getImagen().getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImg);
+
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            }
             Mascota aux = mascotaService.crearMascota(mascota, idDuenio);
-            // apartado para simular que devuelvo el perro que acabo de crear//
-            // Mascota perro = mascotaService.findByName(nombre);
-            // Crear un objeto ResponseEntity con el objeto Perro creado y el código de
-            // estado HTTP 201 (creado)
             return ResponseEntity.status(HttpStatus.CREATED).body(aux);
         } catch (MiException ex) {
             errores.put("mensaje", ex.getLocalizedMessage());
@@ -71,10 +79,22 @@ public class MascotaController {
     }
 
     @PutMapping("/modificacion/{id}")
-    public ResponseEntity<?> modificarPerro(@RequestBody EditMascotaRequest mascota, @PathVariable Long id) {
+    public ResponseEntity<?> modificarPerro(@ModelAttribute EditMascotaRequest mascota, BindingResult result, @PathVariable Long id) {
         Map<String,Object> errores = new HashMap<String,Object>();
         try{
+            System.out.println(mascota);
             if (mascota.getDuenio().equals(id)) {
+                if(mascota.getImagen() != null && !mascota.getImagen().isEmpty()) {
+                    Path directorioImagenes = Paths.get("src//main//resources//static/dog_picture");
+                    String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+                    try {
+                        byte[] bytesImg = mascota.getImagen().getBytes();
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + mascota.getImagen().getOriginalFilename());
+                        Files.write(rutaCompleta, bytesImg);
+                    } catch (java.io.IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return ResponseEntity.ok(mascotaService.modificarMascota(mascota));
             } else {
                 return ResponseEntity.notFound().build();
@@ -123,6 +143,23 @@ public class MascotaController {
         }
     }
 
+    @GetMapping("/editar-cruza/{idMascota}-{cruza}")
+    public ResponseEntity<Mascota> listarPerrosDeCliente(@PathVariable Long idMascota,@PathVariable Boolean cruza) throws MiException {
+        Mascota perro = mascotaService.findById(idMascota).get();
+        if (perro != null) {
+            return ResponseEntity.ok(mascotaService.modificarCruza(perro,cruza));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+    @GetMapping("/listar-razas")
+    public ResponseEntity<Razas[]> listarRazas() {
+            return ResponseEntity.ok(mascotaService.listarRazas());
+    }
+
 //    @GetMapping("/listar/{nombre}")
 //    public ResponseEntity<List<Mascota>> listarPerrosPorNombre(@PathVariable String nombre) {
 //        List<Mascota> perros = mascotaService.findByName(nombre);
@@ -133,15 +170,16 @@ public class MascotaController {
 //        }
 //    }
 //
-//    @GetMapping("/listar/{raza}")
-//    public ResponseEntity<List<Mascota>> listarPerrosPorRaza(@PathVariable String raza) {
-//        List<Mascota> perros = mascotaService.findByType(raza);
-//        if (perros != null) {
-//            return ResponseEntity.ok(perros);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @GetMapping("/listar-sexoOpuesto-activo/{idMascota}")
+    public ResponseEntity<List<Mascota>> listarPerrosPorRazaySexoOpuesto(@PathVariable Long idMascota) {
+        Mascota perro = mascotaService.findById(idMascota).get();
+        List<Mascota> perros = mascotaService.findByCruza().stream().filter(mascota -> mascota.getSexo() != perro.getSexo()).toList();
+        if (perros != null) {
+            return ResponseEntity.ok(perros);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 //
 //    @GetMapping("/listar/{sexo}")
 //    public ResponseEntity<List<Mascota>> listarPerrosPorSexo(@PathVariable Sexo sexo) {

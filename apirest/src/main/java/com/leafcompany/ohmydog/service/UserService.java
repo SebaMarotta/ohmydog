@@ -5,10 +5,12 @@ import com.leafcompany.ohmydog.RequestResponse.RegisterUserRequest;
 import com.leafcompany.ohmydog.enumerations.Role;
 import com.leafcompany.ohmydog.entity.User;
 import com.leafcompany.ohmydog.repository.UserRepository;
+import org.apache.tomcat.util.net.TLSClientHelloExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,15 +21,19 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     public User register(RegisterUserRequest request){
-        var user = User.builder()
-                .nombre(request.getNombre())
-                .apellido(request.getApellido())
-                .dni(request.getDni())
-                .email(request.getEmail())
-                .telefono(request.getTelefono())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
-                .build();
+        User user;
+        user = User.builder()
+                    .nombre(request.getNombre())
+                    .apellido(request.getApellido())
+                    .dni(request.getDni())
+                    .email(request.getEmail())
+                    .telefono(request.getTelefono())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.USER)
+                    .cambioContraseña(false)
+                    .saldo(BigDecimal.ZERO)
+                    .build();
+
         return userRepository.save(user);
     }
 
@@ -50,6 +56,16 @@ public class UserService {
     public User editPassword(String password, Long id) {
         User aux = userRepository.findById(id).get();
         aux.setPassword(passwordEncoder.encode(password));
+        aux.setCambioContraseña(true);
         return userRepository.save(aux);
     }
+
+    public void registrarSaldoAFavorDonacion(Long idCliente, Double saldo){
+        Optional<User> respuestaCliente = userRepository.findById(idCliente);
+        if (respuestaCliente.isPresent()){
+            User cliente = respuestaCliente.get();
+            cliente.setSaldo(cliente.getSaldo().add(BigDecimal.valueOf(saldo)));
+        }
+    }
+
 }

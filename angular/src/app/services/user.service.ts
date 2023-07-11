@@ -31,6 +31,7 @@ export class UserService implements OnInit {
 
   private baseUrl: string = environment.baseUrl;
   private _user: Observable<User>;
+  private _userById: Observable<User>;
 
   private getSession(username: String) {
     const url = `${this.baseUrl}/user/${username}`;
@@ -47,6 +48,10 @@ export class UserService implements OnInit {
 
   get user(): Observable<User> {
     return this._user;
+  }
+
+  get userById(): Observable<User> {
+    return this._userById;
   }
 
   login(username: String, password: String): Observable<AuthResponse> {
@@ -71,7 +76,9 @@ export class UserService implements OnInit {
 
   findById(id: Number): Observable<User> {
     const url = `${this.baseUrl}/user/${id}`;
-    return this.http.get<User>(url);
+    const aux = this.http.get<User>(url);
+    this._userById = aux;
+    return aux;
   }
 
   getUserSession(username: String): Observable<User> {
@@ -95,8 +102,16 @@ export class UserService implements OnInit {
     return this.http.put<User>(url, user);
   }
 
-  editPassword(password: string, id: Number): Observable<Boolean> {
+  editPassword(password: string, id: Number): Observable<any> {
     const url = `${this.baseUrl}/user/edit-password/${id}`;
-    return this.http.put<Boolean>(url, password);
+    return this.http.put<any>(url, password).pipe();
+  }
+
+  withdrawBalance(
+    withdraw: number,
+    idUser: Number
+  ): Observable<Map<String, Number>> {
+    const url = `${this.baseUrl}/user/withdraw/${idUser}`;
+    return this.http.put<Map<String, Number>>(url, withdraw).pipe();
   }
 }

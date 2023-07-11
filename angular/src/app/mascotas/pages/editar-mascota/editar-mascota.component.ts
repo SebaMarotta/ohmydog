@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import {
   Mascota,
+  Razas,
   RegisterMascotaRequest,
 } from 'src/app/mascotas/interfaces/interfaces';
 import { catchError, map, tap, throwError } from 'rxjs';
@@ -42,17 +43,22 @@ export class EditarMascotaComponent implements OnInit {
     imagen: '',
     duenio: 0,
     cruza: false,
+    castrada: false,
+    fechaCelo: ''
   };
   mascotaEditada: Mascota;
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  razas: Razas[] = [];
   isButtonDisabled: Boolean = false;
   @Output() editarModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idMascota: number;
+  inputHidden: boolean = false;
 
   sexo: any; //Sirve para la validacion
+  raza: any; //Tambien
 
   constructor(
     private fb: FormBuilder,
@@ -60,6 +66,11 @@ export class EditarMascotaComponent implements OnInit {
     private mascotaService: MascotaService,
     private router: Router
   ) {
+    this.mascotaService.getRazas().subscribe((resp) => {
+      resp.forEach((resp) => {
+        this.razas.push({ raza: resp });
+      });
+    });
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       raza: ['', Validators.required],
@@ -67,10 +78,14 @@ export class EditarMascotaComponent implements OnInit {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      // imagen: [],
+      imagen: [''],
       cruza: [''],
+      castrada: [''],
+      fechaCelo: [''],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+
+
   }
   ngOnInit(): void {
     this.mascotaService.findById(this.idMascota).subscribe((resp) => {
@@ -80,14 +95,25 @@ export class EditarMascotaComponent implements OnInit {
       const fechaFormateada = `${day}/${month}/${year}`;
       this.formulario.patchValue({
         nombre: this.mascotaActual.nombre,
-        raza: this.mascotaActual.raza,
+        raza: { raza: this.mascotaActual.raza },
         color: this.mascotaActual.color,
         sexo: { sexo: this.mascotaActual.sexo },
         fechaDeNacimiento: fechaFormateada,
         observaciones: this.mascotaActual.observaciones,
         imagen: this.mascotaActual.imagen,
         cruza: this.mascotaActual.cruza,
+        castrada: this.mascotaActual.castrada,
+        fechaCelo: this.mascotaActual.fechaCelo,
       });
+    });
+    this.formulario.get('sexo').valueChanges.subscribe((value) => {
+      if (value['sexo'] == 'HEMBRA') {
+        this.inputHidden = false;
+        this.formulario.get('fechaCelo').enable();
+      } else {
+        this.inputHidden = true;
+        this.formulario.get('fechaCelo').disable();
+      }
     });
   }
 
@@ -110,10 +136,26 @@ export class EditarMascotaComponent implements OnInit {
         case 'email':
           return 'Formato de email inválido';
         case 'customDate':
-          return 'No se permite una fecha con estos valores';
+          return errors['customDate'].message;
       }
     }
     return null;
+  }
+
+  get placeholderText(): string {
+    if (this.formulario.value['raza'] == '') return 'Raza (*)';
+
+    return this.formulario.value['raza'];
+  }
+
+  imageSelected(event) {
+    this.formulario.value['imagen'] = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.formulario.get('imagen').setValue(event.target.files[0]);
+    };
+    reader.readAsDataURL(event.target.files[0]);
   }
 
   guardar() {
@@ -130,17 +172,37 @@ export class EditarMascotaComponent implements OnInit {
       return null;
     }
 
+    if (
+      this.formulario.value.cruza == true &&
+      this.formulario.value.castrada == true
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: `Error`,
+        detail: `La mascota no puede estar castrada y acceder al servicio de cruza`,
+        closable: false,
+      });
+      this.isButtonDisabled = false;
+      return null;
+    }
+
     this.mascotaEditada = this.mascotaActual;
     this.mascotaEditada.nombre = this.formulario.value.nombre;
-    this.mascotaEditada.raza = this.formulario.value.raza;
+    this.mascotaEditada.raza = this.formulario.value.raza['raza'];
     this.mascotaEditada.sexo = this.sexo;
     this.mascotaEditada.color = this.formulario.value.color;
     this.mascotaEditada.observaciones = this.formulario.value.observaciones;
     this.mascotaEditada.imagen = this.formulario.value.imagen;
     this.mascotaEditada.cruza = this.formulario.value.cruza;
+    this.mascotaEditada.castrada = this.formulario.value.castrada;
     this.mascotaEditada.duenio = this.mascotaEditada.duenio['id'];
-    this.mascotaEditada.fechaDeNacimiento =
-      this.formulario.value.fechaDeNacimiento;
+    this.mascotaEditada.fechaDeNacimiento = this.formulario.value.fechaDeNacimiento;
+
+    if (this.formulario.value.fechaCelo == '' || this.formulario.value.fechaCelo == null)
+      this.mascotaEditada.fechaCelo = "No especificado";
+    else
+      this.mascotaEditada.fechaCelo = this.formulario.value.fechaCelo;
+
 
     return this.mascotaService
       .editar(this.mascotaEditada)

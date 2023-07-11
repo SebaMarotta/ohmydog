@@ -29,13 +29,13 @@
                     {{ turno.mascota.nombre }}
                   </td>
                   <td>
-                      {{ turno.motivo }}
+                      {{ turno.motivo | motivoPipe | titlecase }}
                   </td>
                   <td>
-                    {{ turno.fecha | date:'d MMM, HH:mm '}}
+                    {{ turno.fecha | date:'d MMM yyyy - HH:mm '}}
                 </td>
                   <td>
-                    <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-check" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+                    <p-button (click)="toggleTurnoAceptado(turno)" icon="pi pi-eye" title="Aceptar" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
                     <p-button (click)="toggleTurnoRechazado(turno)" icon="pi pi-times"  title="Rechazar" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
                   </td>
 

@@ -1,6 +1,7 @@
 package com.leafcompany.ohmydog.RequestResponse;
 
 import com.leafcompany.ohmydog.entity.User;
+import com.leafcompany.ohmydog.enumerations.Razas;
 import com.leafcompany.ohmydog.enumerations.Sexo;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,8 +12,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -23,15 +26,13 @@ public class RegisterMascotaRequest {
     private String raza;
     private String color;
     private String observaciones;
+    private String fechaCelo;
     private User duenio;
-
     private Sexo sexo;
-
     private String fechaDeNacimiento;
-
-    private byte[] imagen;
-
+    private MultipartFile imagen;
     private boolean cruza;
+    private boolean castrada;
 
 }
 

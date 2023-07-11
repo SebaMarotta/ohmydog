@@ -1,0 +1,93 @@
+
+body{
+  width: 70vw;
+}
+p-table th:first-child{
+  border-radius:0px 0 0 0px;
+}
+
+p-table th:last-child{
+  border-radius:0px 0px 0px 0;
+}
+
+.buttonAcciones {
+  border-color: var(--blue-veterinaria);
+  background-color: var(--orange-veterinaria);
+  border-radius: 20px;
+
+}
+
+.iconosAcciones {
+  font-size: 1.5rem;
+}
+
+.p-button-veterinariaOrange {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 100%;
+  background: transparent
+  ;
+}
+
+
+.container {
+  background: transparent;
+  padding: 0cm;
+  border-width: 1cm;
+  border-radius: 20px;
+  margin-top: 1rem;
+  width: 70vw;
+  box-shadow: 5px 5px 10px 10px rgb(0, 0, 0, 0.5);
+}
+
+.p-float-label {
+  margin-top: 0.6cm;
+}
+.p-button-veterinariaOrange {
+  margin-top: 0.6cm;
+}
+
+input {
+  width: 100%;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  width: 20rem;
+}
+textarea{
+  white-space:pre;
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #F1965B;
+  color: white;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+  background-color: #62ADC1;
+}
+
+::ng-deep .p-datepicker table td {
+  padding: 0.05rem;
+  position: relative;
+}
+
+::ng-deep .p-calendar {
+  width: 45rem;
+}

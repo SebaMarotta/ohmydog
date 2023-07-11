@@ -29,6 +29,7 @@ export class TurnosDiaComponent {
     motivo: '',
     activo: false,
     fecha: undefined,
+    observaciones: '',
   };
 
   constructor(private turnoService: TurnoService, private router: Router) {}

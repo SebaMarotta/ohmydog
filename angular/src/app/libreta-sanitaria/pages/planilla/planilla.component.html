@@ -1,17 +1,9 @@
 
   <form [formGroup]="formulario" >
-
-    <p-dropdown styleClass="w-full mt-4" formControlName="motivo" [options]="motivos" placeholder="Practica" [editable]="false" optionLabel="motivo">
-        <ng-template pTemplate="item" let-motivo>
-          {{ motivo.motivo | motivoPipe | titlecase }}
-        </ng-template>
-        <ng-template pTemplate="selectedItem" let-motivo>
-          {{ motivo.motivo | motivoPipe | titlecase }}
-        </ng-template>
-      <span *ngIf="isValidField('motivo')" class="form-text text-danger">
-        {{ getFieldError('motivo') }}
-      </span>
-    </p-dropdown>
+    <small htmlFor="motivo">Motivo</small>
+    <div class="p-inputgroup">
+    <input styleClass="w-full" pInputText formControlName="motivo" readonly/>
+    </div>
     <span *ngIf="isValidField('motivo')" class="form-text text-danger">
       {{ getFieldError('motivo') }}
     </span>
@@ -50,11 +42,26 @@
       {{ getFieldError('monto') }}
     </span>
 
-    <p-button (click)="guardar()" icon="pi pi-check" label="Registrar planilla" styleClass="p-button-success p-button-text"></p-button>
+    <div class="d-flex justify-content-center align-items-center">
+      <button pButton style="margin: 0 auto;" (click)="guardar()" [disabled]="isButtonDisabled" icon="pi pi-check" iconPos="right" label="Guardar" class="p-button-success p-button-text text-center"></button>
+    </div>
+
+    <div *ngIf="isButtonDisabled" class="d-flex justify-content-center align-items-center">
+      <p-progressSpinner styleClass="w-2rem h-3rem" strokeWidth="2" fill="var(--surface-ground)" animationDuration="1s"></p-progressSpinner>
+    </div>
 
   </form>
 
-
+  <div *ngIf="balanceModal">
+    <p-dialog header="Header" [(visible)]="balanceModal" [style]="{ width: '22vw' }">
+      <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Cobro de la practica</span>
+      </ng-template>
+      <div class="w-full mx-auto">
+      <app-informacion-pago (balance)="toggleBalanceModal( $event )" [balance]="balance"></app-informacion-pago>
+    </div>
+    </p-dialog>
+    </div>
 
 
 

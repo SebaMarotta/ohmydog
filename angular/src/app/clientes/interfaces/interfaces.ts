@@ -9,8 +9,10 @@ export interface User {
   telefono?: string;
   password?: string;
   role?: string;
+  saldo?: Number;
   enabled?: boolean;
   username?: string;
+  cambioContraseña?: boolean;
   authorities?: Authority[];
   accountNonExpired?: boolean;
   accountNonLocked?: boolean;

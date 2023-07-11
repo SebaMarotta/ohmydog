@@ -17,6 +17,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 import {
   Mascota,
+  Razas,
   RegisterMascotaRequest,
 } from 'src/app/mascotas/interfaces/interfaces';
 import { catchError, map, tap, throwError } from 'rxjs';
@@ -34,18 +35,28 @@ export class RegistroMascotaComponent {
   validador: Boolean;
   formulario: FormGroup;
   sexos: any;
+  razas: any = [];
   isButtonDisabled: Boolean = false;
   @Output() registroModal: EventEmitter<Boolean> = new EventEmitter();
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
   @Input() idDuenio: number;
+  inputHidden: boolean = true;
 
   sexo: any; //Sirve para la validacion
+
+  imagenSeleccionada: File = null;
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
     private mascotaService: MascotaService,
     private router: Router
   ) {
+    mascotaService.getRazas().subscribe((resp) => {
+      resp.forEach((resp) => {
+        this.razas.push({ raza: resp.toString() });
+      });
+    });
+
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       raza: ['', Validators.required],
@@ -53,13 +64,25 @@ export class RegistroMascotaComponent {
       sexo: ['', Validators.required],
       fechaDeNacimiento: ['', [Validators.required, fechaValidator]],
       observaciones: [''],
-      // imagen: [
-      //   { value: '', disabled: true },
-      //   [Validators.required, Validators.min(0)],
-      // ],
+      imagen: [''],
       cruza: [false],
+      castrada: [false],
+      fechaCelo: [
+        { value: '', disabled: true }
+      ],
     });
     this.sexos = [{ sexo: 'MACHO' }, { sexo: 'HEMBRA' }];
+
+    this.formulario.get('sexo').valueChanges.subscribe((value) => {
+      if (value['sexo'] == 'HEMBRA') {
+        this.inputHidden = false;
+        this.formulario.get('fechaCelo').enable();
+      } else {
+        this.inputHidden = true;
+        this.formulario.get('fechaCelo').disable();
+      }
+    });
+
   }
 
   isValidField(field: string) {
@@ -81,10 +104,21 @@ export class RegistroMascotaComponent {
         case 'email':
           return 'Formato de email inválido';
         case 'customDate':
-          return 'No se permite la fecha con estos valores';
+          return errors['customDate'].message;
       }
     }
     return null;
+  }
+
+  get placeholderText(): string {
+    if (this.formulario.value['raza'] == '') return 'Raza (*)';
+
+    return this.formulario.value['raza'];
+  }
+
+  imageSelected(event) {
+    this.imagenSeleccionada = event.target.files[0];
+    this.formulario.value['imagen'] = this.imagenSeleccionada;
   }
 
   guardar() {
@@ -101,8 +135,32 @@ export class RegistroMascotaComponent {
       return null;
     }
 
+    if (
+      this.formulario.value.cruza == true &&
+      this.formulario.value.castrada == true
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: `Error`,
+        detail: `La mascota no puede estar castrada y acceder al servicio de cruza`,
+        closable: false,
+      });
+      this.isButtonDisabled = false;
+      return null;
+    }
+    if (this.imagenSeleccionada != null)
+    this.formulario.value['imagen'] = this.imagenSeleccionada;
+
     this.mascota = this.formulario.value;
     this.mascota.sexo = this.sexo;
+    this.mascota.raza = this.formulario.value.raza['raza'];
+    if (this.formulario.value.fechaCelo == '' || this.formulario.value.fechaCelo == null)
+    this.mascota.fechaCelo = "No especificado";
+  else
+    this.mascota.fechaCelo = this.formulario.value.fechaCelo;
+
+
+
 
     return this.mascotaService
       .register(this.mascota, this.idDuenio)
@@ -127,11 +185,13 @@ export class RegistroMascotaComponent {
           closable: false,
         });
         this.registroModal.emit(false);
+
       });
   }
 
   cerrar(): void {
-    setTimeout(() => this.formGroupDirective.resetForm(), 200);
+    this.formGroupDirective.resetForm();
+    this.formulario.get('imagen').setValue(''); // Restablecer el valor del campo de imagen a vacío
     this.registroModal.emit(false);
   }
 }

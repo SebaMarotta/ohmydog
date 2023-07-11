@@ -15,6 +15,8 @@ import { MessagesModule } from 'primeng/messages';
 import { SharedModule } from './shared/shared.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { MascotasModule } from './mascotas/mascotas.module';
+import { DonacionesModule } from './donaciones/donaciones.module';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +34,7 @@ import { MascotasModule } from './mascotas/mascotas.module';
     MessagesModule,
     ClientesModule,
     MascotasModule,
+    DonacionesModule,
   ],
   providers: [
     {

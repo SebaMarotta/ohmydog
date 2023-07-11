@@ -2,7 +2,7 @@
   .div1 {
     background-color: rgb(255, 255, 255);
     width: 70vw;
-    height: 23vh;
+    height: 28vh;
 
     margin-bottom: 1cm;
     border-radius: 20px;
@@ -160,4 +160,8 @@ input::placeholder {
 .observaciones{
   inline-size: 100px;
   overflow-wrap: break-word;
+}
+
+.fotoSize{
+size: 1cm;
 }

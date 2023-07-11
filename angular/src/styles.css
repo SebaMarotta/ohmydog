@@ -55,3 +55,6 @@ button.p-outlined-button-veterinariaOrange:enabled:hover{
   color: #fff;
 }
 
+.p-toast-detail {
+  white-space: pre-line;
+}

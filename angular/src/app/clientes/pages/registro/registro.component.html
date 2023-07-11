@@ -2,35 +2,35 @@
 <form [formGroup]="formulario" >
   <span class="p-float-label" >
     <input pInputText id="nombre" formControlName="nombre" />
-    <label htmlFor="nombre">Nombre</label>
+    <label htmlFor="nombre">Nombre (*)</label>
   </span>
   <span *ngIf="isValidField('nombre')" class="form-text text-danger">
     {{ getFieldError('nombre') }}
   </span>
   <span class="p-float-label">
     <input pInputText id="apellido" formControlName="apellido" />
-    <label htmlFor="apellido">Apellido</label>
+    <label htmlFor="apellido">Apellido (*)</label>
   </span>
   <span *ngIf="isValidField('apellido')" class="form-text text-danger">
     {{ getFieldError('apellido') }}
   </span>
   <span class="p-float-label">
-    <input pInputText id="dni" formControlName="dni" type="number" />
-    <label htmlFor="dni">Dni</label>
+    <input pInputText id="dni" formControlName="dni" />
+    <label htmlFor="dni">Dni (*)</label>
   </span>
   <span *ngIf="isValidField('dni')" class="form-text text-danger">
     {{ getFieldError('dni') }}
   </span>
   <span class="p-float-label">
     <input pInputText id="email" formControlName="email" type="email"/>
-    <label htmlFor="email">Email</label>
+    <label htmlFor="email">Email (*)</label>
   </span>
   <span *ngIf="isValidField('email')" class="form-text text-danger">
     {{ getFieldError('email') }}
   </span>
   <span class="p-float-label">
-    <input pInputText id="telefono" formControlName="telefono" type="number"/>
-    <label htmlFor="telefono">Telefono</label>
+    <input pInputText id="telefono" formControlName="telefono"/>
+    <label htmlFor="telefono">Telefono(*)</label>
   </span>
   <span *ngIf="isValidField('telefono')" class="form-text text-danger">
     {{ getFieldError('telefono') }}
