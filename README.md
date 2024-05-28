@@ -1,4 +1,4 @@
-# ohmydog
+# Oh My Dog!
 
 El proyecto de software para una veterinaria de perros tiene como objetivo proporcionar una plataforma digital integral para gestionar y facilitar diversos aspectos relacionados con la atención y cuidado de los perros. A continuación, se detallan las principales características y funcionalidades contempladas en este proyecto:
 
